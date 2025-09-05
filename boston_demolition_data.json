@@ -1,0 +1,694 @@
+{
+  "summary_stats": {
+    "total_demolitions": 4012,
+    "average_lifespan": 71.67422731804587,
+    "median_lifespan": 76.0,
+    "extdem_count": 827,
+    "intdem_count": 2750,
+    "raze_count": 435
+  },
+  "yearly_stacked": [
+    {
+      "year": 2009,
+      "EXTDEM": 2,
+      "INTDEM": 8,
+      "RAZE": 1
+    },
+    {
+      "year": 2010,
+      "EXTDEM": 57,
+      "INTDEM": 136,
+      "RAZE": 10
+    },
+    {
+      "year": 2011,
+      "EXTDEM": 50,
+      "INTDEM": 157,
+      "RAZE": 18
+    },
+    {
+      "year": 2012,
+      "EXTDEM": 44,
+      "INTDEM": 146,
+      "RAZE": 12
+    },
+    {
+      "year": 2013,
+      "EXTDEM": 74,
+      "INTDEM": 149,
+      "RAZE": 11
+    },
+    {
+      "year": 2014,
+      "EXTDEM": 77,
+      "INTDEM": 191,
+      "RAZE": 14
+    },
+    {
+      "year": 2015,
+      "EXTDEM": 73,
+      "INTDEM": 217,
+      "RAZE": 34
+    },
+    {
+      "year": 2016,
+      "EXTDEM": 71,
+      "INTDEM": 209,
+      "RAZE": 32
+    },
+    {
+      "year": 2017,
+      "EXTDEM": 58,
+      "INTDEM": 229,
+      "RAZE": 24
+    },
+    {
+      "year": 2018,
+      "EXTDEM": 48,
+      "INTDEM": 217,
+      "RAZE": 26
+    },
+    {
+      "year": 2019,
+      "EXTDEM": 43,
+      "INTDEM": 255,
+      "RAZE": 50
+    },
+    {
+      "year": 2020,
+      "EXTDEM": 40,
+      "INTDEM": 150,
+      "RAZE": 33
+    },
+    {
+      "year": 2021,
+      "EXTDEM": 57,
+      "INTDEM": 157,
+      "RAZE": 34
+    },
+    {
+      "year": 2022,
+      "EXTDEM": 58,
+      "INTDEM": 160,
+      "RAZE": 28
+    },
+    {
+      "year": 2023,
+      "EXTDEM": 38,
+      "INTDEM": 140,
+      "RAZE": 34
+    },
+    {
+      "year": 2024,
+      "EXTDEM": 25,
+      "INTDEM": 152,
+      "RAZE": 46
+    },
+    {
+      "year": 2025,
+      "EXTDEM": 12,
+      "INTDEM": 77,
+      "RAZE": 28
+    }
+  ],
+  "lifespan_distribution": [
+    {
+      "range": "0-10",
+      "EXTDEM": 4,
+      "INTDEM": 10,
+      "RAZE": 1
+    },
+    {
+      "range": "10-20",
+      "EXTDEM": 4,
+      "INTDEM": 40,
+      "RAZE": 6
+    },
+    {
+      "range": "20-30",
+      "EXTDEM": 1,
+      "INTDEM": 47,
+      "RAZE": 3
+    },
+    {
+      "range": "30-40",
+      "EXTDEM": 13,
+      "INTDEM": 52,
+      "RAZE": 6
+    },
+    {
+      "range": "40-50",
+      "EXTDEM": 39,
+      "INTDEM": 98,
+      "RAZE": 23
+    },
+    {
+      "range": "50-60",
+      "EXTDEM": 64,
+      "INTDEM": 125,
+      "RAZE": 29
+    },
+    {
+      "range": "60-70",
+      "EXTDEM": 83,
+      "INTDEM": 212,
+      "RAZE": 43
+    },
+    {
+      "range": "70-80",
+      "EXTDEM": 429,
+      "INTDEM": 1381,
+      "RAZE": 147
+    },
+    {
+      "range": "80-90",
+      "EXTDEM": 190,
+      "INTDEM": 785,
+      "RAZE": 177
+    }
+  ],
+  "lifespan_distribution_5yr": [
+    {
+      "range": "0-5",
+      "EXTDEM": 1,
+      "INTDEM": 2,
+      "RAZE": 0
+    },
+    {
+      "range": "5-10",
+      "EXTDEM": 3,
+      "INTDEM": 8,
+      "RAZE": 1
+    },
+    {
+      "range": "10-15",
+      "EXTDEM": 2,
+      "INTDEM": 14,
+      "RAZE": 5
+    },
+    {
+      "range": "15-20",
+      "EXTDEM": 2,
+      "INTDEM": 26,
+      "RAZE": 1
+    },
+    {
+      "range": "20-25",
+      "EXTDEM": 0,
+      "INTDEM": 34,
+      "RAZE": 1
+    },
+    {
+      "range": "25-30",
+      "EXTDEM": 1,
+      "INTDEM": 13,
+      "RAZE": 2
+    },
+    {
+      "range": "30-35",
+      "EXTDEM": 5,
+      "INTDEM": 21,
+      "RAZE": 0
+    },
+    {
+      "range": "35-40",
+      "EXTDEM": 8,
+      "INTDEM": 31,
+      "RAZE": 6
+    },
+    {
+      "range": "40-45",
+      "EXTDEM": 20,
+      "INTDEM": 48,
+      "RAZE": 12
+    },
+    {
+      "range": "45-50",
+      "EXTDEM": 19,
+      "INTDEM": 50,
+      "RAZE": 11
+    },
+    {
+      "range": "50-55",
+      "EXTDEM": 34,
+      "INTDEM": 51,
+      "RAZE": 11
+    },
+    {
+      "range": "55-60",
+      "EXTDEM": 30,
+      "INTDEM": 74,
+      "RAZE": 18
+    },
+    {
+      "range": "60-65",
+      "EXTDEM": 37,
+      "INTDEM": 91,
+      "RAZE": 18
+    },
+    {
+      "range": "65-70",
+      "EXTDEM": 46,
+      "INTDEM": 121,
+      "RAZE": 25
+    },
+    {
+      "range": "70-75",
+      "EXTDEM": 186,
+      "INTDEM": 558,
+      "RAZE": 49
+    },
+    {
+      "range": "75-80",
+      "EXTDEM": 243,
+      "INTDEM": 823,
+      "RAZE": 98
+    },
+    {
+      "range": "80-85",
+      "EXTDEM": 168,
+      "INTDEM": 632,
+      "RAZE": 127
+    },
+    {
+      "range": "85-90",
+      "EXTDEM": 22,
+      "INTDEM": 153,
+      "RAZE": 50
+    }
+  ],
+  "demolition_types": [
+    {
+      "type": "EXTDEM",
+      "count": 827
+    },
+    {
+      "type": "INTDEM",
+      "count": 2750
+    },
+    {
+      "type": "RAZE",
+      "count": 435
+    }
+  ],
+  "sankey_detailed": {
+    "materials": [
+      "Wood",
+      "Masonry",
+      "Steel",
+      "Concrete"
+    ],
+    "demolition_types": [
+      "EXTDEM",
+      "INTDEM",
+      "RAZE"
+    ],
+    "material_to_demo": {
+      "Wood": {
+        "EXTDEM": 607,
+        "INTDEM": 1935,
+        "RAZE": 281
+      },
+      "Masonry": {
+        "EXTDEM": 130,
+        "INTDEM": 523,
+        "RAZE": 77
+      },
+      "Steel": {
+        "EXTDEM": 26,
+        "INTDEM": 149,
+        "RAZE": 33
+      },
+      "Concrete": {
+        "EXTDEM": 64,
+        "INTDEM": 143,
+        "RAZE": 44
+      }
+    },
+    "demo_to_lifespan": {
+      "bin_10": {
+        "EXTDEM": {
+          "0-10 years": 4,
+          "10-20 years": 4,
+          "20-30 years": 1,
+          "30-40 years": 13,
+          "40-50 years": 39,
+          "50-60 years": 64,
+          "60-70 years": 83,
+          "70-80 years": 429,
+          "80-90 years": 190
+        },
+        "INTDEM": {
+          "0-10 years": 10,
+          "10-20 years": 40,
+          "20-30 years": 47,
+          "30-40 years": 52,
+          "40-50 years": 98,
+          "50-60 years": 125,
+          "60-70 years": 212,
+          "70-80 years": 1381,
+          "80-90 years": 785
+        },
+        "RAZE": {
+          "0-10 years": 1,
+          "10-20 years": 6,
+          "20-30 years": 3,
+          "30-40 years": 6,
+          "40-50 years": 23,
+          "50-60 years": 29,
+          "60-70 years": 43,
+          "70-80 years": 147,
+          "80-90 years": 177
+        }
+      },
+      "bin_20": {
+        "EXTDEM": {
+          "0-20 years": 8,
+          "20-40 years": 14,
+          "40-60 years": 103,
+          "60-80 years": 512,
+          "80-100 years": 190
+        },
+        "INTDEM": {
+          "0-20 years": 50,
+          "20-40 years": 99,
+          "40-60 years": 223,
+          "60-80 years": 1593,
+          "80-100 years": 785
+        },
+        "RAZE": {
+          "0-20 years": 7,
+          "20-40 years": 9,
+          "40-60 years": 52,
+          "60-80 years": 190,
+          "80-100 years": 177
+        }
+      },
+      "bin_25": {
+        "EXTDEM": {
+          "0-25 years": 8,
+          "25-50 years": 53,
+          "50-75 years": 333,
+          "75-100 years": 433
+        },
+        "INTDEM": {
+          "0-25 years": 84,
+          "25-50 years": 163,
+          "50-75 years": 895,
+          "75-100 years": 1608
+        },
+        "RAZE": {
+          "0-25 years": 8,
+          "25-50 years": 31,
+          "50-75 years": 121,
+          "75-100 years": 275
+        }
+      },
+      "bin_30": {
+        "EXTDEM": {
+          "0-30 years": 9,
+          "30-60 years": 116,
+          "60-90 years": 702
+        },
+        "INTDEM": {
+          "0-30 years": 97,
+          "30-60 years": 275,
+          "60-90 years": 2378
+        },
+        "RAZE": {
+          "0-30 years": 10,
+          "30-60 years": 58,
+          "60-90 years": 367
+        }
+      },
+      "bin_50": {
+        "EXTDEM": {
+          "0-50 years": 61,
+          "50-100 years": 766
+        },
+        "INTDEM": {
+          "0-50 years": 247,
+          "50-100 years": 2503
+        },
+        "RAZE": {
+          "0-50 years": 39,
+          "50-100 years": 396
+        }
+      }
+    }
+  },
+  "sankey_data": {
+    "nodes": [
+      {
+        "name": "Wood",
+        "category": "material"
+      },
+      {
+        "name": "Masonry",
+        "category": "material"
+      },
+      {
+        "name": "Steel",
+        "category": "material"
+      },
+      {
+        "name": "Concrete",
+        "category": "material"
+      },
+      {
+        "name": "EXTDEM",
+        "category": "demolition"
+      },
+      {
+        "name": "INTDEM",
+        "category": "demolition"
+      },
+      {
+        "name": "RAZE",
+        "category": "demolition"
+      },
+      {
+        "name": "0-25 years",
+        "category": "lifespan"
+      },
+      {
+        "name": "25-50 years",
+        "category": "lifespan"
+      },
+      {
+        "name": "50-75 years",
+        "category": "lifespan"
+      },
+      {
+        "name": "75-100 years",
+        "category": "lifespan"
+      },
+      {
+        "name": "100-125 years",
+        "category": "lifespan"
+      },
+      {
+        "name": "125-150 years",
+        "category": "lifespan"
+      },
+      {
+        "name": "150+ years",
+        "category": "lifespan"
+      }
+    ],
+    "links": [
+      {
+        "source": 0,
+        "target": 4,
+        "value": 607
+      },
+      {
+        "source": 0,
+        "target": 5,
+        "value": 1935
+      },
+      {
+        "source": 0,
+        "target": 6,
+        "value": 281
+      },
+      {
+        "source": 1,
+        "target": 4,
+        "value": 130
+      },
+      {
+        "source": 1,
+        "target": 5,
+        "value": 523
+      },
+      {
+        "source": 1,
+        "target": 6,
+        "value": 77
+      },
+      {
+        "source": 2,
+        "target": 4,
+        "value": 26
+      },
+      {
+        "source": 2,
+        "target": 5,
+        "value": 149
+      },
+      {
+        "source": 2,
+        "target": 6,
+        "value": 33
+      },
+      {
+        "source": 3,
+        "target": 4,
+        "value": 64
+      },
+      {
+        "source": 3,
+        "target": 5,
+        "value": 143
+      },
+      {
+        "source": 3,
+        "target": 6,
+        "value": 44
+      },
+      {
+        "source": 4,
+        "target": 7,
+        "value": 8
+      },
+      {
+        "source": 4,
+        "target": 8,
+        "value": 53
+      },
+      {
+        "source": 4,
+        "target": 9,
+        "value": 333
+      },
+      {
+        "source": 4,
+        "target": 10,
+        "value": 433
+      },
+      {
+        "source": 5,
+        "target": 7,
+        "value": 84
+      },
+      {
+        "source": 5,
+        "target": 8,
+        "value": 163
+      },
+      {
+        "source": 5,
+        "target": 9,
+        "value": 895
+      },
+      {
+        "source": 5,
+        "target": 10,
+        "value": 1608
+      },
+      {
+        "source": 6,
+        "target": 7,
+        "value": 8
+      },
+      {
+        "source": 6,
+        "target": 8,
+        "value": 31
+      },
+      {
+        "source": 6,
+        "target": 9,
+        "value": 121
+      },
+      {
+        "source": 6,
+        "target": 10,
+        "value": 275
+      }
+    ]
+  },
+  "material_stats": [
+    {
+      "material": "Wood",
+      "count": 2823,
+      "avg_lifespan": 73.37123627346794,
+      "median_lifespan": 76.0,
+      "demolition_breakdown": {
+        "EXTDEM": 607,
+        "INTDEM": 1935,
+        "RAZE": 281
+      }
+    },
+    {
+      "material": "Masonry",
+      "count": 730,
+      "avg_lifespan": 69.92739726027398,
+      "median_lifespan": 75.0,
+      "demolition_breakdown": {
+        "EXTDEM": 130,
+        "INTDEM": 523,
+        "RAZE": 77
+      }
+    },
+    {
+      "material": "Concrete",
+      "count": 251,
+      "avg_lifespan": 68.70517928286853,
+      "median_lifespan": 75.0,
+      "demolition_breakdown": {
+        "EXTDEM": 64,
+        "INTDEM": 143,
+        "RAZE": 44
+      }
+    },
+    {
+      "material": "Steel",
+      "count": 208,
+      "avg_lifespan": 58.35576923076923,
+      "median_lifespan": 71.0,
+      "demolition_breakdown": {
+        "EXTDEM": 26,
+        "INTDEM": 149,
+        "RAZE": 33
+      }
+    }
+  ],
+  "metadata": {
+    "year_range": "2009-2025",
+    "generated_date": "2025-09-04T21:06:19.484836",
+    "boston_area_cities": [
+      "BOSTON",
+      "CAMBRIDGE",
+      "SOMERVILLE",
+      "BROOKLINE",
+      "QUINCY",
+      "NEWTON",
+      "WATERTOWN",
+      "CHELSEA",
+      "REVERE",
+      "EVERETT"
+    ],
+    "total_ma_buildings": 2091494,
+    "total_boston_demolitions": 4012,
+    "data_note": "Data represents demolitions in the Boston metropolitan area only, extracted from Massachusetts statewide building dataset"
+  },
+  "city_stats": [
+    {
+      "city": "BOSTON",
+      "count": 4012,
+      "avg_lifespan": 71.67422731804587
+    }
+  ]
+}
