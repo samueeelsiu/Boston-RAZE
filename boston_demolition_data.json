@@ -291,333 +291,421 @@
       "count": 435
     }
   ],
-  "sankey_detailed": {
-    "materials": [
-      "Wood",
-      "Masonry",
-      "Steel",
-      "Concrete"
-    ],
-    "demolition_types": [
-      "EXTDEM",
-      "INTDEM",
-      "RAZE"
-    ],
-    "material_to_demo": {
-      "Wood": {
-        "EXTDEM": 607,
-        "INTDEM": 1935,
-        "RAZE": 281
-      },
-      "Masonry": {
-        "EXTDEM": 130,
-        "INTDEM": 523,
-        "RAZE": 77
-      },
-      "Steel": {
-        "EXTDEM": 26,
-        "INTDEM": 149,
-        "RAZE": 33
-      },
-      "Concrete": {
-        "EXTDEM": 64,
-        "INTDEM": 143,
-        "RAZE": 44
-      }
-    },
-    "demo_to_lifespan": {
+  "material_lifespan_demo": {
+    "RAZE": {
       "bin_10": {
-        "EXTDEM": {
-          "0-10 years": 4,
-          "10-20 years": 4,
-          "20-30 years": 1,
-          "30-40 years": 13,
-          "40-50 years": 39,
-          "50-60 years": 64,
-          "60-70 years": 83,
-          "70-80 years": 429,
-          "80-90 years": 190
+        "Wood": {
+          "10-20 years": 2,
+          "20-30 years": 2,
+          "30-40 years": 2,
+          "40-50 years": 14,
+          "50-60 years": 18,
+          "60-70 years": 23,
+          "70-80 years": 85,
+          "80-90 years": 135
         },
-        "INTDEM": {
-          "0-10 years": 10,
-          "10-20 years": 40,
-          "20-30 years": 47,
-          "30-40 years": 52,
-          "40-50 years": 98,
-          "50-60 years": 125,
-          "60-70 years": 212,
-          "70-80 years": 1381,
-          "80-90 years": 785
+        "Concrete": {
+          "10-20 years": 2,
+          "30-40 years": 1,
+          "40-50 years": 3,
+          "50-60 years": 1,
+          "60-70 years": 5,
+          "70-80 years": 18,
+          "80-90 years": 14
         },
-        "RAZE": {
+        "Masonry": {
           "0-10 years": 1,
-          "10-20 years": 6,
-          "20-30 years": 3,
-          "30-40 years": 6,
-          "40-50 years": 23,
-          "50-60 years": 29,
-          "60-70 years": 43,
-          "70-80 years": 147,
-          "80-90 years": 177
+          "10-20 years": 1,
+          "20-30 years": 1,
+          "30-40 years": 2,
+          "40-50 years": 4,
+          "50-60 years": 5,
+          "60-70 years": 9,
+          "70-80 years": 31,
+          "80-90 years": 23
+        },
+        "Steel": {
+          "10-20 years": 1,
+          "30-40 years": 1,
+          "40-50 years": 2,
+          "50-60 years": 5,
+          "60-70 years": 6,
+          "70-80 years": 13,
+          "80-90 years": 5
         }
       },
       "bin_20": {
-        "EXTDEM": {
-          "0-20 years": 8,
-          "20-40 years": 14,
-          "40-60 years": 103,
-          "60-80 years": 512,
-          "80-100 years": 190
+        "Wood": {
+          "0-20 years": 2,
+          "20-40 years": 4,
+          "40-60 years": 32,
+          "60-80 years": 108,
+          "80-100 years": 135
         },
-        "INTDEM": {
-          "0-20 years": 50,
-          "20-40 years": 99,
-          "40-60 years": 223,
-          "60-80 years": 1593,
-          "80-100 years": 785
+        "Concrete": {
+          "0-20 years": 2,
+          "20-40 years": 1,
+          "40-60 years": 4,
+          "60-80 years": 23,
+          "80-100 years": 14
         },
-        "RAZE": {
-          "0-20 years": 7,
-          "20-40 years": 9,
-          "40-60 years": 52,
-          "60-80 years": 190,
-          "80-100 years": 177
+        "Masonry": {
+          "0-20 years": 2,
+          "20-40 years": 3,
+          "40-60 years": 9,
+          "60-80 years": 40,
+          "80-100 years": 23
+        },
+        "Steel": {
+          "0-20 years": 1,
+          "20-40 years": 1,
+          "40-60 years": 7,
+          "60-80 years": 19,
+          "80-100 years": 5
         }
       },
       "bin_25": {
-        "EXTDEM": {
-          "0-25 years": 8,
-          "25-50 years": 53,
-          "50-75 years": 333,
-          "75-100 years": 433
+        "Wood": {
+          "0-25 years": 2,
+          "25-50 years": 18,
+          "50-75 years": 76,
+          "75-100 years": 185
         },
-        "INTDEM": {
-          "0-25 years": 84,
-          "25-50 years": 163,
-          "50-75 years": 895,
-          "75-100 years": 1608
+        "Concrete": {
+          "0-25 years": 2,
+          "25-50 years": 4,
+          "50-75 years": 9,
+          "75-100 years": 29
         },
-        "RAZE": {
-          "0-25 years": 8,
-          "25-50 years": 31,
-          "50-75 years": 121,
-          "75-100 years": 275
+        "Masonry": {
+          "0-25 years": 3,
+          "25-50 years": 6,
+          "50-75 years": 20,
+          "75-100 years": 48
+        },
+        "Steel": {
+          "0-25 years": 1,
+          "25-50 years": 3,
+          "50-75 years": 16,
+          "75-100 years": 13
         }
       },
       "bin_30": {
-        "EXTDEM": {
-          "0-30 years": 9,
-          "30-60 years": 116,
-          "60-90 years": 702
+        "Wood": {
+          "0-30 years": 4,
+          "30-60 years": 34,
+          "60-90 years": 243
         },
-        "INTDEM": {
-          "0-30 years": 97,
-          "30-60 years": 275,
-          "60-90 years": 2378
+        "Concrete": {
+          "0-30 years": 2,
+          "30-60 years": 5,
+          "60-90 years": 37
         },
-        "RAZE": {
-          "0-30 years": 10,
-          "30-60 years": 58,
-          "60-90 years": 367
+        "Masonry": {
+          "0-30 years": 3,
+          "30-60 years": 11,
+          "60-90 years": 63
+        },
+        "Steel": {
+          "0-30 years": 1,
+          "30-60 years": 8,
+          "60-90 years": 24
         }
       },
       "bin_50": {
-        "EXTDEM": {
-          "0-50 years": 61,
-          "50-100 years": 766
+        "Wood": {
+          "0-50 years": 20,
+          "50-100 years": 261
         },
-        "INTDEM": {
-          "0-50 years": 247,
-          "50-100 years": 2503
+        "Concrete": {
+          "0-50 years": 6,
+          "50-100 years": 38
         },
-        "RAZE": {
+        "Masonry": {
+          "0-50 years": 9,
+          "50-100 years": 68
+        },
+        "Steel": {
+          "0-50 years": 4,
+          "50-100 years": 29
+        }
+      }
+    },
+    "EXTDEM": {
+      "bin_10": {
+        "Wood": {
+          "10-20 years": 2,
+          "20-30 years": 1,
+          "30-40 years": 10,
+          "40-50 years": 26,
+          "50-60 years": 34,
+          "60-70 years": 49,
+          "70-80 years": 322,
+          "80-90 years": 163
+        },
+        "Masonry": {
+          "0-10 years": 3,
+          "10-20 years": 2,
+          "30-40 years": 2,
+          "40-50 years": 7,
+          "50-60 years": 11,
+          "60-70 years": 15,
+          "70-80 years": 72,
+          "80-90 years": 18
+        },
+        "Concrete": {
+          "30-40 years": 1,
+          "40-50 years": 5,
+          "50-60 years": 10,
+          "60-70 years": 16,
+          "70-80 years": 25,
+          "80-90 years": 7
+        },
+        "Steel": {
+          "0-10 years": 1,
+          "40-50 years": 1,
+          "50-60 years": 9,
+          "60-70 years": 3,
+          "70-80 years": 10,
+          "80-90 years": 2
+        }
+      },
+      "bin_20": {
+        "Wood": {
+          "0-20 years": 2,
+          "20-40 years": 11,
+          "40-60 years": 60,
+          "60-80 years": 371,
+          "80-100 years": 163
+        },
+        "Masonry": {
+          "0-20 years": 5,
+          "20-40 years": 2,
+          "40-60 years": 18,
+          "60-80 years": 87,
+          "80-100 years": 18
+        },
+        "Concrete": {
+          "20-40 years": 1,
+          "40-60 years": 15,
+          "60-80 years": 41,
+          "80-100 years": 7
+        },
+        "Steel": {
+          "0-20 years": 1,
+          "40-60 years": 10,
+          "60-80 years": 13,
+          "80-100 years": 2
+        }
+      },
+      "bin_25": {
+        "Wood": {
+          "0-25 years": 2,
+          "25-50 years": 37,
+          "50-75 years": 229,
+          "75-100 years": 339
+        },
+        "Masonry": {
+          "0-25 years": 5,
+          "25-50 years": 9,
+          "50-75 years": 53,
+          "75-100 years": 63
+        },
+        "Concrete": {
+          "25-50 years": 6,
+          "50-75 years": 35,
+          "75-100 years": 23
+        },
+        "Steel": {
+          "0-25 years": 1,
+          "25-50 years": 1,
+          "50-75 years": 16,
+          "75-100 years": 8
+        }
+      },
+      "bin_30": {
+        "Wood": {
+          "0-30 years": 3,
+          "30-60 years": 70,
+          "60-90 years": 534
+        },
+        "Masonry": {
+          "0-30 years": 5,
+          "30-60 years": 20,
+          "60-90 years": 105
+        },
+        "Concrete": {
+          "30-60 years": 16,
+          "60-90 years": 48
+        },
+        "Steel": {
+          "0-30 years": 1,
+          "30-60 years": 10,
+          "60-90 years": 15
+        }
+      },
+      "bin_50": {
+        "Wood": {
           "0-50 years": 39,
-          "50-100 years": 396
+          "50-100 years": 568
+        },
+        "Masonry": {
+          "0-50 years": 14,
+          "50-100 years": 116
+        },
+        "Concrete": {
+          "0-50 years": 6,
+          "50-100 years": 58
+        },
+        "Steel": {
+          "0-50 years": 2,
+          "50-100 years": 24
+        }
+      }
+    },
+    "INTDEM": {
+      "bin_10": {
+        "Wood": {
+          "10-20 years": 13,
+          "20-30 years": 18,
+          "30-40 years": 25,
+          "40-50 years": 61,
+          "50-60 years": 76,
+          "60-70 years": 151,
+          "70-80 years": 977,
+          "80-90 years": 614
+        },
+        "Masonry": {
+          "0-10 years": 5,
+          "10-20 years": 7,
+          "20-30 years": 7,
+          "30-40 years": 16,
+          "40-50 years": 25,
+          "50-60 years": 30,
+          "60-70 years": 40,
+          "70-80 years": 257,
+          "80-90 years": 136
+        },
+        "Steel": {
+          "0-10 years": 3,
+          "10-20 years": 18,
+          "20-30 years": 18,
+          "30-40 years": 10,
+          "40-50 years": 6,
+          "50-60 years": 10,
+          "60-70 years": 4,
+          "70-80 years": 56,
+          "80-90 years": 24
+        },
+        "Concrete": {
+          "0-10 years": 2,
+          "10-20 years": 2,
+          "20-30 years": 4,
+          "30-40 years": 1,
+          "40-50 years": 6,
+          "50-60 years": 9,
+          "60-70 years": 17,
+          "70-80 years": 91,
+          "80-90 years": 11
+        }
+      },
+      "bin_20": {
+        "Wood": {
+          "0-20 years": 13,
+          "20-40 years": 43,
+          "40-60 years": 137,
+          "60-80 years": 1128,
+          "80-100 years": 614
+        },
+        "Masonry": {
+          "0-20 years": 12,
+          "20-40 years": 23,
+          "40-60 years": 55,
+          "60-80 years": 297,
+          "80-100 years": 136
+        },
+        "Steel": {
+          "0-20 years": 21,
+          "20-40 years": 28,
+          "40-60 years": 16,
+          "60-80 years": 60,
+          "80-100 years": 24
+        },
+        "Concrete": {
+          "0-20 years": 4,
+          "20-40 years": 5,
+          "40-60 years": 15,
+          "60-80 years": 108,
+          "80-100 years": 11
+        }
+      },
+      "bin_25": {
+        "Wood": {
+          "0-25 years": 28,
+          "25-50 years": 89,
+          "50-75 years": 629,
+          "75-100 years": 1189
+        },
+        "Masonry": {
+          "0-25 years": 17,
+          "25-50 years": 43,
+          "50-75 years": 180,
+          "75-100 years": 283
+        },
+        "Steel": {
+          "0-25 years": 32,
+          "25-50 years": 23,
+          "50-75 years": 34,
+          "75-100 years": 60
+        },
+        "Concrete": {
+          "0-25 years": 7,
+          "25-50 years": 8,
+          "50-75 years": 52,
+          "75-100 years": 76
+        }
+      },
+      "bin_30": {
+        "Wood": {
+          "0-30 years": 31,
+          "30-60 years": 162,
+          "60-90 years": 1742
+        },
+        "Masonry": {
+          "0-30 years": 19,
+          "30-60 years": 71,
+          "60-90 years": 433
+        },
+        "Steel": {
+          "0-30 years": 39,
+          "30-60 years": 26,
+          "60-90 years": 84
+        },
+        "Concrete": {
+          "0-30 years": 8,
+          "30-60 years": 16,
+          "60-90 years": 119
+        }
+      },
+      "bin_50": {
+        "Wood": {
+          "0-50 years": 117,
+          "50-100 years": 1818
+        },
+        "Masonry": {
+          "0-50 years": 60,
+          "50-100 years": 463
+        },
+        "Steel": {
+          "0-50 years": 55,
+          "50-100 years": 94
+        },
+        "Concrete": {
+          "0-50 years": 15,
+          "50-100 years": 128
         }
       }
     }
-  },
-  "sankey_data": {
-    "nodes": [
-      {
-        "name": "Wood",
-        "category": "material"
-      },
-      {
-        "name": "Masonry",
-        "category": "material"
-      },
-      {
-        "name": "Steel",
-        "category": "material"
-      },
-      {
-        "name": "Concrete",
-        "category": "material"
-      },
-      {
-        "name": "EXTDEM",
-        "category": "demolition"
-      },
-      {
-        "name": "INTDEM",
-        "category": "demolition"
-      },
-      {
-        "name": "RAZE",
-        "category": "demolition"
-      },
-      {
-        "name": "0-25 years",
-        "category": "lifespan"
-      },
-      {
-        "name": "25-50 years",
-        "category": "lifespan"
-      },
-      {
-        "name": "50-75 years",
-        "category": "lifespan"
-      },
-      {
-        "name": "75-100 years",
-        "category": "lifespan"
-      },
-      {
-        "name": "100-125 years",
-        "category": "lifespan"
-      },
-      {
-        "name": "125-150 years",
-        "category": "lifespan"
-      },
-      {
-        "name": "150+ years",
-        "category": "lifespan"
-      }
-    ],
-    "links": [
-      {
-        "source": 0,
-        "target": 4,
-        "value": 607
-      },
-      {
-        "source": 0,
-        "target": 5,
-        "value": 1935
-      },
-      {
-        "source": 0,
-        "target": 6,
-        "value": 281
-      },
-      {
-        "source": 1,
-        "target": 4,
-        "value": 130
-      },
-      {
-        "source": 1,
-        "target": 5,
-        "value": 523
-      },
-      {
-        "source": 1,
-        "target": 6,
-        "value": 77
-      },
-      {
-        "source": 2,
-        "target": 4,
-        "value": 26
-      },
-      {
-        "source": 2,
-        "target": 5,
-        "value": 149
-      },
-      {
-        "source": 2,
-        "target": 6,
-        "value": 33
-      },
-      {
-        "source": 3,
-        "target": 4,
-        "value": 64
-      },
-      {
-        "source": 3,
-        "target": 5,
-        "value": 143
-      },
-      {
-        "source": 3,
-        "target": 6,
-        "value": 44
-      },
-      {
-        "source": 4,
-        "target": 7,
-        "value": 8
-      },
-      {
-        "source": 4,
-        "target": 8,
-        "value": 53
-      },
-      {
-        "source": 4,
-        "target": 9,
-        "value": 333
-      },
-      {
-        "source": 4,
-        "target": 10,
-        "value": 433
-      },
-      {
-        "source": 5,
-        "target": 7,
-        "value": 84
-      },
-      {
-        "source": 5,
-        "target": 8,
-        "value": 163
-      },
-      {
-        "source": 5,
-        "target": 9,
-        "value": 895
-      },
-      {
-        "source": 5,
-        "target": 10,
-        "value": 1608
-      },
-      {
-        "source": 6,
-        "target": 7,
-        "value": 8
-      },
-      {
-        "source": 6,
-        "target": 8,
-        "value": 31
-      },
-      {
-        "source": 6,
-        "target": 9,
-        "value": 121
-      },
-      {
-        "source": 6,
-        "target": 10,
-        "value": 275
-      }
-    ]
   },
   "material_stats": [
     {
@@ -667,7 +755,7 @@
   ],
   "metadata": {
     "year_range": "2009-2025",
-    "generated_date": "2025-09-04T21:06:19.484836",
+    "generated_date": "2025-09-06T18:17:55.562038",
     "boston_area_cities": [
       "BOSTON",
       "CAMBRIDGE",
@@ -682,7 +770,7 @@
     ],
     "total_ma_buildings": 2091494,
     "total_boston_demolitions": 4012,
-    "data_note": "Data represents demolitions in the Boston metropolitan area only, extracted from Massachusetts statewide building dataset"
+    "data_note": "Data represents demolitions in the Boston metropolitan area only"
   },
   "city_stats": [
     {

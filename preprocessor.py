@@ -120,142 +120,72 @@ def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
 
     result['demolition_types'] = demo_types
 
-    # 6. Material Type Analysis for Sankey Diagram (NO AGGREGATION)
-    print("Processing material type analysis (NO AGGREGATION - keeping original types)...")
+    # 6. NEW: Material-Lifespan-Demolition Analysis for Stacked Bar Charts
+    print("Creating material-lifespan-demolition analysis for stacked bar charts...")
 
-    # Use original material types without any aggregation
+    # Clean material types
     demo_df['material_group'] = demo_df['material_type_desc'].fillna('Unknown')
-
-    # Just basic cleaning - remove extra spaces and standardize case
     demo_df['material_group'] = demo_df['material_group'].str.strip()
 
-    # Optional: You might want to see what material types you actually have
-    print(f"Found {demo_df['material_group'].nunique()} unique material types")
-    print("Top 10 material types:")
-    print(demo_df['material_group'].value_counts().head(10))
+    # Structure: {demolition_type: {bin_size: {material: {lifespan_range: count}}}}
+    material_lifespan_demo = {}
 
-    # Create detailed sankey data for dynamic filtering
-    sankey_detailed = {
-        'materials': list(demo_df['material_group'].unique()),
-        'demolition_types': ['EXTDEM', 'INTDEM', 'RAZE'],
-        'material_to_demo': {},
-        'demo_to_lifespan': {}
-    }
-
-    # Calculate material to demolition flows
-    for mat in sankey_detailed['materials']:
-        sankey_detailed['material_to_demo'][mat] = {}
-        for demo_type in sankey_detailed['demolition_types']:
-            count = len(demo_df[(demo_df['material_group'] == mat) &
-                                (demo_df['DEMOLITION_TYPE'] == demo_type)])
-            sankey_detailed['material_to_demo'][mat][demo_type] = int(count)
-
-    # Calculate demolition to lifespan flows for different bin sizes
+    demolition_types = ['RAZE', 'EXTDEM', 'INTDEM']
     bin_sizes = [10, 20, 25, 30, 50]
-    for bin_size in bin_sizes:
-        sankey_detailed['demo_to_lifespan'][f'bin_{bin_size}'] = {}
 
-        for demo_type in sankey_detailed['demolition_types']:
-            sankey_detailed['demo_to_lifespan'][f'bin_{bin_size}'][demo_type] = {}
-            demo_type_df = demo_df[demo_df['DEMOLITION_TYPE'] == demo_type]
-
-            # Create bins
-            for i in range(0, 200, bin_size):
-                if i + bin_size <= 150:
-                    bin_label = f'{i}-{i + bin_size} years'
-                else:
-                    bin_label = f'{i}+ years'
-
-                count = len(demo_type_df[(demo_type_df['lifespan'] >= i) &
-                                         (demo_type_df['lifespan'] < i + bin_size)])
-                if count > 0:
-                    sankey_detailed['demo_to_lifespan'][f'bin_{bin_size}'][demo_type][bin_label] = int(count)
-
-                if i >= 150:
-                    break
-
-    result['sankey_detailed'] = sankey_detailed
-
-    # Also keep the original simple sankey for backwards compatibility
-    sankey_data = {
-        'nodes': [],
-        'links': []
-    }
-
-    # (Keep original sankey_data code here for compatibility...)
-    materials = demo_df['material_group'].unique()
-    demo_types_list = ['EXTDEM', 'INTDEM', 'RAZE']
-
-    node_idx = 0
-    node_map = {}
-
-    for mat in materials:
-        sankey_data['nodes'].append({'name': mat, 'category': 'material'})
-        node_map[f'mat_{mat}'] = node_idx
-        node_idx += 1
-
-    for demo_type in demo_types_list:
-        sankey_data['nodes'].append({'name': demo_type, 'category': 'demolition'})
-        node_map[f'demo_{demo_type}'] = node_idx
-        node_idx += 1
-
-    # Default 25-year bins for simple sankey
-    for i in range(0, 175, 25):
-        if i < 150:
-            label = f'{i}-{i + 25} years'
-        else:
-            label = '150+ years'
-        sankey_data['nodes'].append({'name': label, 'category': 'lifespan'})
-        node_map[f'life_{label}'] = node_idx
-        node_idx += 1
-
-    # Add links
-    for mat in materials:
-        for demo_type in demo_types_list:
-            count = sankey_detailed['material_to_demo'][mat][demo_type]
-            if count > 0:
-                sankey_data['links'].append({
-                    'source': node_map[f'mat_{mat}'],
-                    'target': node_map[f'demo_{demo_type}'],
-                    'value': count
-                })
-
-    for demo_type in demo_types_list:
+    for demo_type in demolition_types:
+        print(f"  Processing {demo_type}...")
+        material_lifespan_demo[demo_type] = {}
         demo_type_df = demo_df[demo_df['DEMOLITION_TYPE'] == demo_type]
-        for i in range(0, 175, 25):
-            if i < 150:
-                label = f'{i}-{i + 25} years'
-                count = len(demo_type_df[(demo_type_df['lifespan'] >= i) &
-                                         (demo_type_df['lifespan'] < i + 25)])
-            else:
-                label = '150+ years'
-                count = len(demo_type_df[demo_type_df['lifespan'] >= 150])
 
-            if count > 0:
-                sankey_data['links'].append({
-                    'source': node_map[f'demo_{demo_type}'],
-                    'target': node_map[f'life_{label}'],
-                    'value': int(count)
-                })
+        for bin_size in bin_sizes:
+            material_lifespan_demo[demo_type][f'bin_{bin_size}'] = {}
 
-    result['sankey_data'] = sankey_data
+            # Get all materials for this demolition type
+            materials = demo_type_df['material_group'].unique()
+
+            for material in materials:
+                material_lifespan_demo[demo_type][f'bin_{bin_size}'][material] = {}
+                material_df = demo_type_df[demo_type_df['material_group'] == material]
+
+                if len(material_df) > 0:
+                    max_life = int(material_df['lifespan'].max())
+
+                    # Create lifespan bins
+                    for i in range(0, min(max_life + bin_size, 200), bin_size):
+                        if i + bin_size <= 150:
+                            bin_label = f'{i}-{i + bin_size} years'
+                            count = len(material_df[(material_df['lifespan'] >= i) &
+                                                    (material_df['lifespan'] < i + bin_size)])
+                        else:
+                            bin_label = f'{i}+ years'
+                            count = len(material_df[material_df['lifespan'] >= i])
+
+                        if count > 0:
+                            material_lifespan_demo[demo_type][f'bin_{bin_size}'][material][bin_label] = int(count)
+
+                        if i >= 150:
+                            break
+
+    result['material_lifespan_demo'] = material_lifespan_demo
 
     # 7. Material Type Statistics
     print("Calculating material type statistics...")
     material_stats = []
     for mat in demo_df['material_group'].unique():
         mat_df = demo_df[demo_df['material_group'] == mat]
-        material_stats.append({
-            'material': mat,
-            'count': int(len(mat_df)),
-            'avg_lifespan': float(mat_df['lifespan'].mean()),
-            'median_lifespan': float(mat_df['lifespan'].median()),
-            'demolition_breakdown': {
-                'EXTDEM': int((mat_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
-                'INTDEM': int((mat_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
-                'RAZE': int((mat_df['DEMOLITION_TYPE'] == 'RAZE').sum())
-            }
-        })
+        if len(mat_df) > 0:
+            material_stats.append({
+                'material': mat,
+                'count': int(len(mat_df)),
+                'avg_lifespan': float(mat_df['lifespan'].mean()),
+                'median_lifespan': float(mat_df['lifespan'].median()),
+                'demolition_breakdown': {
+                    'EXTDEM': int((mat_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
+                    'INTDEM': int((mat_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
+                    'RAZE': int((mat_df['DEMOLITION_TYPE'] == 'RAZE').sum())
+                }
+            })
 
     # Sort by count
     material_stats.sort(key=lambda x: x['count'], reverse=True)
@@ -268,10 +198,10 @@ def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
         'boston_area_cities': boston_cities,
         'total_ma_buildings': int(len(df)),
         'total_boston_demolitions': int(len(demo_df)),
-        'data_note': 'Data represents demolitions in the Boston metropolitan area only, extracted from Massachusetts statewide building dataset'
+        'data_note': 'Data represents demolitions in the Boston metropolitan area only'
     }
 
-    # 9. City breakdown (for Boston area)
+    # 9. City breakdown
     print("Processing city breakdown...")
     city_stats = []
     for city in demo_df['PROP_CITY'].value_counts().head(10).index:
@@ -284,12 +214,27 @@ def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
 
     result['city_stats'] = city_stats
 
+    # Print summary of material-lifespan-demo data
+    print("\nMaterial-Lifespan-Demolition Summary:")
+    for demo_type in demolition_types:
+        total_materials = len(material_lifespan_demo[demo_type]['bin_20'])
+        print(f"  {demo_type}: {total_materials} unique materials")
+
+        # Get top 3 materials for this demo type
+        material_counts = {}
+        for material, lifespans in material_lifespan_demo[demo_type]['bin_20'].items():
+            material_counts[material] = sum(lifespans.values())
+
+        top_3 = sorted(material_counts.items(), key=lambda x: x[1], reverse=True)[:3]
+        for material, count in top_3:
+            print(f"    - {material}: {count} buildings")
+
     return result
 
 
 def save_json(data, filename='boston_demolition_data.json'):
     """Save data to JSON file"""
-    print(f"Saving to {filename}...")
+    print(f"\nSaving to {filename}...")
     with open(filename, 'w') as f:
         json.dump(data, f, indent=2)
 
@@ -303,6 +248,7 @@ def main():
     """Main execution function"""
     print("=" * 50)
     print("Boston Building Demolition Data Processor")
+    print("With Material-Lifespan Stacked Bar Analysis")
     print("=" * 50)
 
     try:
@@ -319,6 +265,7 @@ def main():
         print(f"Total Boston demolitions processed: {data['summary_stats']['total_demolitions']:,}")
         print(f"Average building lifespan: {data['summary_stats']['average_lifespan']:.1f} years")
         print(f"Date range: {data['metadata']['year_range']}")
+
         print(f"\nDemolition type breakdown:")
         print(f"  - INTDEM: {data['summary_stats']['intdem_count']:,}")
         print(f"  - EXTDEM: {data['summary_stats']['extdem_count']:,}")
@@ -328,13 +275,23 @@ def main():
         for city in data['city_stats'][:5]:
             print(f"  - {city['city']}: {city['count']:,} demolitions")
 
-        print("\nJSON file 'boston_demolition_data.json' has been created.")
-        print("Upload both this JSON file and your HTML dashboard to GitHub.")
+        print("\nTop 5 material types:")
+        for mat in data['material_stats'][:5]:
+            print(f"  - {mat['material']}: {mat['count']:,} buildings (avg lifespan: {mat['avg_lifespan']:.1f} years)")
 
+        print("\n" + "=" * 50)
+        print("JSON file 'boston_demolition_data.json' has been created.")
+        print("Open index.html in your browser to view the dashboard.")
+        print("The dashboard will display stacked bar charts for each demolition type.")
+        print("=" * 50)
+
+    except FileNotFoundError:
+        print(f"\nError: Could not find 'ma_structures_with_demolition_FINAL.csv'")
+        print("Please ensure the CSV file is in the current directory.")
     except Exception as e:
         print(f"\nError: {e}")
-        print("Please ensure 'ma_structures_with_demolition_FINAL.csv' is in the current directory.")
-        raise
+        import traceback
+        traceback.print_exc()
 
 
 if __name__ == "__main__":

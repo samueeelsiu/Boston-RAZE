@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boston Building Demolition Analysis</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -45,6 +43,14 @@
             color: #666;
             font-size: 1.1em;
             margin-bottom: 15px;
+        }
+
+        .error-message {
+            background: #fee;
+            border-left: 4px solid #c00;
+            padding: 15px;
+            margin: 20px 0;
+            color: #800;
         }
 
         .data-note {
@@ -97,11 +103,32 @@
             font-weight: 500;
         }
 
+        select, input[type="radio"] {
+            margin-right: 5px;
+        }
+
         select {
             padding: 5px 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             background: white;
+        }
+
+        .radio-group {
+            display: inline-block;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .radio-group input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .radio-group label {
+            margin-right: 15px;
+            cursor: pointer;
         }
 
         .stats-grid {
@@ -139,6 +166,125 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
+        .chart-container.hidden {
+            display: none;
+        }
+
+        /* Heatmap styles */
+        .heatmap-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .heatmap-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 2px;
+            font-size: 0.9em;
+        }
+
+        .heatmap-table th {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 5px;
+            text-align: center;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .heatmap-table th.material-header {
+            text-align: left;
+            padding-left: 15px;
+            min-width: 120px;
+        }
+
+        .heatmap-table td {
+            padding: 8px;
+            text-align: center;
+            position: relative;
+            min-width: 80px;
+            transition: all 0.2s ease;
+        }
+
+        .heatmap-table td.material-name {
+            font-weight: 500;
+            background: #f8f9fa;
+            text-align: left;
+            padding-left: 15px;
+            color: #2c3e50;
+            border-right: 2px solid #dee2e6;
+        }
+
+        .heatmap-cell {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .heatmap-table tr:hover td:not(.material-name) {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-gradient {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .gradient-bar {
+            width: 200px;
+            height: 20px;
+            /* Updated gradient: Light yellow (min) to dark purple (max) */
+            background: linear-gradient(to right, rgb(240, 249, 33), rgb(253, 206, 2), rgb(254, 153, 61), rgb(251, 127, 88), rgb(235, 101, 105), rgb(216, 77, 120), rgb(196, 54, 136), rgb(172, 33, 152), rgb(144, 13, 163), rgb(114, 1, 168), rgb(82, 2, 165), rgb(47, 7, 164), rgb(13, 8, 135));
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .view-toggle button {
+            padding: 8px 16px;
+            border: 1px solid #dee2e6;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-toggle button.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .view-toggle button:hover:not(.active) {
+            background: #f8f9fa;
+        }
+
         .chart-title {
             font-size: 1.2em;
             font-weight: 600;
@@ -154,11 +300,6 @@
 
         canvas {
             max-height: 400px;
-        }
-
-        #sankeyChart {
-            width: 100%;
-            height: 500px;
         }
 
         .material-table {
@@ -210,36 +351,10 @@
             font-size: 0.9em;
         }
 
-        .tooltip {
-            position: absolute;
-            text-align: left;
-            padding: 8px;
-            font-size: 12px;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            border-radius: 4px;
-            pointer-events: none;
-            opacity: 0;
-        }
-
-        .node rect {
-            cursor: move;
-            fill-opacity: .9;
-            shape-rendering: crispEdges;
-        }
-
-        .node text {
-            pointer-events: none;
-            font-size: 11px;
-        }
-
-        .link {
-            fill: none;
-            stroke-opacity: .3;
-        }
-
-        .link:hover {
-            stroke-opacity: .5;
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
         }
     </style>
 </head>
@@ -257,9 +372,9 @@
             <div class="methodology">
                 <h3>Data Overview</h3>
                 <p>
-                    Source dataset: <span class="stats-value" id="totalMABuildings">160,778</span> Massachusetts buildings<br>
-                    Boston area demolitions: <span class="stats-value" id="bostonDemolitions">0</span> records<br>
-                    After cleaning: <span class="stats-value" id="validRecords">0</span> unique buildings<br>
+                    Source dataset: <span class="stats-value" id="totalMABuildings">-</span> Massachusetts buildings<br>
+                    Boston area demolitions: <span class="stats-value" id="bostonDemolitions">-</span> records<br>
+                    After cleaning: <span class="stats-value" id="validRecords">-</span> unique buildings<br>
                     Date range: <span class="stats-value" id="dateRange">-</span>
                 </p>
                 <p style="margin-top: 10px;">
@@ -271,248 +386,384 @@
             </div>
         </div>
 
-        <div class="controls">
-            <div class="control-group">
-                <label>Chart Type:</label>
-                <select id="chartType" onchange="updateCharts()">
-                    <option value="bar">Bar</option>
-                    <option value="line">Line</option>
-                    <option value="area">Area</option>
-                </select>
-            </div>
-            
-            <div class="control-group">
-                <label>Demolition Type:</label>
-                <select id="demolitionFilter" onchange="updateCharts()">
-                    <option value="all">All Types</option>
-                    <option value="RAZE" selected>RAZE Only</option>
-                    <option value="INTDEM">INTDEM Only</option>
-                    <option value="EXTDEM">EXTDEM Only</option>
-                </select>
-            </div>
-            
-            <div class="control-group">
-                <label>View:</label>
-                <select id="viewMode" onchange="updateCharts()">
-                    <option value="absolute">Numbers</option>
-                    <option value="percentage">Percentage</option>
-                </select>
-            </div>
-            
-            <div class="control-group">
-                <label>Bin Size:</label>
-                <select id="binSize" onchange="updateCharts()">
-                    <option value="5">5 Years</option>
-                    <option value="10" selected>10 Years</option>
-                </select>
-            </div>
-        </div>
+        <div id="errorContainer"></div>
+        <div id="loadingContainer" class="loading">Loading data...</div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Total Demolitions</div>
-                <div class="stat-number" id="totalDemo">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Average Lifespan</div>
-                <div class="stat-number" id="avgLifespan">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">EXTDEM</div>
-                <div class="stat-number" id="extdemCount">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">INTDEM</div>
-                <div class="stat-number" id="intdemCount">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">RAZE</div>
-                <div class="stat-number" id="razeCount">-</div>
-            </div>
-        </div>
-
-        <div class="chart-container">
-            <h2 class="chart-title">Material → Demolition Type → Lifespan Flow</h2>
-            <p class="chart-description">Sankey diagram showing the relationship between building materials, demolition methods, and building lifespans</p>
-            <div style="margin: 15px 0;">
-                <div class="control-group" style="display: inline-block; margin-right: 20px;">
-                    <label>Sankey Demolition Filter:</label>
-                    <select id="sankeyDemoType" onchange="updateSankeyDiagram()">
-                        <option value="all">All Types</option>
-                        <option value="RAZE" selected>RAZE Only</option>
-                        <option value="INTDEM">INTDEM Only</option>
-                        <option value="EXTDEM">EXTDEM Only</option>
+        <div id="mainContent" style="display: none;">
+            <div class="controls">
+                <div class="control-group">
+                    <label><strong>Demolition Type:</strong></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="demolitionView" value="all" onchange="updateDemolitionView()"> All Types</label>
+                        <label><input type="radio" name="demolitionView" value="RAZE" checked onchange="updateDemolitionView()"> RAZE Only</label>
+                        <label><input type="radio" name="demolitionView" value="EXTDEM" onchange="updateDemolitionView()"> EXTDEM Only</label>
+                        <label><input type="radio" name="demolitionView" value="INTDEM" onchange="updateDemolitionView()"> INTDEM Only</label>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label>Lifespan Bin Size:</label>
+                    <select id="lifespanBinSize" onchange="updateVisualization()">
+                        <option value="10">10 Years</option>
+                        <option value="20" selected>20 Years</option>
+                        <option value="25">25 Years</option>
+                        <option value="30">30 Years</option>
+                        <option value="50">50 Years</option>
                     </select>
                 </div>
-                <div class="control-group" style="display: inline-block;">
-                    <label>Lifespan Bin (years):</label>
-                    <select id="sankeyLifespanBin" onchange="updateSankeyDiagram()">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="25" selected>25</option>
-                        <option value="30">30</option>
-                        <option value="50">50</option>
+
+                <div class="control-group">
+                    <label>Display:</label>
+                    <select id="viewMode" onchange="updateVisualization()">
+                        <option value="count">Count</option>
+                        <option value="percentage">Percentage</option>
                     </select>
                 </div>
             </div>
-            <div id="sankeyChart"></div>
-        </div>
 
-        <div class="chart-container">
-            <h2 class="chart-title">Demolitions by Year</h2>
-            <canvas id="yearlyChart"></canvas>
-        </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Demolitions</div>
+                    <div class="stat-number" id="totalDemo">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Average Lifespan</div>
+                    <div class="stat-number" id="avgLifespan">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">EXTDEM</div>
+                    <div class="stat-number" id="extdemCount">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">INTDEM</div>
+                    <div class="stat-number" id="intdemCount">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">RAZE</div>
+                    <div class="stat-number" id="razeCount">-</div>
+                </div>
+            </div>
+            
+            <div class="view-toggle">
+                <h3 style="margin-right: 20px; color: #2c3e50; align-self: center;">Material Analysis View:</h3>
+                <button id="heatmapBtn" class="active">Heatmap View</button>
+                <button id="stackedBtn">Stacked Bar Chart</button>
+            </div>
 
-        <div class="chart-container">
-            <h2 class="chart-title">Building Lifespan Distribution</h2>
-            <canvas id="lifespanChart"></canvas>
-        </div>
+            <div id="heatmapContainer" class="chart-container">
+                <h2 class="chart-title">Material vs Lifespan Heatmap</h2>
+                <p class="chart-description">Heatmap showing demolition counts for each material-lifespan combination</p>
+                <div id="heatmapContent"></div>
+            </div>
+            
+            <div id="allChartContainer" class="chart-container hidden">
+                <h2 class="chart-title">All Types: Material Type vs Lifespan Distribution</h2>
+                <p class="chart-description">Stacked bar chart showing lifespan distribution for each material type (All demolition types combined)</p>
+                <canvas id="allChart"></canvas>
+            </div>
 
-        <div class="chart-container">
-            <h2 class="chart-title">Demolition Type Breakdown</h2>
-            <canvas id="typeChart"></canvas>
-        </div>
+            <div id="razeChartContainer" class="chart-container hidden">
+                <h2 class="chart-title">RAZE: Material Type vs Lifespan Distribution</h2>
+                <p class="chart-description">Stacked bar chart showing lifespan distribution for each material type (Complete demolition)</p>
+                <canvas id="razeChart"></canvas>
+            </div>
 
-        <div class="chart-container">
-            <h2 class="chart-title">Material Type Statistics</h2>
-            <table class="material-table" id="materialTable">
-                <thead>
-                    <tr>
-                        <th>Material</th>
-                        <th>Count</th>
-                        <th>Avg Lifespan</th>
-                        <th>INTDEM</th>
-                        <th>EXTDEM</th>
-                        <th>RAZE</th>
-                    </tr>
-                </thead>
-                <tbody id="materialTableBody"></tbody>
-            </table>
-        </div>
+            <div id="extdemChartContainer" class="chart-container hidden">
+                <h2 class="chart-title">EXTDEM: Material Type vs Lifespan Distribution</h2>
+                <p class="chart-description">Stacked bar chart showing lifespan distribution for each material type (Exterior demolition)</p>
+                <canvas id="extdemChart"></canvas>
+            </div>
 
-        <div class="chart-container">
-            <h2 class="chart-title">Demolitions by City</h2>
-            <div class="city-grid" id="cityGrid"></div>
+            <div id="intdemChartContainer" class="chart-container hidden">
+                <h2 class="chart-title">INTDEM: Material Type vs Lifespan Distribution</h2>
+                <p class="chart-description">Stacked bar chart showing lifespan distribution for each material type (Interior demolition)</p>
+                <canvas id="intdemChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Demolitions by Year</h2>
+                <canvas id="yearlyChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Building Lifespan Distribution</h2>
+                <canvas id="lifespanChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Material Type Statistics</h2>
+                <table class="material-table" id="materialTable">
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>Count</th>
+                            <th>Avg Lifespan</th>
+                            <th>INTDEM</th>
+                            <th>EXTDEM</th>
+                            <th>RAZE</th>
+                        </tr>
+                    </thead>
+                    <tbody id="materialTableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Demolitions by City</h2>
+                <div class="city-grid" id="cityGrid"></div>
+            </div>
         </div>
     </div>
 
     <div class="footer">
-        Data Source: NSI Enhanced USA Structure data
+        Data Source: NSI Enhanced USA Structure dataset
     </div>
-
-    <div class="tooltip" id="tooltip"></div>
 
     <script>
         let currentData = null;
         let charts = {};
+        let currentVisualization = 'heatmap'; // Default to heatmap
 
-        // Plasma colormap colors
-        const colors = {
-            RAZE: 'rgba(13, 8, 135, 0.8)',        // Dark purple (most intensive) - plasma
-            EXTDEM: 'rgba(204, 71, 120, 0.8)',    // Medium magenta/pink - plasma
-            INTDEM: 'rgba(254, 206, 50, 0.8)',    // Bright yellow - plasma
-            single: 'rgba(126, 3, 168, 0.8)'      // Default purple - plasma
-        };
+        // Color scheme for stacked bar charts (Darkest for largest, lightest for smallest)
+        function getLifespanColors(count) {
+            // Plasma colormap reversed for "darkest for largest"
+            const plasmaColorsReversed = [
+                [240, 249, 33],    // Bright yellow (min)
+                [248, 230, 33],
+                [253, 206, 2],
+                [254, 180, 31],
+                [254, 153, 61],
+                [251, 127, 88],
+                [235, 101, 105],
+                [216, 77, 120],
+                [196, 54, 136],
+                [172, 33, 152],
+                [144, 13, 163],
+                [114, 1, 168],
+                [82, 2, 165],
+                [47, 7, 164],
+                [13, 8, 135]      // Dark purple (max)
+            ];
+            
+            const colors = [];
+            for (let i = 0; i < count; i++) {
+                const idx = Math.floor((i / count) * plasmaColorsReversed.length);
+                const rgb = plasmaColorsReversed[Math.min(idx, plasmaColorsReversed.length - 1)];
+                colors.push(`rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.85)`);
+            }
+            return colors.reverse(); 
+        }
 
-        // Plasma colors for Sankey materials
-        const materialColors = {
-            'Wood': 'rgba(139, 10, 165, 0.8)',
-            'Masonry': 'rgba(185, 50, 137, 0.8)',
-            'Concrete': 'rgba(219, 92, 104, 0.8)',
-            'Steel': 'rgba(244, 136, 73, 0.8)',
-            'Metal': 'rgba(254, 188, 43, 0.8)',
-            'Brick': 'rgba(240, 249, 33, 0.8)',
-            'Stone': 'rgba(126, 3, 168, 0.8)',
-            'Other': 'rgba(84, 2, 163, 0.8)',
-            'Unknown': 'rgba(180, 180, 180, 0.8)'
-        };
+        // Plasma colormap for heatmap with log scale (Light yellow for min, Dark purple for max)
+        function getPlasmaColor(value, maxValue) {
+            if (value === 0) return '#f0f0f0'; // Light gray for zero
+            
+            const logValue = Math.log10(value + 1);
+            const logMax = Math.log10(maxValue + 1);
+            const intensity = logMax > 0 ? logValue / logMax : 0;
+            
+            const plasmaColors = [
+                [240, 249, 33], [248, 230, 33], [253, 206, 2], [254, 180, 31],
+                [254, 153, 61], [251, 127, 88], [235, 101, 105], [216, 77, 120],
+                [196, 54, 136], [172, 33, 152], [144, 13, 163], [114, 1, 168],
+                [82, 2, 165], [47, 7, 164], [13, 8, 135]
+            ];
+            
+            const idx = Math.min(Math.floor(intensity * (plasmaColors.length -1)), plasmaColors.length - 1);
+            const rgb = plasmaColors[idx];
+            return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+        }
+        
+        // NEW function to aggregate data for 'All Types'
+        function aggregateAllTypesData(data) {
+            const aggregated = {};
+            if (!data.RAZE) return aggregated;
 
-        // Load data
-        async function loadDataFromJSON() {
-            try {
-                const response = await fetch('boston_demolition_data.json');
-                if (!response.ok) throw new Error('File not found');
+            const binSizes = Object.keys(data.RAZE); // e.g., ['bin_10', 'bin_20', ...]
+
+            binSizes.forEach(binKey => {
+                aggregated[binKey] = {};
+                const allMaterials = new Set([...Object.keys(data.RAZE[binKey]), ...Object.keys(data.EXTDEM[binKey]), ...Object.keys(data.INTDEM[binKey])]);
+
+                allMaterials.forEach(material => {
+                    aggregated[binKey][material] = {};
+                    const allLifespanBins = new Set([
+                        ...Object.keys(data.RAZE[binKey][material] || {}),
+                        ...Object.keys(data.EXTDEM[binKey][material] || {}),
+                        ...Object.keys(data.INTDEM[binKey][material] || {})
+                    ]);
+
+                    allLifespanBins.forEach(lifespanBin => {
+                        const razeCount = data.RAZE[binKey][material]?.[lifespanBin] || 0;
+                        const extdemCount = data.EXTDEM[binKey][material]?.[lifespanBin] || 0;
+                        const intdemCount = data.INTDEM[binKey][material]?.[lifespanBin] || 0;
+                        aggregated[binKey][material][lifespanBin] = razeCount + extdemCount + intdemCount;
+                    });
+                });
+            });
+            return aggregated;
+        }
+
+        // Create heatmap visualization
+        function createHeatmap(demoType, binSize, displayMode) {
+            const binKey = `bin_${binSize}`;
+            // Use the aggregated 'all' data source if specified
+            const demoData = currentData.material_lifespan_demo[demoType];
+            
+            if (!demoData || !demoData[binKey]) {
+                console.error(`No data for ${demoType} with bin size ${binSize}`);
+                document.getElementById('heatmapContent').innerHTML = `<div class="error-message">No data available for this selection.</div>`;
+                return;
+            }
+            
+            const materialData = demoData[binKey];
+            
+            const materialTotals = {};
+            Object.entries(materialData).forEach(([material, lifespans]) => {
+                materialTotals[material] = Object.values(lifespans).reduce((sum, val) => sum + val, 0);
+            });
+            
+            const sortedMaterials = Object.entries(materialTotals)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 15)
+                .map(([material]) => material);
+            
+            const allLifespanBins = new Set();
+            sortedMaterials.forEach(material => {
+                Object.keys(materialData[material]).forEach(bin => allLifespanBins.add(bin));
+            });
+            
+            const sortedLifespanBins = Array.from(allLifespanBins).sort((a, b) => {
+                const getFirstNum = (str) => parseInt(str.match(/\d+/)?.[0] || 0);
+                return getFirstNum(a) - getFirstNum(b);
+            });
+            
+            let maxValue = 0;
+            sortedMaterials.forEach(material => {
+                Object.values(materialData[material]).forEach(val => {
+                    maxValue = Math.max(maxValue, val);
+                });
+            });
+            
+            let html = '<div class="heatmap-container">';
+            html += '<table class="heatmap-table">';
+            html += '<thead><tr>';
+            html += '<th class="material-header">Material</th>';
+            sortedLifespanBins.forEach(bin => {
+                html += `<th>${bin.replace(' years', '')}</th>`;
+            });
+            html += '<th>Total</th>';
+            html += '</tr></thead>';
+            html += '<tbody>';
+            sortedMaterials.forEach(material => {
+                html += '<tr>';
+                html += `<td class="material-name">${material}</td>`;
                 
-                const data = await response.json();
-                currentData = data;
-                updateDashboard(data);
-                console.log('Loaded Boston demolition data');
-            } catch (error) {
-                console.error('Error loading JSON:', error);
-                console.log('Using demo data. To use real data: 1) Run Python script, 2) Place boston_demolition_data.json in same directory');
-                generateDemoData();
+                sortedLifespanBins.forEach(bin => {
+                    const value = materialData[material]?.[bin] || 0;
+                    let displayValue = value;
+                    
+                    if (displayMode === 'percentage' && value > 0) {
+                        const total = materialTotals[material];
+                        const pct = total > 0 ? (value / total) * 100 : 0;
+                        displayValue = value + ` (${pct.toFixed(1)}%)`;
+                    }
+                    
+                    const logValue = Math.log10(value + 1);
+                    const logMax = Math.log10(maxValue + 1);
+                    const intensity = logMax > 0 ? logValue / logMax : 0;
+                    const bgColor = getPlasmaColor(value, maxValue);
+                    const textColor = intensity > 0.6 ? 'white' : '#333';
+                    
+                    html += `<td style="background-color: ${bgColor}; color: ${textColor};">`;
+                    html += `<div class="heatmap-cell">${value > 0 ? displayValue : ''}</div>`;
+                    html += '</td>';
+                });
+                
+                const total = materialTotals[material];
+                html += `<td style="background-color: #f8f9fa; font-weight: bold;">${total}</td>`;
+                html += '</tr>';
+            });
+            html += '</tbody></table></div>';
+            
+            html += '<div class="heatmap-legend">';
+            html += '<div class="legend-gradient">';
+            html += '<span>0</span><div class="gradient-bar"></div>';
+            html += `<span>${maxValue}</span></div>`;
+            html += `<div>Showing: ${demoType.toUpperCase()} demolitions (${displayMode}) - Log scale colors</div>`;
+            html += '</div>';
+            
+            document.getElementById('heatmapContent').innerHTML = html;
+        }
+
+        function setVisualizationType(type) {
+            currentVisualization = type;
+            document.getElementById('heatmapBtn').classList.toggle('active', type === 'heatmap');
+            document.getElementById('stackedBtn').classList.toggle('active', type === 'stacked');
+            updateVisualization();
+        }
+
+        function updateVisualization() {
+            if (!currentData) return;
+            
+            const binSize = parseInt(document.getElementById('lifespanBinSize').value);
+            const displayMode = document.getElementById('viewMode').value;
+            
+            if (currentVisualization === 'heatmap') {
+                document.getElementById('heatmapContainer').classList.remove('hidden');
+                document.getElementById('allChartContainer').classList.add('hidden');
+                document.getElementById('razeChartContainer').classList.add('hidden');
+                document.getElementById('extdemChartContainer').classList.add('hidden');
+                document.getElementById('intdemChartContainer').classList.add('hidden');
+                
+                const demolitionView = document.querySelector('input[name="demolitionView"]:checked').value;
+                createHeatmap(demolitionView, binSize, displayMode);
+            } else {
+                document.getElementById('heatmapContainer').classList.add('hidden');
+                updateDemolitionView(); // This will show the correct stacked chart
             }
         }
 
-        function generateDemoData() {
-            // Generate comprehensive demo data
-            const demoData = {
-                summary_stats: {
-                    total_demolitions: 5878,
-                    average_lifespan: 94.5,
-                    median_lifespan: 92,
-                    extdem_count: 970,
-                    intdem_count: 4558,
-                    raze_count: 350
-                },
-                yearly_stacked: Array.from({length: 16}, (_, i) => ({
-                    year: 2009 + i,
-                    EXTDEM: Math.floor(50 + Math.random() * 30),
-                    INTDEM: Math.floor(200 + Math.random() * 100),
-                    RAZE: Math.floor(15 + Math.random() * 10)
-                })),
-                lifespan_distribution: Array.from({length: 20}, (_, i) => ({
-                    range: `${i*10}-${(i+1)*10}`,
-                    EXTDEM: Math.floor(100 * Math.exp(-i/8)),
-                    INTDEM: Math.floor(300 * Math.exp(-i/10)),
-                    RAZE: Math.floor(50 * Math.exp(-i/12))
-                })).filter(d => d.EXTDEM + d.INTDEM + d.RAZE > 0),
-                lifespan_distribution_5yr: Array.from({length: 40}, (_, i) => ({
-                    range: `${i*5}-${(i+1)*5}`,
-                    EXTDEM: Math.floor(50 * Math.exp(-i/16)),
-                    INTDEM: Math.floor(150 * Math.exp(-i/20)),
-                    RAZE: Math.floor(25 * Math.exp(-i/24))
-                })).filter(d => d.EXTDEM + d.INTDEM + d.RAZE > 0),
-                demolition_types: [
-                    {type: 'EXTDEM', count: 970},
-                    {type: 'INTDEM', count: 4558},
-                    {type: 'RAZE', count: 350}
-                ],
-                material_stats: [
-                    {material: 'Wood', count: 2500, avg_lifespan: 85.3,
-                     demolition_breakdown: {EXTDEM: 200, INTDEM: 2000, RAZE: 300}},
-                    {material: 'Masonry', count: 1800, avg_lifespan: 95.7,
-                     demolition_breakdown: {EXTDEM: 300, INTDEM: 1400, RAZE: 100}},
-                    {material: 'Concrete', count: 800, avg_lifespan: 65.4,
-                     demolition_breakdown: {EXTDEM: 150, INTDEM: 600, RAZE: 50}}
-                ],
-                city_stats: [
-                    {city: 'BOSTON', count: 3500, avg_lifespan: 95.2},
-                    {city: 'CAMBRIDGE', count: 850, avg_lifespan: 92.8},
-                    {city: 'SOMERVILLE', count: 620, avg_lifespan: 88.5},
-                    {city: 'BROOKLINE', count: 430, avg_lifespan: 105.3},
-                    {city: 'QUINCY', count: 380, avg_lifespan: 82.6}
-                ],
-                metadata: {
-                    year_range: '2009-2024',
-                    total_ma_buildings: 160778,
-                    total_boston_demolitions: 5878
-                }
-            };
+        async function loadDataFromJSON() {
+            const loadingContainer = document.getElementById('loadingContainer');
+            const errorContainer = document.getElementById('errorContainer');
+            const mainContent = document.getElementById('mainContent');
             
-            currentData = demoData;
-            updateDashboard(demoData);
+            try {
+                const response = await fetch('boston_demolition_data.json');
+                if (!response.ok) throw new Error(`Failed to load data file: ${response.status} ${response.statusText}`);
+                
+                const data = await response.json();
+                if (!data.material_lifespan_demo) throw new Error('Missing required data: material_lifespan_demo');
+                
+                currentData = data;
+                // Pre-calculate the 'all' demolition type data
+                currentData.material_lifespan_demo.all = aggregateAllTypesData(data.material_lifespan_demo);
+                
+                loadingContainer.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                document.querySelector('input[name="demolitionView"][value="RAZE"]').checked = true;
+                
+                document.getElementById('heatmapBtn').addEventListener('click', () => setVisualizationType('heatmap'));
+                document.getElementById('stackedBtn').addEventListener('click', () => setVisualizationType('stacked'));
+                
+                updateDashboard(data);
+                console.log('Successfully loaded Boston demolition data');
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                loadingContainer.style.display = 'none';
+                errorContainer.innerHTML = `<div class="error-message"><strong>Error Loading Data:</strong><br>${error.message}</div>`;
+            }
         }
 
         function updateDashboard(data) {
-            // Update stats
             document.getElementById('totalDemo').textContent = data.summary_stats.total_demolitions.toLocaleString();
             document.getElementById('avgLifespan').textContent = data.summary_stats.average_lifespan.toFixed(1) + ' yrs';
             document.getElementById('extdemCount').textContent = data.summary_stats.extdem_count.toLocaleString();
             document.getElementById('intdemCount').textContent = data.summary_stats.intdem_count.toLocaleString();
             document.getElementById('razeCount').textContent = data.summary_stats.raze_count.toLocaleString();
             
-            // Update metadata
             if (data.metadata) {
                 document.getElementById('totalMABuildings').textContent = data.metadata.total_ma_buildings.toLocaleString();
                 document.getElementById('bostonDemolitions').textContent = data.metadata.total_boston_demolitions.toLocaleString();
@@ -520,11 +771,10 @@
                 document.getElementById('dateRange').textContent = data.metadata.year_range;
             }
 
-            // Update material table
             if (data.material_stats) {
                 const tbody = document.getElementById('materialTableBody');
                 tbody.innerHTML = '';
-                data.material_stats.slice(0, 8).forEach(mat => {
+                data.material_stats.slice(0, 10).forEach(mat => {
                     const row = tbody.insertRow();
                     row.insertCell(0).textContent = mat.material;
                     row.insertCell(1).textContent = mat.count.toLocaleString();
@@ -535,409 +785,121 @@
                 });
             }
 
-            // Update city grid
             if (data.city_stats) {
                 const cityGrid = document.getElementById('cityGrid');
                 cityGrid.innerHTML = '';
                 data.city_stats.forEach(city => {
                     const div = document.createElement('div');
                     div.className = 'city-item';
-                    div.innerHTML = `
-                        <div class="city-name">${city.city}</div>
-                        <div class="city-count">${city.count.toLocaleString()} demolitions</div>
-                    `;
+                    div.innerHTML = `<div class="city-name">${city.city}</div><div class="city-count">${city.count.toLocaleString()} demolitions</div>`;
                     cityGrid.appendChild(div);
                 });
             }
 
-            // Create charts
-            updateCharts();
-            // Update Sankey with current settings
-            updateSankeyDiagram();
+            setVisualizationType('heatmap'); // Start with heatmap view
+            createYearlyChart(data.yearly_stacked);
+            createLifespanChart(data);
         }
 
-        function updateSankeyDiagram() {
-            if (!currentData) return;
+        function updateDemolitionView() {
+            const demolitionView = document.querySelector('input[name="demolitionView"]:checked').value;
             
-            const demolitionFilter = document.getElementById('sankeyDemoType').value;
-            const lifespanBin = parseInt(document.getElementById('sankeyLifespanBin').value);
+            if (currentVisualization === 'stacked') {
+                document.getElementById('allChartContainer').classList.toggle('hidden', demolitionView !== 'all');
+                document.getElementById('razeChartContainer').classList.toggle('hidden', demolitionView !== 'RAZE');
+                document.getElementById('extdemChartContainer').classList.toggle('hidden', demolitionView !== 'EXTDEM');
+                document.getElementById('intdemChartContainer').classList.toggle('hidden', demolitionView !== 'INTDEM');
+                updateStackedBarCharts();
+            } else {
+                 updateVisualization();
+            }
             
-            // Create filtered Sankey data
-            const filteredData = createFilteredSankeyData(demolitionFilter, lifespanBin);
-            drawSankeyDiagram(filteredData);
+            if (currentData) {
+                createYearlyChart(currentData.yearly_stacked);
+                createLifespanChart(currentData);
+            }
         }
 
-        function createFilteredSankeyData(demolitionFilter, lifespanBin) {
-            // Create nodes and links based on filter
-            const nodes = [];
-            const links = [];
-            let nodeIndex = 0;
-            const nodeMap = {};
+        function updateStackedBarCharts() {
+            if (!currentData || !currentData.material_lifespan_demo) return;
+            const binSize = parseInt(document.getElementById('lifespanBinSize').value);
+            const displayMode = document.getElementById('viewMode').value;
+            const demolitionView = document.querySelector('input[name="demolitionView"]:checked').value;
+            createStackedBarChart(demolitionView, binSize, displayMode);
+        }
+
+        function createStackedBarChart(demoType, binSize, displayMode) {
+            const canvasId = demoType.toLowerCase() + 'Chart';
+            const ctx = document.getElementById(canvasId)?.getContext('2d');
+            if(!ctx) return; // Exit if canvas not found
             
-            // Materials (always show all)
-            const materials = ['Wood', 'Masonry', 'Concrete', 'Steel', 'Brick'];
-            materials.forEach(mat => {
-                nodes.push({name: mat});
-                nodeMap[mat] = nodeIndex++;
+            if (charts[canvasId]) charts[canvasId].destroy();
+            
+            const binKey = `bin_${binSize}`;
+            const demoData = currentData.material_lifespan_demo[demoType];
+            
+            if (!demoData || !demoData[binKey]) {
+                console.error(`No data for ${demoType} with bin size ${binSize}`);
+                return;
+            }
+            
+            const materialData = demoData[binKey];
+            
+            const materialTotals = {};
+            Object.entries(materialData).forEach(([material, lifespans]) => {
+                materialTotals[material] = Object.values(lifespans).reduce((sum, val) => sum + val, 0);
             });
             
-            // Demolition types (filtered)
-            const demoTypes = demolitionFilter === 'all' ? 
-                ['RAZE', 'EXTDEM', 'INTDEM'] : [demolitionFilter];
+            const sortedMaterials = Object.keys(materialTotals).sort((a, b) => materialTotals[b] - materialTotals[a]);
             
-            demoTypes.forEach(type => {
-                nodes.push({name: type});
-                nodeMap[type] = nodeIndex++;
+            const lifespanTotals = {};
+            sortedMaterials.forEach(material => {
+                Object.entries(materialData[material]).forEach(([bin, count]) => {
+                    lifespanTotals[bin] = (lifespanTotals[bin] || 0) + count;
+                });
             });
             
-            // Lifespan bins
-            const lifespanBins = [];
-            for (let i = 0; i < 200; i += lifespanBin) {
-                let label;
-                if (i + lifespanBin <= 150) {
-                    label = `${i}-${i + lifespanBin} years`;
-                } else if (i < 150) {
-                    label = `${i}-150 years`;
-                } else {
-                    label = '150+ years';
-                }
-                lifespanBins.push(label);
-                nodes.push({name: label});
-                nodeMap[label] = nodeIndex++;
+            const sortedLifespanBins = Object.keys(lifespanTotals).sort((a, b) => lifespanTotals[b] - lifespanTotals[a]);
+            
+            const colors = getLifespanColors(sortedLifespanBins.length);
+            
+            const datasets = sortedLifespanBins.map((lifespanBin, index) => {
+                const data = sortedMaterials.map(material => {
+                    const value = materialData[material]?.[lifespanBin] || 0;
+                    if (displayMode === 'percentage') {
+                        const total = materialTotals[material];
+                        return total > 0 ? (value / total) * 100 : 0;
+                    }
+                    return value;
+                });
                 
-                if (i >= 150) break;
-            }
-            
-            // Create links: Material -> Demolition
-            materials.forEach(mat => {
-                demoTypes.forEach(demo => {
-                    // Generate values based on demo type
-                    let value;
-                    if (demo === 'RAZE') {
-                        value = mat === 'Wood' ? 100 : mat === 'Masonry' ? 80 : 50;
-                    } else if (demo === 'EXTDEM') {
-                        value = mat === 'Wood' ? 200 : mat === 'Masonry' ? 150 : 100;
-                    } else {
-                        value = mat === 'Wood' ? 800 : mat === 'Masonry' ? 600 : 400;
-                    }
-                    
-                    links.push({
-                        source: nodeMap[mat],
-                        target: nodeMap[demo],
-                        value: value + Math.floor(Math.random() * 50)
-                    });
-                });
-            });
-            
-            // Create links: Demolition -> Lifespan
-            demoTypes.forEach(demo => {
-                lifespanBins.forEach((bin, idx) => {
-                    // Different distributions for different demolition types
-                    let value;
-                    if (demo === 'RAZE') {
-                        // RAZE tends to be older buildings
-                        value = 30 * Math.exp(-Math.abs(idx - 4)/2);
-                    } else if (demo === 'EXTDEM') {
-                        // EXTDEM middle-aged buildings
-                        value = 50 * Math.exp(-Math.abs(idx - 3)/2);
-                    } else {
-                        // INTDEM more evenly distributed
-                        value = 100 * Math.exp(-idx/4);
-                    }
-                    
-                    if (value > 1) {
-                        links.push({
-                            source: nodeMap[demo],
-                            target: nodeMap[bin],
-                            value: Math.floor(value + Math.random() * 20)
-                        });
-                    }
-                });
-            });
-            
-            return {nodes, links};
-        }
-
-        function drawSankeyDiagram(sankeyData) {
-            // Clear existing
-            d3.select("#sankeyChart").selectAll("*").remove();
-            
-            const container = document.getElementById('sankeyChart');
-            const width = container.offsetWidth;
-            const height = 500;
-            const margin = {top: 10, right: 100, bottom: 10, left: 100};
-            
-            const svg = d3.select("#sankeyChart")
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height);
-            
-            const sankey = d3.sankey()
-                .nodeWidth(15)
-                .nodePadding(10)
-                .extent([[margin.left, margin.top], [width - margin.right, height - margin.bottom]]);
-            
-            const {nodes, links} = sankey({
-                nodes: sankeyData.nodes.map(d => Object.assign({}, d)),
-                links: sankeyData.links.map(d => Object.assign({}, d))
-            });
-            
-            const tooltip = d3.select("#tooltip");
-            
-            // Add links
-            svg.append("g")
-                .selectAll(".link")
-                .data(links)
-                .join("path")
-                .attr("class", "link")
-                .attr("d", d3.sankeyLinkHorizontal())
-                .attr("stroke-width", d => Math.max(1, d.width))
-                .style("stroke", d => {
-                    if (d.source.name in colors) return colors[d.source.name];
-                    if (d.source.name in materialColors) return materialColors[d.source.name];
-                    return 'rgba(150, 150, 150, 0.8)';
-                })
-                .style("stroke-opacity", 0.3)
-                .on("mouseover", function(event, d) {
-                    d3.select(this).style("stroke-opacity", 0.5);
-                    tooltip.style("opacity", 1)
-                        .html(`${d.source.name} → ${d.target.name}: ${d.value}`)
-                        .style("left", (event.pageX + 10) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                })
-                .on("mouseout", function() {
-                    d3.select(this).style("stroke-opacity", 0.3);
-                    tooltip.style("opacity", 0);
-                });
-            
-            // Add nodes
-            const node = svg.append("g")
-                .selectAll(".node")
-                .data(nodes)
-                .join("g");
-            
-            node.append("rect")
-                .attr("x", d => d.x0)
-                .attr("y", d => d.y0)
-                .attr("height", d => d.y1 - d.y0)
-                .attr("width", d => d.x1 - d.x0)
-                .style("fill", d => {
-                    // Demolition types
-                    if (d.name in colors) return colors[d.name];
-                    
-                    // Materials
-                    if (d.name in materialColors) return materialColors[d.name];
-                    
-                    // Lifespan - gradient
-                    if (d.name.includes('years') || d.name.includes('+')) {
-                        const num = parseInt(d.name.match(/\d+/)?.[0] || 0);
-                        if (num >= 150) return 'rgba(254, 206, 50, 0.8)';
-                        else if (num >= 100) return 'rgba(219, 92, 104, 0.8)';
-                        else if (num >= 75) return 'rgba(185, 50, 137, 0.8)';
-                        else if (num >= 50) return 'rgba(139, 10, 165, 0.8)';
-                        else if (num >= 25) return 'rgba(84, 2, 163, 0.8)';
-                        else return 'rgba(13, 8, 135, 0.8)';
-                    }
-                    
-                    return 'rgba(150, 150, 150, 0.8)';
-                })
-                .style("stroke", "#000")
-                .on("mouseover", function(event, d) {
-                    tooltip.style("opacity", 1)
-                        .html(`${d.name}: ${d.value}`)
-                        .style("left", (event.pageX + 10) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                })
-                .on("mouseout", function() {
-                    tooltip.style("opacity", 0);
-                });
-            
-            node.append("text")
-                .attr("x", d => d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6)
-                .attr("y", d => (d.y1 + d.y0) / 2)
-                .attr("dy", "0.35em")
-                .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
-                .text(d => d.name)
-                .style("font-size", "11px");
-        }
-
-        function updateCharts() {
-            if (!currentData) return;
-
-            const chartType = document.getElementById('chartType').value;
-            const demolitionFilter = document.getElementById('demolitionFilter').value;
-            const viewMode = document.getElementById('viewMode').value;
-            const binSize = parseInt(document.getElementById('binSize').value);
-
-            createYearlyChart(currentData.yearly_stacked, chartType, demolitionFilter, viewMode);
-            createLifespanChart(currentData, chartType, demolitionFilter, viewMode, binSize);
-            createTypeChart(currentData.demolition_types, demolitionFilter);
-        }
-
-        function createYearlyChart(yearlyData, chartType, filter, viewMode) {
-            const ctx = document.getElementById('yearlyChart').getContext('2d');
-            
-            if (charts.yearly) charts.yearly.destroy();
-            
-            const years = yearlyData.map(d => d.year);
-            let datasets = [];
-
-            if (filter === 'all') {
-                ['RAZE', 'EXTDEM', 'INTDEM'].forEach(type => {
-                    let data = yearlyData.map(d => d[type] || 0);
-                    
-                    if (viewMode === 'percentage') {
-                        data = yearlyData.map(d => {
-                            const total = (d.EXTDEM || 0) + (d.INTDEM || 0) + (d.RAZE || 0);
-                            return total > 0 ? ((d[type] || 0) / total) * 100 : 0;
-                        });
-                    }
-                    
-                    datasets.push({
-                        label: type,
-                        data: data,
-                        backgroundColor: colors[type],
-                        borderColor: colors[type],
-                        borderWidth: 1,
-                        fill: chartType === 'area' ? 'stack' : false
-                    });
-                });
-            } else {
-                let data = yearlyData.map(d => d[filter] || 0);
-                datasets.push({
-                    label: filter,
+                return {
+                    label: lifespanBin,
                     data: data,
-                    backgroundColor: colors[filter],
-                    borderColor: colors[filter],
-                    borderWidth: 1,
-                    fill: chartType === 'area'
-                });
-            }
-
-            charts.yearly = new Chart(ctx, {
-                type: chartType === 'area' ? 'line' : chartType,
-                data: { labels: years, datasets: datasets },
+                    backgroundColor: colors[index],
+                    borderWidth: 0.5,
+                    borderColor: 'rgba(255, 255, 255, 0.5)'
+                };
+            });
+            
+            charts[canvasId] = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: sortedMaterials, datasets: datasets },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        x: {
-                            stacked: filter === 'all' && chartType !== 'line',
-                            title: { display: true, text: 'Year' }
-                        },
-                        y: {
-                            stacked: filter === 'all' && chartType !== 'line',
-                            title: { display: true, text: viewMode === 'percentage' ? 'Percentage (%)' : 'Count' }
-                        }
+                        x: { stacked: true, title: { display: true, text: 'Material Type' } },
+                        y: { stacked: true, title: { display: true, text: displayMode === 'percentage' ? 'Percentage (%)' : 'Count' }, max: displayMode === 'percentage' ? 100 : undefined }
                     },
                     plugins: {
-                        legend: { display: filter === 'all' }
-                    }
-                }
-            });
-        }
-
-        function createLifespanChart(data, chartType, filter, viewMode, binSize) {
-            const ctx = document.getElementById('lifespanChart').getContext('2d');
-            
-            if (charts.lifespan) charts.lifespan.destroy();
-            
-            let lifespanData = binSize === 5 ? data.lifespan_distribution_5yr : data.lifespan_distribution;
-            const labels = lifespanData.map(d => d.range);
-            let datasets = [];
-
-            if (filter === 'all') {
-                ['RAZE', 'EXTDEM', 'INTDEM'].forEach(type => {
-                    let chartData = lifespanData.map(d => d[type] || 0);
-                    
-                    if (viewMode === 'percentage') {
-                        chartData = lifespanData.map(d => {
-                            const total = (d.EXTDEM || 0) + (d.INTDEM || 0) + (d.RAZE || 0);
-                            return total > 0 ? ((d[type] || 0) / total) * 100 : 0;
-                        });
-                    }
-                    
-                    datasets.push({
-                        label: type,
-                        data: chartData,
-                        backgroundColor: colors[type],
-                        borderColor: colors[type],
-                        borderWidth: 1,
-                        fill: chartType === 'area' ? 'stack' : false
-                    });
-                });
-            } else {
-                let chartData = lifespanData.map(d => d[filter] || 0);
-                datasets.push({
-                    label: filter,
-                    data: chartData,
-                    backgroundColor: colors[filter],
-                    borderColor: colors[filter],
-                    borderWidth: 1,
-                    fill: chartType === 'area'
-                });
-            }
-
-            charts.lifespan = new Chart(ctx, {
-                type: chartType === 'area' ? 'line' : chartType,
-                data: { labels: labels, datasets: datasets },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            stacked: filter === 'all' && chartType !== 'line',
-                            title: { display: true, text: 'Lifespan (years)' }
-                        },
-                        y: {
-                            stacked: filter === 'all' && chartType !== 'line',
-                            title: { display: true, text: viewMode === 'percentage' ? 'Percentage (%)' : 'Count' }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: filter === 'all' }
-                    }
-                }
-            });
-        }
-
-        function createTypeChart(typesData, filter) {
-            const ctx = document.getElementById('typeChart').getContext('2d');
-            
-            if (charts.type) charts.type.destroy();
-            
-            let filteredData = filter === 'all' ? typesData : typesData.filter(d => d.type === filter);
-
-            charts.type = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: filteredData.map(d => d.type),
-                    datasets: [{
-                        data: filteredData.map(d => d.count),
-                        backgroundColor: filteredData.map(d => colors[d.type]),
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                generateLabels: function(chart) {
-                                    const data = chart.data;
-                                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                    return data.labels.map((label, i) => {
-                                        const value = data.datasets[0].data[i];
-                                        const percentage = ((value / total) * 100).toFixed(1);
-                                        return {
-                                            text: `${label}: ${value} (${percentage}%)`,
-                                            fillStyle: data.datasets[0].backgroundColor[i],
-                                            hidden: false,
-                                            index: i
-                                        };
-                                    });
+                        legend: { display: true, position: 'right', reverse: true },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label;
+                                    const value = context.parsed.y;
+                                    return `${label}: ${displayMode === 'percentage' ? value.toFixed(1) + '%' : value}`;
                                 }
                             }
                         }
@@ -946,7 +908,105 @@
             });
         }
 
-        // Initialize
+        function createYearlyChart(yearlyData) {
+            const ctx = document.getElementById('yearlyChart').getContext('2d');
+            if (charts.yearly) charts.yearly.destroy();
+            
+            const demolitionView = document.querySelector('input[name="demolitionView"]:checked').value;
+            const years = yearlyData.map(d => d.year);
+            let datasets = [];
+            
+            if (demolitionView === 'all') {
+                const types = [
+                    {name: 'RAZE', total: yearlyData.reduce((s, d) => s + (d.RAZE || 0), 0)},
+                    {name: 'EXTDEM', total: yearlyData.reduce((s, d) => s + (d.EXTDEM || 0), 0)},
+                    {name: 'INTDEM', total: yearlyData.reduce((s, d) => s + (d.INTDEM || 0), 0)}
+                ].sort((a, b) => b.total - a.total);
+
+                const sortedColors = ['rgba(13, 8, 135, 0.8)', 'rgba(172, 33, 152, 0.8)', 'rgba(240, 249, 33, 0.8)'];
+
+                types.forEach((type, index) => {
+                    datasets.push({
+                        label: type.name,
+                        data: yearlyData.map(d => d[type.name] || 0),
+                        backgroundColor: sortedColors[index]
+                    });
+                });
+            } else {
+                datasets.push({
+                    label: demolitionView,
+                    data: yearlyData.map(d => d[demolitionView] || 0),
+                    backgroundColor: 'rgba(13, 8, 135, 0.8)'
+                });
+            }
+
+            charts.yearly = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: years, datasets: datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: demolitionView === 'all', title: { display: true, text: 'Year' } },
+                        y: { stacked: demolitionView === 'all', title: { display: true, text: 'Count' } }
+                    },
+                    plugins: {
+                        legend: { display: demolitionView === 'all', reverse: true }
+                    }
+                }
+            });
+        }
+
+        function createLifespanChart(data) {
+            const ctx = document.getElementById('lifespanChart').getContext('2d');
+            if (charts.lifespan) charts.lifespan.destroy();
+            
+            const demolitionView = document.querySelector('input[name="demolitionView"]:checked').value;
+            const lifespanData = data.lifespan_distribution;
+            const labels = lifespanData.map(d => d.range);
+            let datasets = [];
+            
+            if (demolitionView === 'all') {
+                const types = [
+                    {name: 'RAZE', total: lifespanData.reduce((s, d) => s + (d.RAZE || 0), 0)},
+                    {name: 'EXTDEM', total: lifespanData.reduce((s, d) => s + (d.EXTDEM || 0), 0)},
+                    {name: 'INTDEM', total: lifespanData.reduce((s, d) => s + (d.INTDEM || 0), 0)}
+                ].sort((a, b) => b.total - a.total);
+
+                const sortedColors = ['rgba(13, 8, 135, 0.8)', 'rgba(172, 33, 152, 0.8)', 'rgba(240, 249, 33, 0.8)'];
+                
+                types.forEach((type, index) => {
+                    datasets.push({
+                        label: type.name,
+                        data: lifespanData.map(d => d[type.name] || 0),
+                        backgroundColor: sortedColors[index]
+                    });
+                });
+            } else {
+                datasets.push({
+                    label: demolitionView,
+                    data: lifespanData.map(d => d[demolitionView] || 0),
+                    backgroundColor: 'rgba(13, 8, 135, 0.8)'
+                });
+            }
+
+            charts.lifespan = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: labels, datasets: datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: demolitionView === 'all', title: { display: true, text: 'Lifespan (years)' } },
+                        y: { stacked: demolitionView === 'all', title: { display: true, text: 'Count' } }
+                    },
+                    plugins: {
+                        legend: { display: demolitionView === 'all', reverse: true }
+                    }
+                }
+            });
+        }
+
         window.addEventListener('DOMContentLoaded', loadDataFromJSON);
     </script>
 </body>
