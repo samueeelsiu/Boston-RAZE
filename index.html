@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boston Building Demolition Analysis</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
+    <script src="https://unpkg.com/@sgratzl/chartjs-chart-boxplot@4.2.7/build/index.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -251,7 +252,6 @@
         .gradient-bar {
             width: 200px;
             height: 20px;
-            /* Updated gradient: Light yellow (min) to dark purple (max) */
             background: linear-gradient(to right, rgb(240, 249, 33), rgb(253, 206, 2), rgb(254, 153, 61), rgb(251, 127, 88), rgb(235, 101, 105), rgb(216, 77, 120), rgb(196, 54, 136), rgb(172, 33, 152), rgb(144, 13, 163), rgb(114, 1, 168), rgb(82, 2, 165), rgb(47, 7, 164), rgb(13, 8, 135));
             border-radius: 3px;
             border: 1px solid #ddd;
@@ -507,6 +507,12 @@
                     </thead>
                     <tbody id="materialTableBody"></tbody>
                 </table>
+            </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Building Lifespan by Material Type</h2>
+                <p class="chart-description">Box plot showing the distribution of building lifespans for each material type</p>
+                <canvas id="boxplotChart" style="max-height: 500px;"></canvas>
             </div>
 
             <div class="chart-container">
@@ -805,6 +811,7 @@
             setVisualizationType('heatmap'); // Start with heatmap view
             createYearlyChart(data.yearly_stacked);
             createLifespanChart(data);
+            createMaterialBoxplot(data); // Add boxplot creation
         }
 
         function updateDemolitionView() {
@@ -823,6 +830,7 @@
             if (currentData) {
                 createYearlyChart(currentData.yearly_stacked);
                 createLifespanChart(currentData);
+                createMaterialBoxplot(currentData); // Update boxplot when demolition view changes
             }
         }
 
@@ -1008,6 +1016,109 @@
                     },
                     plugins: {
                         legend: { display: demolitionView === 'all', reverse: true }
+                    }
+                }
+            });
+        }
+
+        function createMaterialBoxplot(data) {
+            const ctx = document.getElementById('boxplotChart')?.getContext('2d');
+            if (!ctx) return;
+            
+            if (charts.boxplot) charts.boxplot.destroy();
+            
+            // Check if we have the raw lifespan data
+            if (!data.material_lifespan_raw) {
+                console.error('No raw lifespan data available for boxplot');
+                return;
+            }
+            
+            const rawData = data.material_lifespan_raw;
+            const materials = Object.keys(rawData);
+            
+            // Sort materials by median lifespan for better visualization
+            materials.sort((a, b) => {
+                const medianA = rawData[a].sort((x, y) => x - y)[Math.floor(rawData[a].length / 2)];
+                const medianB = rawData[b].sort((x, y) => x - y)[Math.floor(rawData[b].length / 2)];
+                return medianB - medianA;
+            });
+            
+            // Prepare data for boxplot
+            const boxplotData = materials.map(material => {
+                const values = rawData[material];
+                return {
+                    label: material,
+                    data: [values]
+                };
+            });
+            
+            // Create the boxplot chart
+            charts.boxplot = new Chart(ctx, {
+                type: 'boxplot',
+                data: {
+                    labels: materials,
+                    datasets: [{
+                        label: 'Building Lifespan Distribution',
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        outlierColor: 'rgba(255, 99, 132, 1)',
+                        outlierBackgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        medianColor: 'rgba(255, 159, 64, 1)',
+                        data: materials.map(material => rawData[material])
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const material = materials[context.dataIndex];
+                                    const values = rawData[material].sort((a, b) => a - b);
+                                    const q1 = values[Math.floor(values.length * 0.25)];
+                                    const median = values[Math.floor(values.length * 0.5)];
+                                    const q3 = values[Math.floor(values.length * 0.75)];
+                                    const min = Math.min(...values);
+                                    const max = Math.max(...values);
+                                    const count = values.length;
+                                    
+                                    return [
+                                        `Material: ${material}`,
+                                        `Count: ${count}`,
+                                        `Min: ${min.toFixed(1)} years`,
+                                        `Q1: ${q1.toFixed(1)} years`,
+                                        `Median: ${median.toFixed(1)} years`,
+                                        `Q3: ${q3.toFixed(1)} years`,
+                                        `Max: ${max.toFixed(1)} years`
+                                    ];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Building Lifespan (years)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Material Type'
+                            },
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
                     }
                 }
             });

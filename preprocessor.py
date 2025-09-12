@@ -66,7 +66,7 @@ def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
         'intdem_count': int((demo_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
         'raze_count': int((demo_df['DEMOLITION_TYPE'] == 'RAZE').sum()),
         'min_year_built': int(demo_df['year_built'].min()),  # Add min year built
-        'max_year_built': int(demo_df['year_built'].max())   # Add max year built
+        'max_year_built': int(demo_df['year_built'].max())  # Add max year built
     }
 
     # 2. Yearly Stacked Data
@@ -203,6 +203,22 @@ def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
     material_stats.sort(key=lambda x: x['count'], reverse=True)
     result['material_stats'] = material_stats
 
+    # 7b. Material Lifespan Raw Data for Boxplot
+    print("Collecting raw lifespan data for boxplot...")
+    material_lifespan_raw = {}
+
+    # Get top 15 materials by count for the boxplot
+    top_materials = [mat['material'] for mat in material_stats[:15]]
+
+    for material in top_materials:
+        mat_df = demo_df[demo_df['material_group'] == material]
+        if len(mat_df) > 0:
+            # Store as list of floats for JSON serialization
+            lifespans = mat_df['lifespan'].dropna().tolist()
+            material_lifespan_raw[material] = [float(x) for x in lifespans]
+
+    result['material_lifespan_raw'] = material_lifespan_raw
+
     # 8. Metadata - UPDATED to include 1940 filter info
     result['metadata'] = {
         'year_range': f"{int(demo_df['demolition_year'].min())}-{int(demo_df['demolition_year'].max())}",
@@ -243,6 +259,13 @@ def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
         for material, count in top_3:
             print(f"    - {material}: {count} buildings")
 
+    # Print summary of boxplot data
+    print("\nBoxplot Data Summary:")
+    print(f"  Total materials for boxplot: {len(material_lifespan_raw)}")
+    for material in list(material_lifespan_raw.keys())[:5]:
+        count = len(material_lifespan_raw[material])
+        print(f"    - {material}: {count} data points")
+
     return result
 
 
@@ -263,6 +286,7 @@ def main():
     print("=" * 50)
     print("Boston Building Demolition Data Processor")
     print("With Material-Lifespan Stacked Bar Analysis")
+    print("And Boxplot Support")
     print("Filtering for buildings built in 1940 or later")
     print("=" * 50)
 
@@ -295,10 +319,15 @@ def main():
         for mat in data['material_stats'][:5]:
             print(f"  - {mat['material']}: {mat['count']:,} buildings (avg lifespan: {mat['avg_lifespan']:.1f} years)")
 
+        # Boxplot data info
+        if 'material_lifespan_raw' in data:
+            print(f"\nBoxplot data prepared for {len(data['material_lifespan_raw'])} materials")
+
         print("\n" + "=" * 50)
         print("JSON file 'boston_demolition_data.json' has been created.")
         print("Open index.html in your browser to view the dashboard.")
-        print("The dashboard will display stacked bar charts for each demolition type.")
+        print("The dashboard will display stacked bar charts for each demolition type")
+        print("and a boxplot showing lifespan distribution by material type.")
         print("Note: Data filtered for buildings built in 1940 or later")
         print("=" * 50)
 
