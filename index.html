@@ -373,9 +373,11 @@
                 <h3>Data Overview</h3>
                 <p>
                     Source dataset: <span class="stats-value" id="totalMABuildings">-</span> Massachusetts buildings<br>
+                    <strong style="color: #c00;">Filter Applied: Buildings built ≥1940</strong><br>
+                    Year built range: <span class="stats-value" id="yearBuiltRange">-</span><br>
                     Boston area demolitions: <span class="stats-value" id="bostonDemolitions">-</span> records<br>
                     After cleaning: <span class="stats-value" id="validRecords">-</span> unique buildings<br>
-                    Date range: <span class="stats-value" id="dateRange">-</span>
+                    Demolition date range: <span class="stats-value" id="dateRange">-</span>
                 </p>
                 <p style="margin-top: 10px;">
                     <strong>Demolition Types:</strong><br>
@@ -769,6 +771,10 @@
                 document.getElementById('bostonDemolitions').textContent = data.metadata.total_boston_demolitions.toLocaleString();
                 document.getElementById('validRecords').textContent = data.summary_stats.total_demolitions.toLocaleString();
                 document.getElementById('dateRange').textContent = data.metadata.year_range;
+
+                if (document.getElementById('yearBuiltRange')) {
+                    document.getElementById('yearBuiltRange').textContent = data.metadata.year_built_range || '1940-present';
+                }
             }
 
             if (data.material_stats) {

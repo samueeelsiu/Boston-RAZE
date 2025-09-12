@@ -10,6 +10,7 @@ warnings.filterwarnings('ignore')
 def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
     """
     Process MA structures data focusing on Boston demolitions and output JSON for dashboard
+    Filters for buildings built in 1940 or later
     """
 
     print("Loading data...")
@@ -27,6 +28,15 @@ def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
     demo_df = demo_df[demo_df['PROP_CITY'].str.upper().isin(boston_cities)]
 
     print(f"Found {len(demo_df)} demolition records in Boston area")
+
+    # ========== NEW FILTER: Buildings built in 1940 or later ==========
+    print("Filtering for buildings built in 1940 or later...")
+    pre_1940_count = len(demo_df)
+    demo_df = demo_df[demo_df['year_built'] >= 1940].copy()
+    post_1940_count = len(demo_df)
+    print(f"Removed {pre_1940_count - post_1940_count} pre-1940 buildings")
+    print(f"Remaining records: {post_1940_count}")
+    # ================================================================
 
     # Convert dates
     demo_df['DEMOLITION_DATE'] = pd.to_datetime(demo_df['DEMOLITION_DATE'], errors='coerce')
@@ -54,7 +64,9 @@ def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
         'median_lifespan': float(demo_df['lifespan'].median()),
         'extdem_count': int((demo_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
         'intdem_count': int((demo_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
-        'raze_count': int((demo_df['DEMOLITION_TYPE'] == 'RAZE').sum())
+        'raze_count': int((demo_df['DEMOLITION_TYPE'] == 'RAZE').sum()),
+        'min_year_built': int(demo_df['year_built'].min()),  # Add min year built
+        'max_year_built': int(demo_df['year_built'].max())   # Add max year built
     }
 
     # 2. Yearly Stacked Data
@@ -191,14 +203,16 @@ def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
     material_stats.sort(key=lambda x: x['count'], reverse=True)
     result['material_stats'] = material_stats
 
-    # 8. Metadata
+    # 8. Metadata - UPDATED to include 1940 filter info
     result['metadata'] = {
         'year_range': f"{int(demo_df['demolition_year'].min())}-{int(demo_df['demolition_year'].max())}",
         'generated_date': datetime.now().isoformat(),
         'boston_area_cities': boston_cities,
         'total_ma_buildings': int(len(df)),
         'total_boston_demolitions': int(len(demo_df)),
-        'data_note': 'Data represents demolitions in the Boston metropolitan area only'
+        'data_note': 'Data represents demolitions in the Boston metropolitan area for buildings built in 1940 or later',
+        'year_built_filter': '≥1940',
+        'year_built_range': f"{int(demo_df['year_built'].min())}-{int(demo_df['year_built'].max())}"
     }
 
     # 9. City breakdown
@@ -249,6 +263,7 @@ def main():
     print("=" * 50)
     print("Boston Building Demolition Data Processor")
     print("With Material-Lifespan Stacked Bar Analysis")
+    print("Filtering for buildings built in 1940 or later")
     print("=" * 50)
 
     try:
@@ -263,6 +278,7 @@ def main():
         print("Processing Complete!")
         print("=" * 50)
         print(f"Total Boston demolitions processed: {data['summary_stats']['total_demolitions']:,}")
+        print(f"Buildings built between: {data['metadata']['year_built_range']}")
         print(f"Average building lifespan: {data['summary_stats']['average_lifespan']:.1f} years")
         print(f"Date range: {data['metadata']['year_range']}")
 
@@ -283,6 +299,7 @@ def main():
         print("JSON file 'boston_demolition_data.json' has been created.")
         print("Open index.html in your browser to view the dashboard.")
         print("The dashboard will display stacked bar charts for each demolition type.")
+        print("Note: Data filtered for buildings built in 1940 or later")
         print("=" * 50)
 
     except FileNotFoundError:
