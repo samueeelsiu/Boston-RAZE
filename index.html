@@ -429,7 +429,7 @@
                     <div class="stat-number" id="totalDemo">-</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">Average Lifespan</div>
+                    <div class="stat-label" id="avgLifespanLabel">Average Lifespan</div>
                     <div class="stat-number" id="avgLifespan">-</div>
                 </div>
                 <div class="stat-card">
@@ -510,8 +510,8 @@
             </div>
 
             <div class="chart-container">
-                <h2 class="chart-title">Building Lifespan by Material Type</h2>
-                <p class="chart-description">Box plot showing the distribution of building lifespans for each material type</p>
+                <h2 class="chart-title" id="boxplotTitle">Building Lifespan by Material Type</h2>
+                <p class="chart-description" id="boxplotDescription">Box plot showing the distribution of building lifespans for each material type</p>
                 <canvas id="boxplotChart" style="max-height: 500px;"></canvas>
             </div>
 
@@ -561,13 +561,12 @@
             return colors.reverse(); 
         }
 
-        // Plasma colormap for heatmap with log scale (Light yellow for min, Dark purple for max)
+        // Modified Plasma colormap for heatmap with LINEAR scale (Light yellow for min, Dark purple for max)
         function getPlasmaColor(value, maxValue) {
             if (value === 0) return '#f0f0f0'; // Light gray for zero
             
-            const logValue = Math.log10(value + 1);
-            const logMax = Math.log10(maxValue + 1);
-            const intensity = logMax > 0 ? logValue / logMax : 0;
+            // Use LINEAR scale instead of log scale
+            const intensity = maxValue > 0 ? value / maxValue : 0;
             
             const plasmaColors = [
                 [240, 249, 33], [248, 230, 33], [253, 206, 2], [254, 180, 31],
@@ -676,9 +675,8 @@
                         displayValue = value + ` (${pct.toFixed(1)}%)`;
                     }
                     
-                    const logValue = Math.log10(value + 1);
-                    const logMax = Math.log10(maxValue + 1);
-                    const intensity = logMax > 0 ? logValue / logMax : 0;
+                    // Use LINEAR intensity calculation
+                    const intensity = maxValue > 0 ? value / maxValue : 0;
                     const bgColor = getPlasmaColor(value, maxValue);
                     const textColor = intensity > 0.6 ? 'white' : '#333';
                     
@@ -697,7 +695,7 @@
             html += '<div class="legend-gradient">';
             html += '<span>0</span><div class="gradient-bar"></div>';
             html += `<span>${maxValue}</span></div>`;
-            html += `<div>Showing: ${demoType.toUpperCase()} demolitions (${displayMode}) - Log scale colors</div>`;
+            html += `<div>Showing: ${demoType.toUpperCase()} demolitions (${displayMode}) - Linear scale colors</div>`;
             html += '</div>';
             
             document.getElementById('heatmapContent').innerHTML = html;
@@ -728,6 +726,39 @@
             } else {
                 document.getElementById('heatmapContainer').classList.add('hidden');
                 updateDemolitionView(); // This will show the correct stacked chart
+            }
+        }
+
+        // Function to calculate average lifespan for selected demolition type
+        function calculateAverageLifespan(demolitionType) {
+            if (!currentData || !currentData.material_lifespan_demo_avg) return null;
+            
+            if (demolitionType === 'all') {
+                return currentData.summary_stats.average_lifespan;
+            }
+            
+            return currentData.material_lifespan_demo_avg[demolitionType] || null;
+        }
+
+        // Function to update stats based on demolition type
+        function updateStats(demolitionType) {
+            if (!currentData) return;
+            
+            // Update average lifespan based on demolition type
+            const avgLifespan = calculateAverageLifespan(demolitionType);
+            const avgLifespanLabel = document.getElementById('avgLifespanLabel');
+            const avgLifespanValue = document.getElementById('avgLifespan');
+            
+            if (demolitionType === 'all') {
+                avgLifespanLabel.textContent = 'Average Lifespan (All Types)';
+            } else {
+                avgLifespanLabel.textContent = `Average Lifespan (${demolitionType})`;
+            }
+            
+            if (avgLifespan !== null) {
+                avgLifespanValue.textContent = avgLifespan.toFixed(1) + ' yrs';
+            } else {
+                avgLifespanValue.textContent = 'N/A';
             }
         }
 
@@ -767,7 +798,12 @@
 
         function updateDashboard(data) {
             document.getElementById('totalDemo').textContent = data.summary_stats.total_demolitions.toLocaleString();
-            document.getElementById('avgLifespan').textContent = data.summary_stats.average_lifespan.toFixed(1) + ' yrs';
+
+            const defaultAvgLifespan = data.material_lifespan_demo_avg && data.material_lifespan_demo_avg.RAZE 
+                ? data.material_lifespan_demo_avg.RAZE 
+                : data.summary_stats.average_lifespan;
+            document.getElementById('avgLifespan').textContent = defaultAvgLifespan.toFixed(1) + ' yrs';
+            document.getElementById('avgLifespanLabel').textContent = 'Average Lifespan (RAZE)';
             document.getElementById('extdemCount').textContent = data.summary_stats.extdem_count.toLocaleString();
             document.getElementById('intdemCount').textContent = data.summary_stats.intdem_count.toLocaleString();
             document.getElementById('razeCount').textContent = data.summary_stats.raze_count.toLocaleString();
@@ -811,11 +847,18 @@
             setVisualizationType('heatmap'); // Start with heatmap view
             createYearlyChart(data.yearly_stacked);
             createLifespanChart(data);
-            createMaterialBoxplot(data); // Add boxplot creation
+            
+            // Update boxplot with initial demolition type
+            const demolitionView = document.querySelector('input[name="demolitionView"]:checked').value;
+            createMaterialBoxplot(data, demolitionView);
+            updateStats('RAZE');
         }
 
         function updateDemolitionView() {
             const demolitionView = document.querySelector('input[name="demolitionView"]:checked').value;
+            
+            // Update the average lifespan stat
+            updateStats(demolitionView);
             
             if (currentVisualization === 'stacked') {
                 document.getElementById('allChartContainer').classList.toggle('hidden', demolitionView !== 'all');
@@ -830,7 +873,7 @@
             if (currentData) {
                 createYearlyChart(currentData.yearly_stacked);
                 createLifespanChart(currentData);
-                createMaterialBoxplot(currentData); // Update boxplot when demolition view changes
+                createMaterialBoxplot(currentData, demolitionView); // Pass demolition type to boxplot
             }
         }
 
@@ -1021,19 +1064,56 @@
             });
         }
 
-        function createMaterialBoxplot(data) {
+        function createMaterialBoxplot(data, demolitionType = 'RAZE') {
             const ctx = document.getElementById('boxplotChart')?.getContext('2d');
             if (!ctx) return;
             
             if (charts.boxplot) charts.boxplot.destroy();
             
-            // Check if we have the raw lifespan data
-            if (!data.material_lifespan_raw) {
-                console.error('No raw lifespan data available for boxplot');
+            // Update title and description
+            const titleElement = document.getElementById('boxplotTitle');
+            const descriptionElement = document.getElementById('boxplotDescription');
+            
+            if (demolitionType === 'all') {
+                titleElement.textContent = 'Building Lifespan by Material Type (All Demolition Types)';
+                descriptionElement.textContent = 'Box plot showing the distribution of building lifespans for each material type across all demolition types';
+            } else {
+                titleElement.textContent = `Building Lifespan by Material Type (${demolitionType} Only)`;
+                descriptionElement.textContent = `Box plot showing the distribution of building lifespans for each material type for ${demolitionType} demolitions`;
+            }
+            
+            // Check if we have the raw lifespan data with demolition types
+            if (!data.material_lifespan_raw_by_demo) {
+                console.error('No raw lifespan data available for boxplot by demolition type');
                 return;
             }
             
-            const rawData = data.material_lifespan_raw;
+            let rawData;
+            if (demolitionType === 'all') {
+                // Combine all demolition types
+                rawData = {};
+                const demoTypes = ['RAZE', 'EXTDEM', 'INTDEM'];
+                
+                demoTypes.forEach(demo => {
+                    if (data.material_lifespan_raw_by_demo[demo]) {
+                        Object.entries(data.material_lifespan_raw_by_demo[demo]).forEach(([material, values]) => {
+                            if (!rawData[material]) {
+                                rawData[material] = [];
+                            }
+                            rawData[material] = rawData[material].concat(values);
+                        });
+                    }
+                });
+            } else {
+                // Use specific demolition type
+                rawData = data.material_lifespan_raw_by_demo[demolitionType];
+                
+                if (!rawData) {
+                    console.error(`No raw lifespan data available for ${demolitionType}`);
+                    return;
+                }
+            }
+            
             const materials = Object.keys(rawData);
             
             // Sort materials by median lifespan for better visualization
@@ -1043,29 +1123,25 @@
                 return medianB - medianA;
             });
             
-            // Prepare data for boxplot
-            const boxplotData = materials.map(material => {
-                const values = rawData[material];
-                return {
-                    label: material,
-                    data: [values]
-                };
-            });
+            // Limit to top 15 materials by count
+            const materialCounts = materials.map(m => ({ material: m, count: rawData[m].length }));
+            materialCounts.sort((a, b) => b.count - a.count);
+            const top15Materials = materialCounts.slice(0, 15).map(item => item.material);
             
             // Create the boxplot chart
             charts.boxplot = new Chart(ctx, {
                 type: 'boxplot',
                 data: {
-                    labels: materials,
+                    labels: top15Materials,
                     datasets: [{
-                        label: 'Building Lifespan Distribution',
+                        label: `Building Lifespan Distribution (${demolitionType === 'all' ? 'All Types' : demolitionType})`,
                         backgroundColor: 'rgba(54, 162, 235, 0.5)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1,
                         outlierColor: 'rgba(255, 99, 132, 1)',
                         outlierBackgroundColor: 'rgba(255, 99, 132, 0.5)',
                         medianColor: 'rgba(255, 159, 64, 1)',
-                        data: materials.map(material => rawData[material])
+                        data: top15Materials.map(material => rawData[material])
                     }]
                 },
                 options: {
@@ -1078,7 +1154,7 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    const material = materials[context.dataIndex];
+                                    const material = top15Materials[context.dataIndex];
                                     const values = rawData[material].sort((a, b) => a - b);
                                     const q1 = values[Math.floor(values.length * 0.25)];
                                     const median = values[Math.floor(values.length * 0.5)];
@@ -1089,6 +1165,7 @@
                                     
                                     return [
                                         `Material: ${material}`,
+                                        `Demolition Type: ${demolitionType === 'all' ? 'All Types' : demolitionType}`,
                                         `Count: ${count}`,
                                         `Min: ${min.toFixed(1)} years`,
                                         `Q1: ${q1.toFixed(1)} years`,
