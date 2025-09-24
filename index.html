@@ -6,6 +6,8 @@
     <title>Boston Building Demolition Analysis</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
     <script src="https://unpkg.com/@sgratzl/chartjs-chart-boxplot@4.2.7/build/index.umd.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         * {
             margin: 0;
@@ -356,6 +358,35 @@
             padding: 40px;
             color: #666;
         }
+
+        #mapContainer {
+            height: 500px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .map-legend {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        .map-legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+
+        .map-legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #333;
+        }
     </style>
 </head>
 <body>
@@ -457,6 +488,12 @@
                 <p class="chart-description">Heatmap showing demolition counts for each material-lifespan combination</p>
                 <div id="heatmapContent"></div>
             </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Building Locations Map</h2>
+                <p class="chart-description">Map showing the location of demolished buildings</p>
+                <div id="mapContainer"></div>
+            </div>
             
             <div id="allChartContainer" class="chart-container hidden">
                 <h2 class="chart-title">All Types: Material Type vs Lifespan Distribution</h2>
@@ -530,7 +567,16 @@
         let currentData = null;
         let charts = {};
         let currentVisualization = 'heatmap'; // Default to heatmap
+        let map = null;
+        let mapMarkers = [];
+        let mapData = null;
 
+
+        const demolitionColors = {
+            'RAZE': '#3498db',    
+            'EXTDEM': '#e74c3c',  
+            'INTDEM': '#f39c12'   
+        };
         // Color scheme for stacked bar charts (Darkest for largest, lightest for smallest)
         function getLifespanColors(count) {
             // Plasma colormap reversed for "darkest for largest"
@@ -580,6 +626,76 @@
             return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
         }
         
+        function initializeMap() {
+            if (map) return; 
+            
+         
+            map = L.map('mapContainer').setView([42.3601, -71.0589], 11);
+            
+           
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 18
+            }).addTo(map);
+            
+   
+            const legend = L.control({position: 'bottomright'});
+            legend.onAdd = function() {
+                const div = L.DomUtil.create('div', 'map-legend');
+                div.innerHTML = '<h4>Demolition Type</h4>';
+                
+                ['RAZE', 'EXTDEM', 'INTDEM'].forEach(type => {
+                    div.innerHTML += 
+                        `<div class="map-legend-item">
+                            <span class="map-legend-color" style="background-color: ${demolitionColors[type]}"></span>
+                            <span>${type}</span>
+                        </div>`;
+                });
+                
+                return div;
+            };
+            legend.addTo(map);
+        }
+
+        function updateMapMarkers(demolitionType = 'RAZE') {
+       
+            mapMarkers.forEach(marker => map.removeLayer(marker));
+            mapMarkers = [];
+            
+            if (!mapData) return;
+            
+        
+            let filteredData = demolitionType === 'all' 
+                ? mapData 
+                : mapData.filter(d => d.demolition_type === demolitionType);
+            
+ 
+            filteredData.forEach(point => {
+                const color = demolitionColors[point.demolition_type];
+                
+                const marker = L.circleMarker([point.lat, point.lon], {
+                    radius: 6,
+                    fillColor: color,
+                    color: '#333',
+                    weight: 1,
+                    opacity: 0,
+                    fillOpacity: 1
+                });
+                
+            
+                marker.bindTooltip(
+                    `<strong>Demolition Type:</strong> ${point.demolition_type}<br>
+                    <strong>OCC_CLS:</strong> ${point.occ_cls}<br>
+                    <strong>Year Built:</strong> ${point.year_built}<br>
+                    <strong>Demolition Date:</strong> ${point.demolition_date}`,
+                    {sticky: true}
+                );
+                
+                marker.addTo(map);
+                mapMarkers.push(marker);
+            });
+        }
+
         // NEW function to aggregate data for 'All Types'
         function aggregateAllTypesData(data) {
             const aggregated = {};
@@ -788,7 +904,14 @@
                 
                 updateDashboard(data);
                 console.log('Successfully loaded Boston demolition data');
-                
+                if (data.map_data) {
+                    mapData = data.map_data;
+
+                    setTimeout(() => {
+                        initializeMap();
+                        updateMapMarkers('RAZE'); 
+                    }, 100);
+                }
             } catch (error) {
                 console.error('Error loading data:', error);
                 loadingContainer.style.display = 'none';
@@ -874,6 +997,10 @@
                 createYearlyChart(currentData.yearly_stacked);
                 createLifespanChart(currentData);
                 createMaterialBoxplot(currentData, demolitionView); // Pass demolition type to boxplot
+            }
+
+            if (map && mapData) {
+                updateMapMarkers(demolitionView);
             }
         }
 

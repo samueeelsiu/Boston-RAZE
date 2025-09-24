@@ -193,6 +193,30 @@ def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
 
     result['material_lifespan_demo'] = material_lifespan_demo
 
+    # 6b. Location Data for Map
+    print("Processing location data for map...")
+    # 限制数据量以避免性能问题
+    MAX_MAP_POINTS = 5000  # 可调整
+
+    # 为地图准备数据，包含每个建筑的信息
+    map_data = []
+    map_df = demo_df.head(MAX_MAP_POINTS) if len(demo_df) > MAX_MAP_POINTS else demo_df
+
+    for _, row in map_df.iterrows():
+        if pd.notna(row.get('LONGITUDE')) and pd.notna(row.get('LATITUDE')):  
+            map_data.append({
+                'lat': float(row['LATITUDE']),
+                'lon': float(row['LONGITUDE']),
+                'demolition_type': row['DEMOLITION_TYPE'],
+                'occ_cls': str(row.get('OCC_CLS', 'N/A')),
+                'year_built': int(row['year_built']) if pd.notna(row['year_built']) else 'N/A',
+                'demolition_date': row['DEMOLITION_DATE'].strftime('%Y-%m-%d') if pd.notna(
+                    row['DEMOLITION_DATE']) else 'N/A'
+            })
+
+    result['map_data'] = map_data
+    print(f"  Prepared {len(map_data)} points for map")
+
     # 7. Material Type Statistics
     print("Calculating material type statistics...")
     material_stats = []
