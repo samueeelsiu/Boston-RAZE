@@ -284,20 +284,21 @@ python preprocessor.py
 - Building year filter excludes pre-1940 structures
 - Demolition data specific to Greater Boston area only
 
-## Credits
+## Credit
 
-### Development
+### Development Team
 - **Developer**: Lang (Samuel) Shao
-- **Institution**: Northeastern University
-- **Email**: shao.la@northeastern.edu
+- **Supervisor**: Prof. Demi Fang
+- **Institution**: [Northeastern University](https://www.northeastern.edu/)
+- **Lab**: [Structural Futures Lab](https://structural-futures.org/)
 
 ### Data Sources
 - NSI Enhanced USA Structures Dataset
 - Massachusetts Property Assessment Database
-- Boston Area Demolition Permits
+- Approved Building Permits From City of Boston
 
 ## Support
 
-For questions or issues regarding this dashboard, please contact: shao.la@northeastern.edu
+For issues, questions, or suggestions regarding this dashboard, please contact: shao.la@northeastern.edu
 
 **Note**: This project is no longer actively maintained as of September 24th, 2025. The dashboard remains functional but will not receive further updates or enhancements.
