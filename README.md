@@ -195,19 +195,18 @@ python preprocessor.py
 ```javascript
 {
   "summary_stats": {
-    "total_demolitions": number,
-    "average_lifespan": number,
-    "median_lifespan": number,
-    "extdem_count": number,
-    "intdem_count": number,
-    "raze_count": number,
-    "min_year_built": number,
-    "max_year_built": number
+    "total_demolitions": ...,
+    "average_lifespan(RAZE)": 58.6 yrs,
+    "extdem_count": 285,
+    "intdem_count": 800,
+    "raze_count": 151,
+    "min_year_built": 1939,
+    "max_year_built": 2024
   },
   "material_lifespan_demo_avg": {
-    "RAZE": number,
-    "EXTDEM": number,
-    "INTDEM": number
+    "RAZE": ...,
+    "EXTDEM": ...,
+    "INTDEM": ...
   },
   "yearly_stacked": [...],              // Annual demolition counts
   "lifespan_distribution": [...],       // 10-year bins
@@ -218,11 +217,11 @@ python preprocessor.py
   "map_data": [...],                    // Geospatial points
   "city_stats": [...],                  // City-level statistics
   "metadata": {
-    "year_range": string,
-    "generated_date": string,
-    "boston_area_cities": array,
-    "total_ma_buildings": number,
-    "total_boston_demolitions": number,
+    "year_range": ...,
+    "generated_date": ...,
+    "boston_area_cities": ...,
+    "total_ma_buildings": ...,
+    "total_boston_demolitions": ...,
     "year_built_filter": "≥1940",
     "year_built_range": string
   }
