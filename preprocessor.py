@@ -1,4 +1,6 @@
 import pandas as pd
+import geopandas as gpd
+import pyogrio
 import numpy as np
 import json
 from datetime import datetime
@@ -7,414 +9,441 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-def process_demolition_data(csv_path='ma_structures_with_demolition_FINAL.csv'):
+def process_demolition_data(
+        gpkg_path='ma_structures_FINAL_with_YR_SOURCE.gpkg',
+        zoning_path='Boston_Zoning_Subdistricts.geojson'
+):
     """
-    Process MA structures data focusing on Boston demolitions and output JSON for dashboard
-    Filters for buildings built in 1940 or later
+    Main processing function.
+    1. Loads Demolition Data (GPKG).
+    2. Loads Zoning Data (GeoJSON).
+    3. Performs Spatial Join to link demolitions to zoning districts.
+    4. Generates complex JSON structure required by the dashboard.
     """
 
-    print("Loading data...")
-    # Load the data
-    df = pd.read_csv(csv_path, low_memory=False)
+    print("=" * 50)
+    print("STARTING PROCESSING")
+    print(f"1. Loading demolition data from {gpkg_path}...")
 
-    # Filter for Boston demolitions only
-    print("Filtering for Boston demolitions...")
-    # Filter for records with demolition data
-    demo_df = df[df['DEMOLITION_TYPE'].notna()].copy()
+    # 1. Load Demolition Data (Using Pyogrio for speed)
+    # ---------------------------------------------------------
+    try:
+        gdf = pyogrio.read_dataframe(gpkg_path, use_arrow=True)
 
-    # Filter for Boston area (using PROP_CITY)
-    boston_cities = ['BOSTON', 'CAMBRIDGE', 'SOMERVILLE', 'BROOKLINE', 'QUINCY',
-                     'NEWTON', 'WATERTOWN', 'CHELSEA', 'REVERE', 'EVERETT']
-    demo_df = demo_df[demo_df['PROP_CITY'].str.upper().isin(boston_cities)]
+        # If geometry is Polygon (building footprints), convert to Centroid (Points)
+        # This is required for the Map and Spatial Join
+        if not gdf.empty and gdf.geometry.iloc[0].geom_type != 'Point':
+            print("   Converting building polygons to centroids...")
+            gdf['geometry'] = gdf.geometry.centroid
 
-    print(f"Found {len(demo_df)} demolition records in Boston area")
+    except Exception as e:
+        print(f"Error loading GPKG: {e}")
+        return None
 
-    # ========== NEW FILTER: Buildings built in 1940 or later ==========
-    print("Filtering for buildings built in 1940 or later...")
-    pre_1940_count = len(demo_df)
-    demo_df = demo_df[demo_df['year_built'] >= 1940].copy()
-    post_1940_count = len(demo_df)
-    print(f"Removed {pre_1940_count - post_1940_count} pre-1940 buildings")
-    print(f"Remaining records: {post_1940_count}")
-    # ================================================================
 
-    # Convert dates
-    demo_df['DEMOLITION_DATE'] = pd.to_datetime(demo_df['DEMOLITION_DATE'], errors='coerce')
-    demo_df['demolition_year'] = demo_df['DEMOLITION_DATE'].dt.year
 
-    # Calculate lifespan
-    demo_df['lifespan'] = demo_df['demolition_year'] - demo_df['year_built']
+    # 2. Ensure Coordinate System is Lat/Lon (EPSG:4326)
+    # ---------------------------------------------------------
+    if gdf.crs and gdf.crs.to_string() != 'EPSG:4326':
+        print("   Reprojecting demolition data to EPSG:4326...")
+        gdf = gdf.to_crs(epsg=4326)
 
-    # Clean data - remove invalid lifespans
-    demo_df = demo_df[(demo_df['lifespan'] > 0) & (demo_df['lifespan'] < 500)]
+    # 3. Spatial Join with Zoning Data (KEY NEW STEP)
+    # ---------------------------------------------------------
+    print(f"2. Loading zoning data from {zoning_path}...")
+    try:
+        zoning_gdf = gpd.read_file(zoning_path)
 
-    # Remove duplicates based on BUILD_ID, keeping the most recent demolition
-    demo_df = demo_df.sort_values('DEMOLITION_DATE').drop_duplicates('BUILD_ID', keep='last')
+        # Ensure zoning data is also Lat/Lon
+        if zoning_gdf.crs and zoning_gdf.crs.to_string() != 'EPSG:4326':
+            zoning_gdf = zoning_gdf.to_crs(epsg=4326)
 
-    print(f"After cleaning: {len(demo_df)} unique buildings")
+        print("   Performing spatial join (matching points to districts)...")
+        # Perform Spatial Join: Match demolition points to Zoning Polygons
+        # 'predicate=within' checks which zoning district the point is inside
+        # how='left' keeps points even if they fall outside a zoning district
+        gdf = gpd.sjoin(gdf, zoning_gdf[['geometry', 'Zoning_District', 'Zoning_Subdistrict']], how='left',
+                        predicate='within')
+        gdf = gdf[~gdf.index.duplicated(keep='first')]
+    except Exception as e:
+        print(f"   Warning: Could not process zoning data ({e}). Zoning features will be skipped.")
+        gdf['Zoning_District'] = None
+        gdf['Zoning_Subdistrict'] = None
 
-    # Initialize result dictionary
+    # 4. Extract Coordinates and Convert to Standard DataFrame
+    # ---------------------------------------------------------
+    gdf['LONGITUDE'] = gdf.geometry.x
+    gdf['LATITUDE'] = gdf.geometry.y
+
+    # Drop geometry column to save memory and switch to standard Pandas processing
+    df = pd.DataFrame(gdf.drop(columns='geometry'))
+    initial_ma_count = len(df)
+    # 5. Data Cleaning & Calculation
+    # ---------------------------------------------------------
+    print("3. Cleaning and filtering data...")
+
+    # Filter for Greater Boston Area
+    boston_cities = ['BOSTON', 'CAMBRIDGE', 'SOMERVILLE', 'BROOKLINE', 'QUINCY', 'NEWTON', 'WATERTOWN', 'CHELSEA',
+                     'REVERE', 'EVERETT']
+    df = df[df['PROP_CITY'].astype(str).str.upper().isin(boston_cities)].copy()
+
+    # Ensure numeric year_built
+    df['year_built'] = pd.to_numeric(df['year_built'], errors='coerce')
+
+    # Handle Dates
+    df['DEMOLITION_DATE'] = pd.to_datetime(df['DEMOLITION_DATE'], errors='coerce')
+    df['demolition_year'] = df['DEMOLITION_DATE'].dt.year
+
+    # Calculate Lifespan
+    df['lifespan'] = df['demolition_year'] - df['year_built']
+
+    # Clean lifespan (remove invalid values)
+    df = df[df['lifespan'] < 500]
+
+    # Handle Material and Foundation columns (fill missing with 'Unknown' for Tooltip)
+    if 'material_type_desc' not in df.columns: df['material_type_desc'] = 'Unknown'
+    if 'foundation_type' not in df.columns: df['foundation_type'] = 'Unknown'
+
+    if 'Est GFA sqmeters' not in df.columns:
+        print("   Warning: 'Est GFA sqmeters' column not found! Defaulting to 0.")
+        df['Est GFA sqmeters'] = 0
+
+    df['Est GFA sqmeters'] = pd.to_numeric(df['Est GFA sqmeters'], errors='coerce').fillna(0)
+
+    df['material_group'] = df['material_type_desc'].fillna('Unknown').str.strip()
+
+    print("   Mapping DEMOLITION_STATUS to Open/Close...")
+
+    if 'DEMOLITION_STATUS' in df.columns:
+        def simple_status_check(val):
+            # 1. Handle NaN/Empty: treat as 'Open' based on your "if not Closed" rule
+            if pd.isna(val):
+                return 'Open'
+
+            # 2. Normalize string
+            s = str(val).strip().upper()
+
+            # 3. Exclusion Logic: If it matches 'CLOSED' or 'CLOSE', return 'Close'
+            if s in ['CLOSED', 'CLOSE']:
+                return 'Close'
+
+            # 4. Everything else (Open, Issued, Pending, etc.) returns 'Open'
+            return 'Open'
+
+        df['status_norm'] = df['DEMOLITION_STATUS'].apply(simple_status_check)
+    else:
+        print("   Warning: DEMOLITION_STATUS column not found, defaulting to Close")
+        df['status_norm'] = 'Close'
+
+    # ==========================================
+    # GENERATE JSON STRUCTURE
+    # ==========================================
     result = {}
 
-    # 1. Summary Statistics
-    print("Calculating summary statistics...")
+    demo_avg = {}
+    for dtype in ['RAZE', 'EXTDEM', 'INTDEM']:
+        sub = df[df['DEMOLITION_TYPE'] == dtype]
+
+        sub_pos = sub[sub['lifespan'] > 0]
+        demo_avg[dtype] = float(sub_pos['lifespan'].mean()) if not sub_pos.empty else 0.0
+
+    result['material_lifespan_demo_avg'] = demo_avg
+    # --- A. Summary Stats (Includes data for RAZE Summary) ---
+    raze_df = df[df['DEMOLITION_TYPE'] == 'RAZE']
+
+    r_pos = raze_df[raze_df['lifespan'] > 0]
+    r_zero = raze_df[raze_df['lifespan'] == 0]
+    r_neg = raze_df[raze_df['lifespan'] < 0]
+
+    def get_counts(d):
+        return {
+            'open': int((d['status_norm'] == 'Open').sum()),
+            'close': int((d['status_norm'] == 'Close').sum())
+        }
+
+    sb_positive = get_counts(r_pos)
+    sb_zero = get_counts(r_zero)
+    sb_negative = get_counts(r_neg)
+    sb_total = get_counts(raze_df)
+
+    pos_lifespan_df = df[df['lifespan'] > 0]
+
     result['summary_stats'] = {
-        'total_demolitions': int(len(demo_df)),
-        'average_lifespan': float(demo_df['lifespan'].mean()),
-        'median_lifespan': float(demo_df['lifespan'].median()),
-        'extdem_count': int((demo_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
-        'intdem_count': int((demo_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
-        'raze_count': int((demo_df['DEMOLITION_TYPE'] == 'RAZE').sum()),
-        'min_year_built': int(demo_df['year_built'].min()),  # Add min year built
-        'max_year_built': int(demo_df['year_built'].max())  # Add max year built
+        'total_demolitions': int(len(df)),
+        'average_lifespan': float(pos_lifespan_df['lifespan'].mean()) if not pos_lifespan_df.empty else 0,
+        'raze_count': int(len(raze_df)),
+        'extdem_count': int((df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
+        'intdem_count': int((df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
+        # New fields required by updated HTML
+        'negative_raze_count': sb_negative['close'],
+        'zero_raze_count': sb_zero['close'],
+        'avg_current_building_age': 0,  # Not available in this dataset
+        'raze_status_by_lifespan': {
+            'positive': sb_positive, 'zero': sb_zero, 'negative': sb_negative, 'total': sb_total
+        }
     }
+    # Duplicate for 'closed' stats compatibility
+    result['summary_stats_closed'] = result['summary_stats']
 
-    # NEW: Calculate average lifespan by demolition type
-    print("Calculating average lifespan by demolition type...")
-    material_lifespan_demo_avg = {}
-    for demo_type in ['RAZE', 'EXTDEM', 'INTDEM']:
-        demo_type_df = demo_df[demo_df['DEMOLITION_TYPE'] == demo_type]
-        if len(demo_type_df) > 0:
-            material_lifespan_demo_avg[demo_type] = float(demo_type_df['lifespan'].mean())
-        else:
-            material_lifespan_demo_avg[demo_type] = 0
-
-    result['material_lifespan_demo_avg'] = material_lifespan_demo_avg
-
-    # 2. Yearly Stacked Data
-    print("Processing yearly demolition data...")
-    yearly_data = []
-    years = sorted(demo_df['demolition_year'].dropna().unique())
-
-    for year in years:
-        year_df = demo_df[demo_df['demolition_year'] == year]
-        yearly_data.append({
-            'year': int(year),
-            'EXTDEM': int((year_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
-            'INTDEM': int((year_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
-            'RAZE': int((year_df['DEMOLITION_TYPE'] == 'RAZE').sum())
-        })
-
-    result['yearly_stacked'] = yearly_data
-
-    # 3. Lifespan Distribution (10-year bins)
-    print("Creating lifespan distribution...")
-    max_lifespan = int(demo_df['lifespan'].max())
-    bin_size_10 = 10
-    lifespan_dist_10 = []
-
-    for i in range(0, min(max_lifespan + bin_size_10, 300), bin_size_10):
-        bin_df = demo_df[(demo_df['lifespan'] >= i) & (demo_df['lifespan'] < i + bin_size_10)]
-        if len(bin_df) > 0:
-            lifespan_dist_10.append({
-                'range': f"{i}-{i + bin_size_10}",
-                'EXTDEM': int((bin_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
-                'INTDEM': int((bin_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
-                'RAZE': int((bin_df['DEMOLITION_TYPE'] == 'RAZE').sum())
-            })
-
-    result['lifespan_distribution'] = lifespan_dist_10
-
-    # 4. Lifespan Distribution (5-year bins)
-    print("Creating 5-year lifespan distribution...")
-    bin_size_5 = 5
-    lifespan_dist_5 = []
-
-    for i in range(0, min(max_lifespan + bin_size_5, 300), bin_size_5):
-        bin_df = demo_df[(demo_df['lifespan'] >= i) & (demo_df['lifespan'] < i + bin_size_5)]
-        if len(bin_df) > 0:
-            lifespan_dist_5.append({
-                'range': f"{i}-{i + bin_size_5}",
-                'EXTDEM': int((bin_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
-                'INTDEM': int((bin_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
-                'RAZE': int((bin_df['DEMOLITION_TYPE'] == 'RAZE').sum())
-            })
-
-    result['lifespan_distribution_5yr'] = lifespan_dist_5
-
-    # 5. Demolition Types
-    print("Processing demolition types...")
-    demo_types = []
-    for demo_type in ['EXTDEM', 'INTDEM', 'RAZE']:
-        count = (demo_df['DEMOLITION_TYPE'] == demo_type).sum()
-        demo_types.append({
-            'type': demo_type,
-            'count': int(count)
-        })
-
-    result['demolition_types'] = demo_types
-
-    # 6. NEW: Material-Lifespan-Demolition Analysis for Stacked Bar Charts
-    print("Creating material-lifespan-demolition analysis for stacked bar charts...")
-
-    # Clean material types
-    demo_df['material_group'] = demo_df['material_type_desc'].fillna('Unknown')
-    demo_df['material_group'] = demo_df['material_group'].str.strip()
-
-    # Structure: {demolition_type: {bin_size: {material: {lifespan_range: count}}}}
-    material_lifespan_demo = {}
-
-    demolition_types = ['RAZE', 'EXTDEM', 'INTDEM']
-    bin_sizes = [10, 20, 25, 30, 50]
-
-    for demo_type in demolition_types:
-        print(f"  Processing {demo_type}...")
-        material_lifespan_demo[demo_type] = {}
-        demo_type_df = demo_df[demo_df['DEMOLITION_TYPE'] == demo_type]
-
-        for bin_size in bin_sizes:
-            material_lifespan_demo[demo_type][f'bin_{bin_size}'] = {}
-
-            # Get all materials for this demolition type
-            materials = demo_type_df['material_group'].unique()
-
-            for material in materials:
-                material_lifespan_demo[demo_type][f'bin_{bin_size}'][material] = {}
-                material_df = demo_type_df[demo_type_df['material_group'] == material]
-
-                if len(material_df) > 0:
-                    max_life = int(material_df['lifespan'].max())
-
-                    # Create lifespan bins
-                    for i in range(0, min(max_life + bin_size, 200), bin_size):
-                        if i + bin_size <= 150:
-                            bin_label = f'{i}-{i + bin_size} years'
-                            count = len(material_df[(material_df['lifespan'] >= i) &
-                                                    (material_df['lifespan'] < i + bin_size)])
-                        else:
-                            bin_label = f'{i}+ years'
-                            count = len(material_df[material_df['lifespan'] >= i])
-
-                        if count > 0:
-                            material_lifespan_demo[demo_type][f'bin_{bin_size}'][material][bin_label] = int(count)
-
-                        if i >= 150:
-                            break
-
-    result['material_lifespan_demo'] = material_lifespan_demo
-
-    # 6b. Location Data for Map
-    print("Processing location data for map...")
-    # 限制数据量以避免性能问题
-    MAX_MAP_POINTS = 5000  # 可调整
-
-    # 为地图准备数据，包含每个建筑的信息
+    # --- B. Map Points (Enriched with Material, Foundation, Year Built) ---
+    print("4. Generating Map Points...")
     map_data = []
-    map_df = demo_df.head(MAX_MAP_POINTS) if len(demo_df) > MAX_MAP_POINTS else demo_df
-
-    for _, row in map_df.iterrows():
-        if pd.notna(row.get('LONGITUDE')) and pd.notna(row.get('LATITUDE')):  
+    # Iterating rows to build the map data list
+    for _, row in df.iterrows():
+        if pd.notna(row['LATITUDE']):
             map_data.append({
                 'lat': float(row['LATITUDE']),
-                'lon': float(row['LONGITUDE']),
-                'demolition_type': row['DEMOLITION_TYPE'],
-                'occ_cls': str(row.get('OCC_CLS', 'N/A')),
-                'year_built': int(row['year_built']) if pd.notna(row['year_built']) else 'N/A',
-                'demolition_date': row['DEMOLITION_DATE'].strftime('%Y-%m-%d') if pd.notna(
-                    row['DEMOLITION_DATE']) else 'N/A'
+                'lng': float(row['LONGITUDE']),
+                'type': row['DEMOLITION_TYPE'],
+                'lifespan': int(row['lifespan']),
+                'status': row['status_norm'],
+                # New fields for the enhanced Tooltip
+                'year_built': int(row['year_built']),
+                'material': str(row['material_group']),
+                'foundation': str(row.get('foundation_type', 'N/A'))
             })
+    result['map_points'] = map_data
 
-    result['map_data'] = map_data
-    print(f"  Prepared {len(map_data)} points for map")
+    # --- C. Zoning District Stats  ---
+    print("5. Aggregating Zoning District Stats (Enhanced)...")
+    zoning_stats = {}
+    all_districts = df['Zoning_District'].dropna().unique()
 
-    # 7. Material Type Statistics
-    print("Calculating material type statistics...")
-    material_stats = []
-    for mat in demo_df['material_group'].unique():
-        mat_df = demo_df[demo_df['material_group'] == mat]
-        if len(mat_df) > 0:
-            material_stats.append({
-                'material': mat,
-                'count': int(len(mat_df)),
-                'avg_lifespan': float(mat_df['lifespan'].mean()),
-                'median_lifespan': float(mat_df['lifespan'].median()),
-                'demolition_breakdown': {
-                    'EXTDEM': int((mat_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
-                    'INTDEM': int((mat_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
-                    'RAZE': int((mat_df['DEMOLITION_TYPE'] == 'RAZE').sum())
-                }
-            })
 
-    # Sort by count
-    material_stats.sort(key=lambda x: x['count'], reverse=True)
-    result['material_stats'] = material_stats
+    CURRENT_YEAR = 2025
+    df['current_age'] = CURRENT_YEAR - df['year_built']
 
-    # 7b. Material Lifespan Raw Data for Boxplot (Original - keeping for backwards compatibility)
-    print("Collecting raw lifespan data for boxplot...")
-    material_lifespan_raw = {}
+    def make_hist(series, width=10):
+        if series.empty: return []
 
-    # Get top 15 materials by count for the boxplot
-    top_materials = [mat['material'] for mat in material_stats[:15]]
+        series = series[(series >= 0) & (series < 500)]
+        if series.empty: return []
+        bins = range(0, int(series.max()) + width, width)
+        return [{'range': f"{b}-{b + width}", 'count': int(((series >= b) & (series < b + width)).sum())} for b in bins]
 
-    for material in top_materials:
-        mat_df = demo_df[demo_df['material_group'] == material]
-        if len(mat_df) > 0:
-            # Store as list of floats for JSON serialization
-            lifespans = mat_df['lifespan'].dropna().tolist()
-            material_lifespan_raw[material] = [float(x) for x in lifespans]
+    def make_district_heatmap(d_df, bin_size=20):
+        heatmap_counts = {}
+        heatmap_gfa = {}
 
-    result['material_lifespan_raw'] = material_lifespan_raw
+        top_materials = d_df['material_group'].value_counts().head(15).index.tolist()
 
-    # 7c. NEW: Material Lifespan Raw Data by Demolition Type for Boxplot
-    print("Collecting raw lifespan data by demolition type for boxplot...")
-    material_lifespan_raw_by_demo = {}
+        for mat in top_materials:
+            mat_df = d_df[d_df['material_group'] == mat]
+            if len(mat_df) == 0: continue
 
-    for demo_type in demolition_types:
-        print(f"  Processing raw data for {demo_type}...")
-        material_lifespan_raw_by_demo[demo_type] = {}
-        demo_type_df = demo_df[demo_df['DEMOLITION_TYPE'] == demo_type]
+            bins_c = {}
+            bins_g = {}
 
-        # Get materials with at least some data for this demolition type
-        material_counts = demo_type_df['material_group'].value_counts()
-        top_materials_demo = material_counts.head(20).index.tolist()
+            for i in range(0, 200, bin_size):
+                label = f"{i}-{i + bin_size}"
+                mask = (mat_df['lifespan'] >= i) & (mat_df['lifespan'] < i + bin_size)
+                subset = mat_df[mask]
 
-        for material in top_materials_demo:
-            mat_df = demo_type_df[demo_type_df['material_group'] == material]
-            if len(mat_df) > 0:
-                lifespans = mat_df['lifespan'].dropna().tolist()
-                material_lifespan_raw_by_demo[demo_type][material] = [float(x) for x in lifespans]
+                count = len(subset)
+                if count > 0:
+                    bins_c[label] = int(count)
 
-    result['material_lifespan_raw_by_demo'] = material_lifespan_raw_by_demo
+                    bins_g[label] = int(subset['Est GFA sqmeters'].sum())
 
-    # 8. Metadata - UPDATED to include 1940 filter info
+            if bins_c:
+                heatmap_counts[mat] = bins_c
+                heatmap_gfa[mat] = bins_g
+
+        return {'count': heatmap_counts, 'gfa': heatmap_gfa}
+
+    for dist in all_districts:
+
+        d_df = df[df['Zoning_District'] == dist]
+
+        r_df = d_df[d_df['DEMOLITION_TYPE'] == 'RAZE']
+        r_pos = r_df[r_df['lifespan'] > 0]
+
+
+        points = []
+        for _, r in r_df.iterrows():
+            if pd.notna(r['LATITUDE']):
+                points.append({
+                    'lat': r['LATITUDE'],
+                    'lng': r['LONGITUDE'],
+                    'lifespan': int(r['lifespan']),
+                    'status': r['status_norm'],
+                    'year_built': int(r['year_built']),
+                    'material': str(r['material_group']),
+                    'foundation': str(r.get('foundation_type', 'N/A'))
+                })
+
+        zoning_stats[str(dist)] = {
+
+            'count_raze': int(len(r_df)),
+
+
+            'avg_raze_lifespan': float(r_pos['lifespan'].mean()) if len(r_pos) > 0 else 0,
+            'avg_current_age': float(d_df['current_age'].mean()) if len(d_df) > 0 else 0,
+
+            'demolished_age_distribution_10yr': make_hist(r_df['lifespan']),  # Demolished Lifespan
+            'current_age_distribution_10yr': make_hist(d_df['current_age']),  # Building Age
+
+            'heatmap_data': make_district_heatmap(r_df, bin_size=20),
+
+            'positive_raze_points': points
+        }
+
+    result['zoning_district_stats'] = zoning_stats
+    result['zoning_district_names'] = sorted([str(x) for x in all_districts])
+
+    # --- D. Zoning Subdistrict Stats (For Map Tooltip Hover) ---
+    sub_stats = {}
+    for sub in df['Zoning_Subdistrict'].dropna().unique():
+        s_df = df[(df['Zoning_Subdistrict'] == sub) & (df['DEMOLITION_TYPE'] == 'RAZE')]
+        if len(s_df) > 0:
+            sub_stats[str(sub)] = {'avg_raze_lifespan': float(s_df['lifespan'].mean())}
+    result['zoning_subdistrict_stats'] = sub_stats
+
+    # --- F. Material Heatmap Data (Count & GFA) ---
+    print("7. Generating Material Heatmap data (Count & GFA)...")
+    material_lifespan_demo = {}
+    material_lifespan_demo_gfa = {}
+
+    bin_sizes = [10, 20, 25, 30, 50]
+
+    for demo_type in ['RAZE', 'EXTDEM', 'INTDEM', 'all']:
+        material_lifespan_demo[demo_type] = {}
+        material_lifespan_demo_gfa[demo_type] = {}
+
+        if demo_type == 'all':
+            type_df = df
+        else:
+            type_df = df[df['DEMOLITION_TYPE'] == demo_type]
+
+        for bin_size in bin_sizes:
+            bin_key = f'bin_{bin_size}'
+            material_lifespan_demo[demo_type][bin_key] = {}
+            material_lifespan_demo_gfa[demo_type][bin_key] = {}
+
+            for mat in type_df['material_group'].unique():
+                mat_df = type_df[type_df['material_group'] == mat]
+                if len(mat_df) == 0: continue
+
+                bins_c = {}
+                bins_g = {}
+
+                for i in range(0, 200, bin_size):
+                    label = f"{i}-{i + bin_size} years" if i < 150 else f"{i}+ years"
+                    mask = (mat_df['lifespan'] >= i) & (mat_df['lifespan'] < i + bin_size)
+                    subset = mat_df[mask]
+
+                    count = len(subset)
+                    if count > 0:
+                        bins_c[label] = int(count)
+
+                        bins_g[label] = int(subset['Est GFA sqmeters'].sum())
+
+                if bins_c:
+                    material_lifespan_demo[demo_type][bin_key][mat] = bins_c
+                    material_lifespan_demo_gfa[demo_type][bin_key][mat] = bins_g
+
+    result['material_lifespan_demo'] = material_lifespan_demo
+    result['material_lifespan_demo_gfa'] = material_lifespan_demo_gfa
+
+    # --- G. Legacy Feature: Yearly Stacked Data ---
+    print("8. Generating Yearly Stacked data...")
+    yearly_data = []
+    years = sorted(df['demolition_year'].unique())
+    for year in years:
+        y_df = df[df['demolition_year'] == year]
+        row = {
+            'year': int(year),
+            'RAZE': int((y_df['DEMOLITION_TYPE'] == 'RAZE').sum()),
+            'EXTDEM': int((y_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
+            'INTDEM': int((y_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
+            'demolished_and_replaced': 0  # Simplified
+        }
+        # Duplicate for 'closed' keys compatibility
+        row.update({f"{k}_closed": v for k, v in row.items() if k != 'year'})
+        yearly_data.append(row)
+
+    result['yearly_stacked'] = yearly_data
+    result['yearly_stacked_closed'] = yearly_data
+
+    # --- H. Legacy Feature: Lifespan Distribution ---
+    # Simplified generation for compatibility
+    dist_10yr = make_hist(df['lifespan'], 10)
+    final_dist = []
+    for item in dist_10yr:
+        rng = item['range']
+        s, e = map(int, rng.split('-'))
+        sub_df = df[(df['lifespan'] >= s) & (df['lifespan'] < e)]
+        final_dist.append({
+            'range': rng,
+            'RAZE': int((sub_df['DEMOLITION_TYPE'] == 'RAZE').sum()),
+            'EXTDEM': int((sub_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
+            'INTDEM': int((sub_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
+            # Closed compatibility
+            'RAZE_closed': int((sub_df['DEMOLITION_TYPE'] == 'RAZE').sum()),
+            'EXTDEM_closed': int((sub_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
+            'INTDEM_closed': int((sub_df['DEMOLITION_TYPE'] == 'INTDEM').sum()),
+        })
+    result['lifespan_distribution'] = final_dist
+    result['lifespan_distribution_closed'] = final_dist
+
+    # --- I. Metadata ---
     result['metadata'] = {
-        'year_range': f"{int(demo_df['demolition_year'].min())}-{int(demo_df['demolition_year'].max())}",
+        'year_range': f"{int(df['demolition_year'].min())}-{int(df['demolition_year'].max())}",
         'generated_date': datetime.now().isoformat(),
-        'boston_area_cities': boston_cities,
-        'total_ma_buildings': int(len(df)),
-        'total_boston_demolitions': int(len(demo_df)),
-        'data_note': 'Data represents demolitions in the Boston metropolitan area for buildings built in 1940 or later',
-        'year_built_filter': '≥1940',
-        'year_built_range': f"{int(demo_df['year_built'].min())}-{int(demo_df['year_built'].max())}"
+        'total_ma_buildings': int(initial_ma_count),
+        'total_boston_demolitions': int(len(df)),
+        'year_built_range': f"{int(df['year_built'].min())}-{int(df['year_built'].max())}"
     }
 
-    # 9. City breakdown
-    print("Processing city breakdown...")
+    # City Stats (Legacy)
     city_stats = []
-    for city in demo_df['PROP_CITY'].value_counts().head(10).index:
-        city_df = demo_df[demo_df['PROP_CITY'] == city]
+    for city in df['PROP_CITY'].value_counts().head(10).index:
+        city_df = df[df['PROP_CITY'] == city]
         city_stats.append({
             'city': city,
             'count': int(len(city_df)),
             'avg_lifespan': float(city_df['lifespan'].mean())
         })
-
     result['city_stats'] = city_stats
 
-    # Print summary of material-lifespan-demo data
-    print("\nMaterial-Lifespan-Demolition Summary:")
-    for demo_type in demolition_types:
-        total_materials = len(material_lifespan_demo[demo_type]['bin_20'])
-        print(f"  {demo_type}: {total_materials} unique materials")
+    # Material Stats (Legacy)
+    mat_stats = []
+    for mat in df['material_group'].unique():
+        m_df = df[df['material_group'] == mat]
+        mat_stats.append({
+            'material': mat,
+            'count': int(len(m_df)),
+            'avg_lifespan': float(m_df['lifespan'].mean()),
+            'demolition_breakdown': {
+                'RAZE': int((m_df['DEMOLITION_TYPE'] == 'RAZE').sum()),
+                'EXTDEM': int((m_df['DEMOLITION_TYPE'] == 'EXTDEM').sum()),
+                'INTDEM': int((m_df['DEMOLITION_TYPE'] == 'INTDEM').sum())
+            }
+        })
+    mat_stats.sort(key=lambda x: x['count'], reverse=True)
+    result['material_stats'] = mat_stats
 
-        # Get top 3 materials for this demo type
-        material_counts = {}
-        for material, lifespans in material_lifespan_demo[demo_type]['bin_20'].items():
-            material_counts[material] = sum(lifespans.values())
-
-        top_3 = sorted(material_counts.items(), key=lambda x: x[1], reverse=True)[:3]
-        for material, count in top_3:
-            print(f"    - {material}: {count} buildings")
-
-    # Print summary of boxplot data
-    print("\nBoxplot Data Summary:")
-    print(f"  Total materials for boxplot: {len(material_lifespan_raw)}")
-    for material in list(material_lifespan_raw.keys())[:5]:
-        count = len(material_lifespan_raw[material])
-        print(f"    - {material}: {count} data points")
-
-    # Print summary of new boxplot data by demolition type
-    print("\nBoxplot Data by Demolition Type Summary:")
-    for demo_type in demolition_types:
-        material_count = len(material_lifespan_raw_by_demo[demo_type])
-        print(f"  {demo_type}: {material_count} materials")
-        avg_lifespan = material_lifespan_demo_avg[demo_type]
-        print(f"    Average lifespan: {avg_lifespan:.1f} years")
+    # Boxplot Data (Legacy)
+    raw_boxplot = {}
+    for demo in ['RAZE', 'EXTDEM', 'INTDEM']:
+        raw_boxplot[demo] = {}
+        for mat in mat_stats[:20]:  # Top 20 materials
+            m_df = df[(df['DEMOLITION_TYPE'] == demo) & (df['material_group'] == mat['material'])]
+            if len(m_df) > 0:
+                raw_boxplot[demo][mat['material']] = m_df['lifespan'].tolist()
+    result['material_lifespan_raw_by_demo'] = raw_boxplot
 
     return result
 
 
 def save_json(data, filename='boston_demolition_data.json'):
-    """Save data to JSON file"""
-    print(f"\nSaving to {filename}...")
+    print(f"Saving data to {filename}...")
     with open(filename, 'w') as f:
         json.dump(data, f, indent=2)
-
-    # Calculate file size
-    import os
-    file_size = os.path.getsize(filename) / 1024  # KB
-    print(f"JSON file created: {filename} ({file_size:.1f} KB)")
-
-
-def main():
-    """Main execution function"""
-    print("=" * 50)
-    print("Boston Building Demolition Data Processor")
-    print("With Material-Lifespan Stacked Bar Analysis")
-    print("Boxplot Support with Demolition Type Filtering")
-    print("Filtering for buildings built in 1940 or later")
-    print("=" * 50)
-
-    try:
-        # Process the data
-        data = process_demolition_data()
-
-        # Save to JSON
-        save_json(data)
-
-        # Print summary
-        print("\n" + "=" * 50)
-        print("Processing Complete!")
-        print("=" * 50)
-        print(f"Total Boston demolitions processed: {data['summary_stats']['total_demolitions']:,}")
-        print(f"Buildings built between: {data['metadata']['year_built_range']}")
-        print(f"Average building lifespan: {data['summary_stats']['average_lifespan']:.1f} years")
-        print(f"Date range: {data['metadata']['year_range']}")
-
-        print(f"\nDemolition type breakdown:")
-        print(f"  - INTDEM: {data['summary_stats']['intdem_count']:,}")
-        print(f"  - EXTDEM: {data['summary_stats']['extdem_count']:,}")
-        print(f"  - RAZE: {data['summary_stats']['raze_count']:,}")
-
-        print(f"\nAverage lifespan by demolition type:")
-        for demo_type, avg_lifespan in data['material_lifespan_demo_avg'].items():
-            print(f"  - {demo_type}: {avg_lifespan:.1f} years")
-
-        print("\nTop 5 cities by demolition count:")
-        for city in data['city_stats'][:5]:
-            print(f"  - {city['city']}: {city['count']:,} demolitions")
-
-        print("\nTop 5 material types:")
-        for mat in data['material_stats'][:5]:
-            print(f"  - {mat['material']}: {mat['count']:,} buildings (avg lifespan: {mat['avg_lifespan']:.1f} years)")
-
-        # Boxplot data info
-        if 'material_lifespan_raw' in data:
-            print(f"\nBoxplot data prepared for {len(data['material_lifespan_raw'])} materials")
-
-        if 'material_lifespan_raw_by_demo' in data:
-            print(f"\nBoxplot data by demolition type prepared:")
-            for demo_type, materials in data['material_lifespan_raw_by_demo'].items():
-                print(f"  - {demo_type}: {len(materials)} materials")
-
-        print("\n" + "=" * 50)
-        print("JSON file 'boston_demolition_data.json' has been created.")
-        print("Open index.html in your browser to view the dashboard.")
-        print("The dashboard will display:")
-        print("- Heatmaps and stacked bar charts for each demolition type")
-        print("- Boxplots filtered by demolition type")
-        print("- Average lifespan statistics by demolition type")
-        print("Note: Data filtered for buildings built in 1940 or later")
-        print("=" * 50)
-
-    except FileNotFoundError:
-        print(f"\nError: Could not find 'ma_structures_with_demolition_FINAL.csv'")
-        print("Please ensure the CSV file is in the current directory.")
-    except Exception as e:
-        print(f"\nError: {e}")
-        import traceback
-        traceback.print_exc()
+    print("Done.")
 
 
 if __name__ == "__main__":
-    main()
+    data = process_demolition_data()
+    if data:
+        save_json(data)

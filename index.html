@@ -387,6 +387,18 @@
             margin-right: 10px;
             border: 2px solid #333;
         }
+
+
+        .mini-stat { display: inline-block; margin-right: 10px; margin-bottom: 10px; vertical-align: top; }
+        .badge { display:inline-block; padding:2px 10px; border-radius:999px; font-size:12px; line-height:1.6; border:1px solid; margin-right:6px; white-space:nowrap; }
+        .badge-close { background:#e6ffed; border-color:#22c55e; color:#166534; }
+        .badge-open  { background:#fff7ed; border-color:#f97316; color:#9a3412; }
+        .status-row { margin-top:6px; }
+        
+        #zoningOverviewTable th { background: #f8f9fa; position: sticky; top: 0; z-index: 1; }
+        #zoningOverviewTable tr:hover { background: #f1f8ff; cursor: pointer; }
+        .badge-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+
     </style>
 </head>
 <body>
@@ -404,7 +416,6 @@
                 <h3>Data Overview</h3>
                 <p>
                     Source dataset: <span class="stats-value" id="totalMABuildings">-</span> Massachusetts buildings<br>
-                    <strong style="color: #c00;">Filter Applied: Buildings built ≥1940</strong><br>
                     Year built range: <span class="stats-value" id="yearBuiltRange">-</span><br>
                     Boston area demolitions: <span class="stats-value" id="bostonDemolitions">-</span> records<br>
                     After cleaning: <span class="stats-value" id="validRecords">-</span> unique buildings<br>
@@ -476,11 +487,47 @@
                     <div class="stat-number" id="razeCount">-</div>
                 </div>
             </div>
+
+            <div class="chart-container" id="raze-lifespan-summary-container">
+                <h2 class="chart-title">RAZE Lifespan Summary</h2>
+                <div class="badge-container">
+                    <div class="mini-stat" style="padding:8px 10px; border:1px solid #eee; border-radius:8px; min-width:200px;">
+                        <div style="font-size:12px; opacity:.75;">RAZE lifespan > 0</div>
+                        <div id="razePosCount" style="font-weight:600; font-size:16px;">-</div>
+                        <div class="status-row">
+                            <span id="razePosClose" class="badge badge-close">- Close</span>
+                            <span id="razePosOpen"  class="badge badge-open">- Open</span>
+                        </div>
+                    </div>
+                    <div class="mini-stat" style="padding:8px 10px; border:1px solid #eee; border-radius:8px; min-width:200px;">
+                        <div style="font-size:12px; opacity:.75;">RAZE lifespan = 0</div>
+                        <div id="razeZeroCount" style="font-weight:600; font-size:16px;">-</div>
+                        <div class="status-row">
+                            <span id="razeZeroClose" class="badge badge-close">- Close</span>
+                            <span id="razeZeroOpen"  class="badge badge-open">- Open</span>
+                        </div>
+                    </div>
+                    <div class="mini-stat" style="padding:8px 10px; border:1px solid #eee; border-radius:8px; min-width:200px;">
+                        <div style="font-size:12px; opacity:.75;">RAZE lifespan < 0</div>
+                        <div id="razeNegCount" style="font-weight:600; font-size:16px;">-</div>
+                        <div class="status-row">
+                            <span id="razeNegClose" class="badge badge-close">- Close</span>
+                            <span id="razeNegOpen"  class="badge badge-open">- Open</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
             <div class="view-toggle">
-                <h3 style="margin-right: 20px; color: #2c3e50; align-self: center;">Material Analysis View:</h3>
-                <button id="heatmapBtn" class="active">Heatmap View</button>
-                <button id="stackedBtn">Stacked Bar Chart</button>
+                <h3 style="margin-right: 10px; color: #2c3e50; align-self: center;">Material View:</h3>
+                <button id="heatmapBtn" class="active" onclick="setVisualizationType('heatmap')">Heatmap</button>
+                <button id="stackedBtn" onclick="setVisualizationType('stacked')">Stacked Bar</button>
+                
+                <div style="margin-left: auto; display: flex; align-items: center; gap: 10px; background: white; padding: 5px 10px; border-radius: 4px; border: 1px solid #ddd;">
+                    <span style="font-weight: 500; font-size: 0.9em;">Metric:</span>
+                    <label style="font-size: 0.9em; cursor: pointer;"><input type="radio" name="globalMetric" value="count" checked onchange="updateVisualization()"> Count</label>
+                    <label style="font-size: 0.9em; cursor: pointer;"><input type="radio" name="globalMetric" value="gfa" onchange="updateVisualization()"> Est. GFA (m²)</label>
+                </div>
             </div>
 
             <div id="heatmapContainer" class="chart-container">
@@ -489,13 +536,7 @@
                 <div id="heatmapContent"></div>
             </div>
 
-            <div class="chart-container">
-                <h2 class="chart-title">Building Locations Map</h2>
-                <p class="chart-description">Map showing the location of demolished buildings</p>
-                <div id="mapContainer"></div>
-            </div>
-            
-            <div id="allChartContainer" class="chart-container hidden">
+                        <div id="allChartContainer" class="chart-container hidden">
                 <h2 class="chart-title">All Types: Material Type vs Lifespan Distribution</h2>
                 <p class="chart-description">Stacked bar chart showing lifespan distribution for each material type (All demolition types combined)</p>
                 <canvas id="allChart"></canvas>
@@ -518,6 +559,97 @@
                 <p class="chart-description">Stacked bar chart showing lifespan distribution for each material type (Interior demolition)</p>
                 <canvas id="intdemChart"></canvas>
             </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Demolition Locations Map (with Zoning Overlay)</h2>
+                <p class="chart-description">Map showing the location of demolished buildings</p>
+                <div id="mapContainer"></div>
+            </div>
+
+            <div class="chart-container" id="zoning-deep-dive">
+                <h2 class="chart-title">Zoning District Deep Dive(RAZE only)</h2>
+                <p class="chart-description">Select a district to view detailed statistics, age distributions, and material analysis.</p>
+                
+                <div class="control-group" style="margin-bottom: 15px;">
+                    <label>Select District:</label>
+                    <select id="zoningDistrictFilter" onchange="updateZoningDeepDive()">
+                        <option value="">Select a district...</option>
+                    </select>
+                </div>
+
+                <div style="max-height: 200px; overflow-y: auto; margin-bottom: 25px; border: 1px solid #eee;">
+                    <table id="zoningOverviewTable" style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                        <thead>
+                            <tr>
+                                <th style="padding:10px;">District</th>
+                                <th style="padding:10px; text-align:right;">RAZE Count</th>
+                                <th style="padding:10px; text-align:right;">Avg Lifespan</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 2.5fr 1fr; gap: 20px; margin-bottom: 25px; height: 320px;">
+                    
+                    <div id="zoningMap" style="height: 100%; width: 100%; border-radius: 4px; border: 1px solid #ddd;"></div>
+
+                    <div style="display: flex; flex-direction: column; gap: 15px; height: 100%;">
+                        
+                        <div class="stat-card" style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 15px; box-shadow: none; border: 1px solid #eee;">
+                            <div class="stat-label" style="font-size:0.9em; margin-bottom: 5px;">Avg Demolished Lifespan</div>
+                            <div class="stat-number" id="zoneAvgLifespan" style="font-size: 2em; color: #2c3e50;">-</div>
+                        </div>
+
+                        <div class="stat-card" style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 15px; box-shadow: none; border: 1px solid #eee;">
+                            <div class="stat-label" style="font-size:0.9em; margin-bottom: 5px;">Avg Current Building Age</div>
+                            <div class="stat-number" id="zoneAvgAge" style="font-size: 2em; color: #2c3e50;">-</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
+                    
+                    <div style="background: #f9f9f9; padding: 15px; border-radius: 4px; border: 1px solid #eee;">
+                        <h4 style="font-size: 0.95em; color: #555; margin-bottom: 10px; text-align: center;">Demolished Building Lifespan Distribution</h4>
+                        <div style="height: 220px;">
+                            <canvas id="zoningDemolishedAgeChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div style="background: #f9f9f9; padding: 15px; border-radius: 4px; border: 1px solid #eee;">
+                        <h4 style="font-size: 0.95em; color: #555; margin-bottom: 10px; text-align: center;">Current Building Age Distribution</h4>
+                        <div style="height: 220px;">
+                            <canvas id="zoningCurrentAgeChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="padding-top: 20px; border-top: 1px solid #eee;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 class="chart-title" style="font-size: 1.1em; margin: 0;">District Material vs. Lifespan Heatmap (RAZE Only)</h3>
+                        
+                        <div style="display: flex; gap: 10px; font-size: 0.9em;">
+                            <label style="cursor: pointer;"><input type="radio" name="deepDiveMetric" value="count" checked onchange="updateZoningDeepDive()"> Count</label>
+                            <label style="cursor: pointer;"><input type="radio" name="deepDiveMetric" value="gfa" onchange="updateZoningDeepDive()"> Est. GFA (m²)</label>
+                        </div>
+                    </div>
+                    
+                    <div id="zoningHeatmapContainer" style="overflow-x: auto; min-height: 150px;"></div>
+                </div>
+                
+                </div>
+
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <h3 class="chart-title" style="font-size: 1.1em;">District Material vs. Lifespan Heatmap</h3>
+                    <div id="zoningHeatmapContainer" style="overflow-x: auto;"></div>
+                </div>
+            </div>
+
+            
+
 
             <div class="chart-container">
                 <h2 class="chart-title">Demolitions by Year</h2>
@@ -570,12 +702,25 @@
         let map = null;
         let mapMarkers = [];
         let mapData = null;
+        let zoningLayer = null;
+        let globalZoningGeoJSON = null;
+        let zoningDeepDiveMap = null;
+        let zoningDistrictLayer = null;
+        let zoningRazePointLayer = null;
 
 
-        const demolitionColors = {
-            'RAZE': '#3498db',    
-            'EXTDEM': '#e74c3c',  
-            'INTDEM': '#f39c12'   
+        const colors = {
+            RAZE: 'rgba(13, 8, 135, 0.8)',  
+            EXTDEM: 'rgba(204, 71, 120, 0.8)', 
+            INTDEM: 'rgba(254, 206, 50, 0.8)', 
+            single: 'rgba(126, 3, 168, 0.8)'  
+        };
+
+        const borderColors = {
+            RAZE: 'rgba(13, 8, 135, 1)',
+            EXTDEM: 'rgba(204, 71, 120, 1)',
+            INTDEM: 'rgba(254, 206, 50, 1)',
+            single: 'rgba(126, 3, 168, 1)'
         };
         // Color scheme for stacked bar charts (Darkest for largest, lightest for smallest)
         function getLifespanColors(count) {
@@ -629,67 +774,99 @@
         function initializeMap() {
             if (map) return; 
             
-         
-            map = L.map('mapContainer').setView([42.3601, -71.0589], 11);
+            map = L.map('mapContainer').setView([42.3601, -71.0589], 12);
             
-           
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 18
+                attribution: '© OpenStreetMap contributors'
             }).addTo(map);
+
+            if (globalZoningGeoJSON) {
+                zoningLayer = L.geoJSON(globalZoningGeoJSON, {
+                    style: function(feature) {
+                        return { color: "#800080", weight: 1, opacity: 0.6, fillColor: "#800080", fillOpacity: 0.1 };
+                    },
+                    onEachFeature: function(feature, layer) {
+                        if (feature.properties && feature.properties.Zoning_Subdistrict) {
+                            const name = feature.properties.Zoning_Subdistrict;
+                            let txt = `<strong>${name}</strong>`;
+                            if (currentData && currentData.zoning_subdistrict_stats && currentData.zoning_subdistrict_stats[name]) {
+                                const stats = currentData.zoning_subdistrict_stats[name];
+                                if (stats.avg_raze_lifespan) txt += `<br>Avg RAZE Lifespan: ${stats.avg_raze_lifespan.toFixed(1)} yrs`;
+                            }
+                            layer.bindPopup(txt);
+                        }
+                    }
+                });
+                const overlays = { "Zoning Overlay": zoningLayer };
+                L.control.layers(null, overlays, {collapsed: false}).addTo(map);
+                zoningLayer.addTo(map); 
+            }
             
-   
             const legend = L.control({position: 'bottomright'});
             legend.onAdd = function() {
                 const div = L.DomUtil.create('div', 'map-legend');
-                div.innerHTML = '<h4>Demolition Type</h4>';
-                
+                div.innerHTML = '<h4>Type</h4>';
+        
                 ['RAZE', 'EXTDEM', 'INTDEM'].forEach(type => {
-                    div.innerHTML += 
-                        `<div class="map-legend-item">
-                            <span class="map-legend-color" style="background-color: ${demolitionColors[type]}"></span>
-                            <span>${type}</span>
-                        </div>`;
+                    div.innerHTML += `<div class="map-legend-item"><span class="map-legend-color" style="background-color: ${colors[type]}; border: 1px solid ${borderColors[type]}"></span><span>${type}</span></div>`;
                 });
-                
                 return div;
             };
             legend.addTo(map);
         }
 
         function updateMapMarkers(demolitionType = 'RAZE') {
-       
             mapMarkers.forEach(marker => map.removeLayer(marker));
             mapMarkers = [];
+
+            const foundationMap = {
+                'C': 'Crawl Space',
+                'B': 'Basement',
+                'S': 'Slab',
+                'P': 'Pier',
+                'I': 'Pile',
+                'F': 'Fill',
+                'W': 'Solid Wall'
+            };
             
             if (!mapData) return;
             
-        
-            let filteredData = demolitionType === 'all' 
-                ? mapData 
-                : mapData.filter(d => d.demolition_type === demolitionType);
+
+            let filteredData = mapData.filter(d => {
+                const dtype = d.type || d.demolition_type;
+                return demolitionType === 'all' ? true : dtype === demolitionType;
+            });
             
- 
             filteredData.forEach(point => {
-                const color = demolitionColors[point.demolition_type];
+                const dtype = point.type || point.demolition_type;
+                const markerColor = colors[dtype] || colors.single;
+                const borderColor = borderColors[dtype] || borderColors.single;
                 
-                const marker = L.circleMarker([point.lat, point.lon], {
-                    radius: 6,
-                    fillColor: color,
-                    color: '#333',
+                const marker = L.circleMarker([point.lat, point.lng], {
+                    radius: 4,
+                    fillColor: markerColor,
+                    color: borderColor,
                     weight: 1,
-                    opacity: 0,
+                    opacity: 0.6,
                     fillOpacity: 1
                 });
-                
-            
-                marker.bindTooltip(
-                    `<strong>Demolition Type:</strong> ${point.demolition_type}<br>
-                    <strong>OCC_CLS:</strong> ${point.occ_cls}<br>
-                    <strong>Year Built:</strong> ${point.year_built}<br>
-                    <strong>Demolition Date:</strong> ${point.demolition_date}`,
-                    {sticky: true}
-                );
+
+                const lifespan = point.lifespan ? point.lifespan + ' yrs' : 'N/A';
+                const mat = point.material || 'Unknown';
+                const fnd = point.foundation || 'Unknown';
+                const yr = point.year_built || 'N/A';
+                const rawFnd = point.foundation;
+                const fndLabel = foundationMap[rawFnd] ? `${foundationMap[rawFnd]}` : (rawFnd || 'Unknown');
+                marker.bindTooltip(`
+                    <div style="text-align:left; font-size:13px;">
+                        <strong>Type:</strong> ${dtype}<br>
+                        <strong>Lifespan:</strong> ${lifespan}<br>
+                        <hr style="margin:5px 0; border:0; border-top:1px solid #ddd;">
+                        <strong>Year Built:</strong> ${yr}<br>
+                        <strong>Material:</strong> ${mat}<br>
+                        <strong>Foundation:</strong> ${fndLabel}
+                    </div>
+                `, { direction: 'top' });
                 
                 marker.addTo(map);
                 mapMarkers.push(marker);
@@ -726,30 +903,46 @@
             return aggregated;
         }
 
-        // Create heatmap visualization
         function createHeatmap(demoType, binSize, displayMode) {
             const binKey = `bin_${binSize}`;
-            // Use the aggregated 'all' data source if specified
-            const demoData = currentData.material_lifespan_demo[demoType];
             
-            if (!demoData || !demoData[binKey]) {
-                console.error(`No data for ${demoType} with bin size ${binSize}`);
+
+            const metricInput = document.querySelector('input[name="globalMetric"]:checked');
+            const metric = metricInput ? metricInput.value : 'count';
+            
+
+            const dataSource = (metric === 'gfa') 
+                ? currentData.material_lifespan_demo_gfa 
+                : currentData.material_lifespan_demo;
+
+            if (!dataSource || !dataSource[demoType] || !dataSource[demoType][binKey]) {
                 document.getElementById('heatmapContent').innerHTML = `<div class="error-message">No data available for this selection.</div>`;
                 return;
             }
             
-            const materialData = demoData[binKey];
-            
+            const materialData = dataSource[demoType][binKey];
+
             const materialTotals = {};
             Object.entries(materialData).forEach(([material, lifespans]) => {
                 materialTotals[material] = Object.values(lifespans).reduce((sum, val) => sum + val, 0);
             });
             
-            const sortedMaterials = Object.entries(materialTotals)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 15)
-                .map(([material]) => material);
+
+            let sortedMaterials = Object.keys(materialTotals).sort((a, b) => materialTotals[b] - materialTotals[a]);
             
+
+            sortedMaterials = sortedMaterials.slice(0, 20); 
+
+            sortedMaterials.sort((a, b) => {
+                const lowerA = a.toLowerCase();
+                const lowerB = b.toLowerCase();
+                if (lowerA === 'unknown') return 1;  
+                if (lowerB === 'unknown') return -1; 
+
+                return materialTotals[b] - materialTotals[a];
+            });
+            
+
             const allLifespanBins = new Set();
             sortedMaterials.forEach(material => {
                 Object.keys(materialData[material]).forEach(bin => allLifespanBins.add(bin));
@@ -760,13 +953,13 @@
                 return getFirstNum(a) - getFirstNum(b);
             });
             
+
             let maxValue = 0;
             sortedMaterials.forEach(material => {
-                Object.values(materialData[material]).forEach(val => {
-                    maxValue = Math.max(maxValue, val);
-                });
+                Object.values(materialData[material]).forEach(val => maxValue = Math.max(maxValue, val));
             });
             
+
             let html = '<div class="heatmap-container">';
             html += '<table class="heatmap-table">';
             html += '<thead><tr>';
@@ -777,24 +970,24 @@
             html += '<th>Total</th>';
             html += '</tr></thead>';
             html += '<tbody>';
+            
             sortedMaterials.forEach(material => {
                 html += '<tr>';
                 html += `<td class="material-name">${material}</td>`;
                 
                 sortedLifespanBins.forEach(bin => {
                     const value = materialData[material]?.[bin] || 0;
-                    let displayValue = value;
+                    let displayValue = value.toLocaleString(); 
                     
                     if (displayMode === 'percentage' && value > 0) {
                         const total = materialTotals[material];
                         const pct = total > 0 ? (value / total) * 100 : 0;
-                        displayValue = value + ` (${pct.toFixed(1)}%)`;
+                        displayValue = `${value.toLocaleString()} <br><span style="font-size:0.8em">(${pct.toFixed(1)}%)</span>`;
                     }
                     
-                    // Use LINEAR intensity calculation
-                    const intensity = maxValue > 0 ? value / maxValue : 0;
                     const bgColor = getPlasmaColor(value, maxValue);
-                    const textColor = intensity > 0.6 ? 'white' : '#333';
+                    const intensity = maxValue > 0 ? value / maxValue : 0;
+                    const textColor = intensity > 0.5 ? 'white' : '#333';
                     
                     html += `<td style="background-color: ${bgColor}; color: ${textColor};">`;
                     html += `<div class="heatmap-cell">${value > 0 ? displayValue : ''}</div>`;
@@ -802,7 +995,7 @@
                 });
                 
                 const total = materialTotals[material];
-                html += `<td style="background-color: #f8f9fa; font-weight: bold;">${total}</td>`;
+                html += `<td style="background-color: #f8f9fa; font-weight: bold;">${total.toLocaleString()}</td>`;
                 html += '</tr>';
             });
             html += '</tbody></table></div>';
@@ -810,8 +1003,8 @@
             html += '<div class="heatmap-legend">';
             html += '<div class="legend-gradient">';
             html += '<span>0</span><div class="gradient-bar"></div>';
-            html += `<span>${maxValue}</span></div>`;
-            html += `<div>Showing: ${demoType.toUpperCase()} demolitions (${displayMode}) - Linear scale colors</div>`;
+            html += `<span>${maxValue.toLocaleString()}</span></div>`;
+            html += `<div>Metric: <strong>${metric === 'gfa' ? 'Estimated GFA (sq meters)' : 'Count'}</strong></div>`;
             html += '</div>';
             
             document.getElementById('heatmapContent').innerHTML = html;
@@ -884,41 +1077,54 @@
             const mainContent = document.getElementById('mainContent');
             
             try {
-                const response = await fetch('boston_demolition_data.json');
-                if (!response.ok) throw new Error(`Failed to load data file: ${response.status} ${response.statusText}`);
+                const [demoRes, zoningRes] = await Promise.all([
+                    fetch('boston_demolition_data.json'),
+                    fetch('Boston_Zoning_Subdistricts.geojson')
+                ]);
+
+                if (!demoRes.ok) throw new Error('Failed to load data JSON');
                 
-                const data = await response.json();
-                if (!data.material_lifespan_demo) throw new Error('Missing required data: material_lifespan_demo');
+                const data = await demoRes.json();
                 
+                if (zoningRes.ok) {
+                    globalZoningGeoJSON = await zoningRes.json();
+                } else {
+                    console.warn("Zoning GeoJSON failed to load");
+                }
+
                 currentData = data;
-                // Pre-calculate the 'all' demolition type data
-                currentData.material_lifespan_demo.all = aggregateAllTypesData(data.material_lifespan_demo);
-                
+                if (data.map_points) mapData = data.map_points;
+                else if (data.map_data) mapData = data.map_data;
+
+                if (currentData.material_lifespan_demo && !currentData.material_lifespan_demo.all) {
+                     currentData.material_lifespan_demo.all = aggregateAllTypesData(data.material_lifespan_demo);
+                }
+
                 loadingContainer.style.display = 'none';
                 mainContent.style.display = 'block';
                 
                 document.querySelector('input[name="demolitionView"][value="RAZE"]').checked = true;
-                
                 document.getElementById('heatmapBtn').addEventListener('click', () => setVisualizationType('heatmap'));
                 document.getElementById('stackedBtn').addEventListener('click', () => setVisualizationType('stacked'));
                 
                 updateDashboard(data);
-                console.log('Successfully loaded Boston demolition data');
-                if (data.map_data) {
-                    mapData = data.map_data;
+                updateRazeLifespanSummary(data);
 
-                    setTimeout(() => {
-                        initializeMap();
-                        updateMapMarkers('RAZE'); 
-                    }, 100);
-                }
+
+                setTimeout(() => {
+                    initializeMap();    
+                    updateMapMarkers('RAZE');
+                    
+                    initZoningDeepDiveMap();
+                    renderZoningOverviewTable(data);
+                }, 100);
+
             } catch (error) {
-                console.error('Error loading data:', error);
+                console.error(error);
                 loadingContainer.style.display = 'none';
-                errorContainer.innerHTML = `<div class="error-message"><strong>Error Loading Data:</strong><br>${error.message}</div>`;
+                errorContainer.innerHTML = `<div class="error-message">${error.message}</div>`;
             }
         }
-
         function updateDashboard(data) {
             document.getElementById('totalDemo').textContent = data.summary_stats.total_demolitions.toLocaleString();
 
@@ -1327,6 +1533,230 @@
                 }
             });
         }
+
+
+        // 1. RAZE Summary Badges
+        function updateRazeLifespanSummary(data) {
+            if (!data || !data.summary_stats || !data.summary_stats.raze_status_by_lifespan) return;
+            const s = data.summary_stats;
+            const sb = s.raze_status_by_lifespan;
+            
+            // Helper
+            const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.innerText = val.toLocaleString(); };
+            const setBadge = (id, val, label) => { const el = document.getElementById(id); if(el) el.innerText = `${val.toLocaleString()} ${label}`; };
+
+            setTxt('razePosCount', sb.positive.close + sb.positive.open);
+            setBadge('razePosClose', sb.positive.close, 'Close');
+            setBadge('razePosOpen', sb.positive.open, 'Open');
+
+            setTxt('razeZeroCount', sb.zero.close + sb.zero.open);
+            setBadge('razeZeroClose', sb.zero.close, 'Close');
+            setBadge('razeZeroOpen', sb.zero.open, 'Open');
+
+            setTxt('razeNegCount', sb.negative.close + sb.negative.open);
+            setBadge('razeNegClose', sb.negative.close, 'Close');
+            setBadge('razeNegOpen', sb.negative.open, 'Open');
+        }
+
+        function renderZoningOverviewTable(data) {
+            const stats = data.zoning_district_stats;
+            const tbody = document.querySelector('#zoningOverviewTable tbody');
+            const select = document.getElementById('zoningDistrictFilter');
+            if (!tbody || !stats) return;
+
+            tbody.innerHTML = '';
+            select.innerHTML = '<option value="">Select a district...</option>';
+
+            Object.keys(stats).sort().forEach(zone => {
+                const d = stats[zone];
+                // Option
+                select.add(new Option(zone, zone));
+                // Table Row
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="padding:8px; border-bottom:1px solid #eee;">${zone}</td>
+                    <td style="padding:8px; text-align:right; border-bottom:1px solid #eee;">${d.count_raze}</td>
+                    <td style="padding:8px; text-align:right; border-bottom:1px solid #eee;">${d.avg_raze_lifespan.toFixed(1)}</td>
+                `;
+                tr.onclick = () => { select.value = zone; updateZoningDeepDive(); };
+                tbody.appendChild(tr);
+            });
+
+            const defaultZone = "Allston/Brighton Neighborhood";
+            
+            if (stats[defaultZone]) {
+                select.value = defaultZone; 
+                updateZoningDeepDive();    
+            }
+            // -------------------------
+        }
+
+        function initZoningDeepDiveMap() {
+            if (!zoningDeepDiveMap && document.getElementById('zoningMap')) {
+                zoningDeepDiveMap = L.map('zoningMap').setView([42.3601, -71.0589], 11);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: 'OSM' }).addTo(zoningDeepDiveMap);
+            }
+        }
+
+
+        function renderZoneHeatmap(heatmapData) {
+            const container = document.getElementById('zoningHeatmapContainer');
+            if (!heatmapData || Object.keys(heatmapData).length === 0) {
+                container.innerHTML = '<p style="color:#999; text-align:center; padding:20px;">No material data available for this district.</p>';
+                return;
+            }
+
+            const materialTotals = {};
+            Object.keys(heatmapData).forEach(mat => {
+                materialTotals[mat] = Object.values(heatmapData[mat]).reduce((sum, val) => sum + val, 0);
+            });
+
+            let materials = Object.keys(heatmapData);
+            materials.sort((a, b) => {
+                const lowerA = a.toLowerCase();
+                const lowerB = b.toLowerCase();
+                if (lowerA === 'unknown') return 1;
+                if (lowerB === 'unknown') return -1;
+                return materialTotals[b] - materialTotals[a]; 
+            });
+
+            const allBins = new Set();
+            materials.forEach(m => Object.keys(heatmapData[m]).forEach(b => allBins.add(b)));
+            const sortedBins = Array.from(allBins).sort((a, b) => {
+                return parseInt(a.split('-')[0]) - parseInt(b.split('-')[0]);
+            });
+
+            let maxVal = 0;
+            materials.forEach(m => Object.values(heatmapData[m]).forEach(v => maxVal = Math.max(maxVal, v)));
+
+            let html = '<table class="heatmap-table" style="font-size:0.85em;">';
+            html += '<thead><tr><th class="material-header" style="min-width:120px;">Material</th>';
+            sortedBins.forEach(b => html += `<th>${b}</th>`);
+            html += '</tr></thead><tbody>';
+
+            materials.forEach(mat => {
+                html += `<tr><td class="material-name">${mat}</td>`;
+                sortedBins.forEach(bin => {
+                    const val = heatmapData[mat][bin] || 0;
+                    
+                    const bgColor = getPlasmaColor(val, maxVal);
+                    const color = (val / maxVal > 0.5) ? 'white' : '#333';
+                    
+                    const displayVal = val > 0 ? val.toLocaleString() : '';
+                    
+                    html += `<td style="background-color:${bgColor}; color:${color}">${displayVal}</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+            
+            html += `<div style="margin-top:5px; font-size:0.8em; color:#666; text-align:right;">Max Value: ${maxVal.toLocaleString()}</div>`;
+
+            container.innerHTML = html;
+        }
+
+        function updateZoningDeepDive() {
+            const zoneName = document.getElementById('zoningDistrictFilter').value;
+            if (!zoneName || !currentData.zoning_district_stats[zoneName]) return;
+            
+            const d = currentData.zoning_district_stats[zoneName];
+
+            document.getElementById('zoneAvgLifespan').innerText = d.avg_raze_lifespan.toFixed(1) + ' yrs';
+            document.getElementById('zoneAvgAge').innerText = d.avg_current_age.toFixed(1) + ' yrs';
+
+            if (zoningDistrictLayer) zoningDeepDiveMap.removeLayer(zoningDistrictLayer);
+            if (zoningRazePointLayer) zoningDeepDiveMap.removeLayer(zoningRazePointLayer);
+
+            if (globalZoningGeoJSON) {
+                const feature = globalZoningGeoJSON.features.filter(f => f.properties.Zoning_District === zoneName);
+                if (feature.length) {
+                    zoningDistrictLayer = L.geoJSON(feature, {
+                        style: {
+                            color: "purple",
+                            weight: 2,
+                            opacity: 0.7,
+                            fillColor: "purple",
+                            fillOpacity: 0.15
+                        }
+                    }).addTo(zoningDeepDiveMap);
+                    zoningDeepDiveMap.fitBounds(zoningDistrictLayer.getBounds());
+                }
+            }
+
+
+            const foundationMap = {
+                'C': 'Crawl Space', 'B': 'Basement', 'S': 'Slab',
+                'P': 'Pier', 'I': 'Pile', 'F': 'Fill', 'W': 'Solid Wall'
+            };
+
+
+            const markers = d.positive_raze_points.map(p => {
+
+                const rawFnd = p.foundation;
+                const fndLabel = foundationMap[rawFnd] ? foundationMap[rawFnd] : (rawFnd || 'Unknown');
+
+                return L.circleMarker([p.lat, p.lng], {
+                    radius: 4,
+                    fillColor: colors.RAZE,
+                    color: borderColors.RAZE,
+                    weight: 1,
+                    opacity: 0.6,
+                    fillOpacity: 1
+                }).bindTooltip(`
+                    <div style="text-align:left; font-size:13px;">
+                        <strong>Type:</strong> RAZE<br>
+                        <strong>Lifespan:</strong> ${p.lifespan} yrs<br>
+                        <hr style="margin:5px 0; border:0; border-top:1px solid #ddd;">
+                        <strong>Year Built:</strong> ${p.year_built}<br>
+                        <strong>Material:</strong> ${p.material}<br>
+                        <strong>Foundation:</strong> ${fndLabel}
+                    </div>
+                `, { direction: 'top' });
+            });
+            
+            zoningRazePointLayer = L.layerGroup(markers).addTo(zoningDeepDiveMap);
+
+            if (charts.zoningDemolished) charts.zoningDemolished.destroy();
+            const ctxDem = document.getElementById('zoningDemolishedAgeChart').getContext('2d');
+            charts.zoningDemolished = new Chart(ctxDem, {
+                type: 'bar',
+                data: {
+                    labels: d.demolished_age_distribution_10yr.map(x => x.range),
+                    datasets: [{
+                        label: 'Demolished Count',
+                        data: d.demolished_age_distribution_10yr.map(x => x.count),
+                        backgroundColor: colors.RAZE
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display:false} } }
+            });
+
+            if (charts.zoningCurrent) charts.zoningCurrent.destroy();
+            const ctxCur = document.getElementById('zoningCurrentAgeChart').getContext('2d');
+            charts.zoningCurrent = new Chart(ctxCur, {
+                type: 'bar',
+                data: {
+                    labels: d.current_age_distribution_10yr.map(x => x.range),
+                    datasets: [{
+                        label: 'Building Count',
+                        data: d.current_age_distribution_10yr.map(x => x.count),
+                        backgroundColor: '#3498db'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display:false} } }
+            });
+
+            const metricInput = document.querySelector('input[name="deepDiveMetric"]:checked');
+            const metric = metricInput ? metricInput.value : 'count';
+            
+            if (d.heatmap_data && d.heatmap_data[metric]) {
+                renderZoneHeatmap(d.heatmap_data[metric]);
+            } else {
+                renderZoneHeatmap({});
+            }
+        }
+
+
 
         window.addEventListener('DOMContentLoaded', loadDataFromJSON);
     </script>
