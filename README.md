@@ -1,6 +1,5 @@
 # Boston Building Demolition Analysis Dashboard
 
-**⚠️ Last Updated: September 24th, 2025 | Currently Not Being Maintained**
 
 An interactive web-based visualization dashboard for analyzing building demolition patterns in the Greater Boston area, focusing on buildings constructed from 1940 onwards. This tool provides comprehensive analysis of demolition trends, material lifespans, and urban development patterns using data from the NSI Enhanced USA Structures Dataset.
 
