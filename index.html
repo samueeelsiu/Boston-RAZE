@@ -410,51 +410,47 @@
             <div class="methodology" style="background: #f8f9fa; padding: 25px; border-left: 5px solid #3498db; border-radius: 4px; margin-top: 20px;">
                 <h3 style="color: #2c3e50; margin-top: 0;">Data Source & Methodology</h3>
                 <p style="color: #555; margin-bottom: 15px;">
-                    This dashboard analyzes building demolition patterns in the Greater Boston area, combining structural data with zoning regulations to provide insights into urban redevelopment.
+                    This dashboard analyzes building demolition patterns in the Greater Boston area, combining NSI structural data with Boston zoning regulations.
                 </p>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
                     <div>
-                        <h4 style="margin-bottom: 10px; color: #3498db;">Processing Logic</h4>
-                        <ol style="margin-left: 20px; padding-left: 0; line-height: 1.6; color: #444; font-size: 0.95em;">
-                            <li style="margin-bottom: 8px;">
-                                <strong>Data Integration:</strong> The primary dataset (<code>ma_structures.gpkg</code>) contains building footprints and attributes. This was <strong>spatially joined</strong> with the <code>Boston_Zoning_Subdistricts.geojson</code> to assign precise zoning districts to each demolition record.
+                        <h4 style="margin-bottom: 10px; color: #3498db;">Data Processing & Cleaning</h4>
+                        <ol style="margin-left: 20px; padding-left: 0; line-height: 1.5; color: #444; font-size: 0.9em;">
+                            <li style="margin-bottom: 6px;">
+                                <strong>Geometry Conversion:</strong> Building footprints (Polygons) were converted to <strong>Centroids (Points)</strong> for precise mapping and spatial analysis.
                             </li>
-                            <li style="margin-bottom: 8px;">
-                                <strong>Lifespan Calculation:</strong> Building lifespan is derived as <code>Demolition Year - Year Built</code>. 
-                                <ul style="margin-top: 4px; margin-bottom: 4px; color: #666;">
-                                    <li>Records with <em>Lifespan > 0</em> represent standard building cycles.</li>
-                                    <li>Records with <em>Lifespan ≤ 0</em> indicate "Demolished and Replaced" scenarios or data anomalies, which are tracked separately in the summary.</li>
-                                </ul>
+                            <li style="margin-bottom: 6px;">
+                                <strong>Geographic Filtering:</strong> Data was filtered to include only major Greater Boston municipalities: <em>Boston, Cambridge, Somerville, Brookline, Quincy, Newton, Watertown, Chelsea, Revere, and Everett</em>.
                             </li>
-                            <li style="margin-bottom: 8px;">
-                                <strong>Status Inference:</strong> Permit status is derived from the <code>DEMOLITION_STATUS</code> field. Using an exclusion logic, any record <em>not</em> explicitly marked as 'Closed' (e.g., 'Open', 'Issued', 'Pending') is categorized as <strong>Open</strong>.
+                            <li style="margin-bottom: 6px;">
+                                <strong>Spatial Integration:</strong> Demolition points were <strong>spatially joined</strong> with <code>Boston_Zoning_Subdistricts.geojson</code>. Points falling on district boundaries were de-duplicated to ensure each building maps to exactly one zoning district.
+                            </li>
+                            <li style="margin-bottom: 6px;">
+                                <strong>Outlier Removal:</strong> Records with calculated lifespans <strong>≥ 500 years</strong> were removed as data errors. Null values in Material/Foundation were labeled as 'Unknown'; missing GFA values were defaulted to 0.
                             </li>
                         </ol>
                     </div>
 
                     <div>
-                        <h4 style="margin-bottom: 10px; color: #3498db;">Definitions & Scope</h4>
-                        <ul style="list-style-type: none; padding: 0; font-size: 0.95em; line-height: 1.8;">
-                            <li>
-                                <span style="display:inline-block; width:12px; height:12px; background:rgba(13, 8, 135, 0.8); border-radius:50%; margin-right:8px;"></span>
-                                <strong>RAZE:</strong> Complete structure demolition.
+                        <h4 style="margin-bottom: 10px; color: #3498db;">Calculation Logic</h4>
+                        <ul style="list-style-type: none; padding: 0; font-size: 0.9em; line-height: 1.6;">
+                            <li style="margin-bottom: 8px;">
+                                <strong>Lifespan Calculation:</strong> <code>Demolition Year - Year Built</code>.
+                                <br><span style="color:#666; font-size:0.9em;">• <strong>Positive (>0):</strong> Standard lifecycle. Used for "Average Lifespan" stats.</span>
+                                <br><span style="color:#666; font-size:0.9em;">• <strong>Non-Positive (≤0):</strong> Indicates redevelopment/data anomalies. Included in counts but excluded from averages.</span>
                             </li>
-                            <li>
-                                <span style="display:inline-block; width:12px; height:12px; background:rgba(204, 71, 120, 0.8); border-radius:50%; margin-right:8px;"></span>
-                                <strong>EXTDEM:</strong> Exterior demolition (partial).
-                            </li>
-                            <li>
-                                <span style="display:inline-block; width:12px; height:12px; background:rgba(254, 206, 50, 0.8); border-radius:50%; margin-right:8px;"></span>
-                                <strong>INTDEM:</strong> Interior demolition.
+                            <li style="margin-bottom: 8px;">
+                                <strong>Status Inference:</strong> Derived from <code>DEMOLITION_STATUS</code> using exclusion logic. Any record <em>not</em> explicitly 'Closed' (e.g., 'Open', 'Issued', 'Pending', or Null) is classified as <strong>Open</strong>.
                             </li>
                         </ul>
                         
-                        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd; font-size: 0.9em; color: #666;">
+                        <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #ddd; font-size: 0.9em; color: #666;">
                             <strong>Dataset Scope:</strong><br>
                             Source: <span class="stats-value" id="totalMABuildings" style="font-weight:600; color:#2c3e50;">-</span> MA buildings<br>
                             Target: <span class="stats-value" id="bostonDemolitions" style="font-weight:600; color:#2c3e50;">-</span> Boston area records<br>
-                            Range: <span class="stats-value" id="dateRange" style="font-weight:600; color:#2c3e50;">-</span>
+                            Targeted Built Year Range: <span class="stats-value" id="yearBuiltRange" style="font-weight:600; color:#2c3e50;">-</span><br>
+                            Permit Range: <span class="stats-value" id="dateRange" style="font-weight:600; color:#2c3e50;">-</span>
                         </div>
                     </div>
                 </div>
