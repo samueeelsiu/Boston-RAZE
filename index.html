@@ -407,26 +407,57 @@
             <h1>Boston Building Demolition Analysis</h1>
             <p class="subtitle" id="subtitle">Data From NSI enhanced USA Structure(MA) dataset</p>
             
-            <div class="data-note">
-                <strong>Important:</strong> This analysis covers demolition data from the Boston area only.
-                The data is extracted from the NSI enhanced USA Structure(MA) dataset but focuses exclusively on the Greater Boston region.
-            </div>
-            
-            <div class="methodology">
-                <h3>Data Overview</h3>
-                <p>
-                    Source dataset: <span class="stats-value" id="totalMABuildings">-</span> Massachusetts buildings<br>
-                    Year built range: <span class="stats-value" id="yearBuiltRange">-</span><br>
-                    Boston area demolitions: <span class="stats-value" id="bostonDemolitions">-</span> records<br>
-                    After cleaning: <span class="stats-value" id="validRecords">-</span> unique buildings<br>
-                    Demolition date range: <span class="stats-value" id="dateRange">-</span>
+            <div class="methodology" style="background: #f8f9fa; padding: 25px; border-left: 5px solid #3498db; border-radius: 4px; margin-top: 20px;">
+                <h3 style="color: #2c3e50; margin-top: 0;">Data Source & Methodology</h3>
+                <p style="color: #555; margin-bottom: 15px;">
+                    This dashboard analyzes building demolition patterns in the Greater Boston area, combining structural data with zoning regulations to provide insights into urban redevelopment.
                 </p>
-                <p style="margin-top: 10px;">
-                    <strong>Demolition Types:</strong><br>
-                    • RAZE: Complete structure demolition<br>
-                    • EXTDEM: Exterior demolition<br>
-                    • INTDEM: Interior demolition
-                </p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div>
+                        <h4 style="margin-bottom: 10px; color: #3498db;">Processing Logic</h4>
+                        <ol style="margin-left: 20px; padding-left: 0; line-height: 1.6; color: #444; font-size: 0.95em;">
+                            <li style="margin-bottom: 8px;">
+                                <strong>Data Integration:</strong> The primary dataset (<code>ma_structures.gpkg</code>) contains building footprints and attributes. This was <strong>spatially joined</strong> with the <code>Boston_Zoning_Subdistricts.geojson</code> to assign precise zoning districts to each demolition record.
+                            </li>
+                            <li style="margin-bottom: 8px;">
+                                <strong>Lifespan Calculation:</strong> Building lifespan is derived as <code>Demolition Year - Year Built</code>. 
+                                <ul style="margin-top: 4px; margin-bottom: 4px; color: #666;">
+                                    <li>Records with <em>Lifespan > 0</em> represent standard building cycles.</li>
+                                    <li>Records with <em>Lifespan ≤ 0</em> indicate "Demolished and Replaced" scenarios or data anomalies, which are tracked separately in the summary.</li>
+                                </ul>
+                            </li>
+                            <li style="margin-bottom: 8px;">
+                                <strong>Status Inference:</strong> Permit status is derived from the <code>DEMOLITION_STATUS</code> field. Using an exclusion logic, any record <em>not</em> explicitly marked as 'Closed' (e.g., 'Open', 'Issued', 'Pending') is categorized as <strong>Open</strong>.
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div>
+                        <h4 style="margin-bottom: 10px; color: #3498db;">Definitions & Scope</h4>
+                        <ul style="list-style-type: none; padding: 0; font-size: 0.95em; line-height: 1.8;">
+                            <li>
+                                <span style="display:inline-block; width:12px; height:12px; background:rgba(13, 8, 135, 0.8); border-radius:50%; margin-right:8px;"></span>
+                                <strong>RAZE:</strong> Complete structure demolition.
+                            </li>
+                            <li>
+                                <span style="display:inline-block; width:12px; height:12px; background:rgba(204, 71, 120, 0.8); border-radius:50%; margin-right:8px;"></span>
+                                <strong>EXTDEM:</strong> Exterior demolition (partial).
+                            </li>
+                            <li>
+                                <span style="display:inline-block; width:12px; height:12px; background:rgba(254, 206, 50, 0.8); border-radius:50%; margin-right:8px;"></span>
+                                <strong>INTDEM:</strong> Interior demolition.
+                            </li>
+                        </ul>
+                        
+                        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd; font-size: 0.9em; color: #666;">
+                            <strong>Dataset Scope:</strong><br>
+                            Source: <span class="stats-value" id="totalMABuildings" style="font-weight:600; color:#2c3e50;">-</span> MA buildings<br>
+                            Target: <span class="stats-value" id="bostonDemolitions" style="font-weight:600; color:#2c3e50;">-</span> Boston area records<br>
+                            Range: <span class="stats-value" id="dateRange" style="font-weight:600; color:#2c3e50;">-</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1140,7 +1171,6 @@
             if (data.metadata) {
                 document.getElementById('totalMABuildings').textContent = data.metadata.total_ma_buildings.toLocaleString();
                 document.getElementById('bostonDemolitions').textContent = data.metadata.total_boston_demolitions.toLocaleString();
-                document.getElementById('validRecords').textContent = data.summary_stats.total_demolitions.toLocaleString();
                 document.getElementById('dateRange').textContent = data.metadata.year_range;
 
                 if (document.getElementById('yearBuiltRange')) {
