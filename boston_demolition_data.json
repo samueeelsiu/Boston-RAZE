@@ -12,7 +12,7 @@
     "intdem_count": 3583,
     "negative_raze_count": 5,
     "zero_raze_count": 4,
-    "avg_current_building_age": 0,
+    "avg_current_building_age": 99.08159666736464,
     "raze_status_by_lifespan": {
       "positive": {
         "open": 365,
@@ -40,7 +40,7 @@
     "intdem_count": 3583,
     "negative_raze_count": 5,
     "zero_raze_count": 4,
-    "avg_current_building_age": 0,
+    "avg_current_building_age": 99.08159666736464,
     "raze_status_by_lifespan": {
       "positive": {
         "open": 365,
@@ -52185,9 +52185,7 @@
   "zoning_district_stats": {
     "Hyde Park Neighborhood": {
       "count_raze": 28,
-      "count_total": 205,
       "avg_raze_lifespan": 91.0,
-      "avg_current_age": 88.63414634146342,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -52240,80 +52238,6 @@
         {
           "range": "120-130",
           "count": 2
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 10
-        },
-        {
-          "range": "10-20",
-          "count": 13
-        },
-        {
-          "range": "20-30",
-          "count": 1
-        },
-        {
-          "range": "30-40",
-          "count": 4
-        },
-        {
-          "range": "40-50",
-          "count": 4
-        },
-        {
-          "range": "50-60",
-          "count": 5
-        },
-        {
-          "range": "60-70",
-          "count": 15
-        },
-        {
-          "range": "70-80",
-          "count": 23
-        },
-        {
-          "range": "80-90",
-          "count": 7
-        },
-        {
-          "range": "90-100",
-          "count": 16
-        },
-        {
-          "range": "100-110",
-          "count": 35
-        },
-        {
-          "range": "110-120",
-          "count": 21
-        },
-        {
-          "range": "120-130",
-          "count": 41
-        },
-        {
-          "range": "130-140",
-          "count": 4
-        },
-        {
-          "range": "140-150",
-          "count": 4
-        },
-        {
-          "range": "150-160",
-          "count": 0
-        },
-        {
-          "range": "160-170",
-          "count": 2
-        },
-        {
-          "range": "170-180",
-          "count": 0
         }
       ],
       "heatmap_data": {
@@ -52617,13 +52541,111 @@
           "material": "Unknown",
           "foundation": "None"
         }
+      ],
+      "count_total": 7534,
+      "avg_current_age": 88.50079893475366,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 53
+        },
+        {
+          "range": "10-20",
+          "count": 122
+        },
+        {
+          "range": "20-30",
+          "count": 257
+        },
+        {
+          "range": "30-40",
+          "count": 181
+        },
+        {
+          "range": "40-50",
+          "count": 91
+        },
+        {
+          "range": "50-60",
+          "count": 217
+        },
+        {
+          "range": "60-70",
+          "count": 956
+        },
+        {
+          "range": "70-80",
+          "count": 1477
+        },
+        {
+          "range": "80-90",
+          "count": 556
+        },
+        {
+          "range": "90-100",
+          "count": 473
+        },
+        {
+          "range": "100-110",
+          "count": 925
+        },
+        {
+          "range": "110-120",
+          "count": 740
+        },
+        {
+          "range": "120-130",
+          "count": 935
+        },
+        {
+          "range": "130-140",
+          "count": 221
+        },
+        {
+          "range": "140-150",
+          "count": 174
+        },
+        {
+          "range": "150-160",
+          "count": 74
+        },
+        {
+          "range": "160-170",
+          "count": 29
+        },
+        {
+          "range": "170-180",
+          "count": 12
+        },
+        {
+          "range": "180-190",
+          "count": 4
+        },
+        {
+          "range": "190-200",
+          "count": 7
+        },
+        {
+          "range": "200-210",
+          "count": 2
+        },
+        {
+          "range": "210-220",
+          "count": 1
+        },
+        {
+          "range": "220-230",
+          "count": 3
+        },
+        {
+          "range": "230-240",
+          "count": 0
+        }
       ]
     },
     "South Boston Neighborhood": {
       "count_raze": 50,
-      "count_total": 474,
       "avg_raze_lifespan": 93.39285714285714,
-      "avg_current_age": 103.94514767932489,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -52696,92 +52718,6 @@
         {
           "range": "170-180",
           "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 33
-        },
-        {
-          "range": "10-20",
-          "count": 32
-        },
-        {
-          "range": "20-30",
-          "count": 20
-        },
-        {
-          "range": "30-40",
-          "count": 6
-        },
-        {
-          "range": "40-50",
-          "count": 3
-        },
-        {
-          "range": "50-60",
-          "count": 2
-        },
-        {
-          "range": "60-70",
-          "count": 1
-        },
-        {
-          "range": "70-80",
-          "count": 4
-        },
-        {
-          "range": "80-90",
-          "count": 3
-        },
-        {
-          "range": "90-100",
-          "count": 11
-        },
-        {
-          "range": "100-110",
-          "count": 31
-        },
-        {
-          "range": "110-120",
-          "count": 25
-        },
-        {
-          "range": "120-130",
-          "count": 130
-        },
-        {
-          "range": "130-140",
-          "count": 138
-        },
-        {
-          "range": "140-150",
-          "count": 20
-        },
-        {
-          "range": "150-160",
-          "count": 7
-        },
-        {
-          "range": "160-170",
-          "count": 6
-        },
-        {
-          "range": "170-180",
-          "count": 1
-        },
-        {
-          "range": "180-190",
-          "count": 0
-        },
-        {
-          "range": "190-200",
-          "count": 0
-        },
-        {
-          "range": "200-210",
-          "count": 1
         }
       ],
       "heatmap_data": {
@@ -53295,13 +53231,111 @@
           "material": "Steel",
           "foundation": "S"
         }
+      ],
+      "count_total": 3072,
+      "avg_current_age": 105.6015037593985,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 72
+        },
+        {
+          "range": "10-20",
+          "count": 108
+        },
+        {
+          "range": "20-30",
+          "count": 282
+        },
+        {
+          "range": "30-40",
+          "count": 55
+        },
+        {
+          "range": "40-50",
+          "count": 17
+        },
+        {
+          "range": "50-60",
+          "count": 18
+        },
+        {
+          "range": "60-70",
+          "count": 35
+        },
+        {
+          "range": "70-80",
+          "count": 27
+        },
+        {
+          "range": "80-90",
+          "count": 32
+        },
+        {
+          "range": "90-100",
+          "count": 107
+        },
+        {
+          "range": "100-110",
+          "count": 157
+        },
+        {
+          "range": "110-120",
+          "count": 173
+        },
+        {
+          "range": "120-130",
+          "count": 1096
+        },
+        {
+          "range": "130-140",
+          "count": 663
+        },
+        {
+          "range": "140-150",
+          "count": 125
+        },
+        {
+          "range": "150-160",
+          "count": 55
+        },
+        {
+          "range": "160-170",
+          "count": 19
+        },
+        {
+          "range": "170-180",
+          "count": 8
+        },
+        {
+          "range": "180-190",
+          "count": 3
+        },
+        {
+          "range": "190-200",
+          "count": 2
+        },
+        {
+          "range": "200-210",
+          "count": 4
+        },
+        {
+          "range": "210-220",
+          "count": 0
+        },
+        {
+          "range": "220-230",
+          "count": 1
+        },
+        {
+          "range": "230-240",
+          "count": 0
+        }
       ]
     },
     "South Boston": {
       "count_raze": 33,
-      "count_total": 114,
       "avg_raze_lifespan": 75.375,
-      "avg_current_age": 76.59649122807018,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -53357,68 +53391,6 @@
         },
         {
           "range": "130-140",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 18
-        },
-        {
-          "range": "10-20",
-          "count": 11
-        },
-        {
-          "range": "20-30",
-          "count": 8
-        },
-        {
-          "range": "30-40",
-          "count": 1
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 1
-        },
-        {
-          "range": "60-70",
-          "count": 2
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 10
-        },
-        {
-          "range": "90-100",
-          "count": 7
-        },
-        {
-          "range": "100-110",
-          "count": 13
-        },
-        {
-          "range": "110-120",
-          "count": 19
-        },
-        {
-          "range": "120-130",
-          "count": 21
-        },
-        {
-          "range": "130-140",
-          "count": 3
-        },
-        {
-          "range": "140-150",
           "count": 0
         }
       ],
@@ -53774,13 +53746,212 @@
           "material": "Wood",
           "foundation": "B"
         }
+      ],
+      "count_total": 499,
+      "avg_current_age": 78.37474541751527,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 30
+        },
+        {
+          "range": "10-20",
+          "count": 31
+        },
+        {
+          "range": "20-30",
+          "count": 74
+        },
+        {
+          "range": "30-40",
+          "count": 18
+        },
+        {
+          "range": "40-50",
+          "count": 8
+        },
+        {
+          "range": "50-60",
+          "count": 15
+        },
+        {
+          "range": "60-70",
+          "count": 15
+        },
+        {
+          "range": "70-80",
+          "count": 7
+        },
+        {
+          "range": "80-90",
+          "count": 35
+        },
+        {
+          "range": "90-100",
+          "count": 47
+        },
+        {
+          "range": "100-110",
+          "count": 37
+        },
+        {
+          "range": "110-120",
+          "count": 35
+        },
+        {
+          "range": "120-130",
+          "count": 125
+        },
+        {
+          "range": "130-140",
+          "count": 10
+        },
+        {
+          "range": "140-150",
+          "count": 2
+        },
+        {
+          "range": "150-160",
+          "count": 2
+        }
+      ]
+    },
+    "Harborpark: Dorchester Bay/Neponset River Waterfront": {
+      "count_raze": 1,
+      "avg_raze_lifespan": 96.0,
+      "demolished_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 0
+        },
+        {
+          "range": "10-20",
+          "count": 0
+        },
+        {
+          "range": "20-30",
+          "count": 0
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 0
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 1
+        },
+        {
+          "range": "100-110",
+          "count": 0
+        }
+      ],
+      "heatmap_data": {
+        "count": {
+          "Concrete": {
+            "80-100": 1
+          }
+        },
+        "gfa": {
+          "Concrete": {
+            "80-100": 193105
+          }
+        }
+      },
+      "positive_raze_points": [
+        {
+          "lat": 42.33921619151604,
+          "lng": -71.03454279808632,
+          "lifespan": 96,
+          "status": "Open",
+          "year_built": 1925,
+          "material": "Concrete",
+          "foundation": "I"
+        }
+      ],
+      "count_total": 176,
+      "avg_current_age": 72.40131578947368,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 11
+        },
+        {
+          "range": "10-20",
+          "count": 1
+        },
+        {
+          "range": "20-30",
+          "count": 5
+        },
+        {
+          "range": "30-40",
+          "count": 6
+        },
+        {
+          "range": "40-50",
+          "count": 9
+        },
+        {
+          "range": "50-60",
+          "count": 9
+        },
+        {
+          "range": "60-70",
+          "count": 1
+        },
+        {
+          "range": "70-80",
+          "count": 61
+        },
+        {
+          "range": "80-90",
+          "count": 11
+        },
+        {
+          "range": "90-100",
+          "count": 1
+        },
+        {
+          "range": "100-110",
+          "count": 20
+        },
+        {
+          "range": "110-120",
+          "count": 1
+        },
+        {
+          "range": "120-130",
+          "count": 16
+        },
+        {
+          "range": "130-140",
+          "count": 0
+        }
       ]
     },
     "South End Neighborhood": {
       "count_raze": 7,
-      "count_total": 200,
       "avg_raze_lifespan": 61.8,
-      "avg_current_age": 93.575,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -53841,84 +54012,6 @@
         {
           "range": "140-150",
           "count": 1
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 6
-        },
-        {
-          "range": "10-20",
-          "count": 3
-        },
-        {
-          "range": "20-30",
-          "count": 49
-        },
-        {
-          "range": "30-40",
-          "count": 4
-        },
-        {
-          "range": "40-50",
-          "count": 4
-        },
-        {
-          "range": "50-60",
-          "count": 5
-        },
-        {
-          "range": "60-70",
-          "count": 0
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 2
-        },
-        {
-          "range": "90-100",
-          "count": 4
-        },
-        {
-          "range": "100-110",
-          "count": 8
-        },
-        {
-          "range": "110-120",
-          "count": 10
-        },
-        {
-          "range": "120-130",
-          "count": 64
-        },
-        {
-          "range": "130-140",
-          "count": 18
-        },
-        {
-          "range": "140-150",
-          "count": 2
-        },
-        {
-          "range": "150-160",
-          "count": 2
-        },
-        {
-          "range": "160-170",
-          "count": 14
-        },
-        {
-          "range": "170-180",
-          "count": 5
-        },
-        {
-          "range": "180-190",
-          "count": 0
         }
       ],
       "heatmap_data": {
@@ -54013,657 +54106,138 @@
           "material": "Masonry",
           "foundation": "S"
         }
-      ]
-    },
-    "Harborpark: Dorchester Bay/Neponset River Waterfront": {
-      "count_raze": 1,
-      "count_total": 5,
-      "avg_raze_lifespan": 96.0,
-      "avg_current_age": 68.4,
-      "demolished_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 0
-        },
-        {
-          "range": "20-30",
-          "count": 0
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 0
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 0
-        },
-        {
-          "range": "90-100",
-          "count": 1
-        },
-        {
-          "range": "100-110",
-          "count": 0
-        }
       ],
+      "count_total": 437,
+      "avg_current_age": 81.72979214780601,
       "current_age_distribution_10yr": [
         {
           "range": "0-10",
-          "count": 0
+          "count": 13
         },
         {
           "range": "10-20",
-          "count": 0
+          "count": 16
         },
         {
           "range": "20-30",
-          "count": 1
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 1
-        },
-        {
-          "range": "60-70",
-          "count": 1
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 0
-        },
-        {
-          "range": "90-100",
-          "count": 0
-        },
-        {
-          "range": "100-110",
-          "count": 2
-        },
-        {
-          "range": "110-120",
-          "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {
-          "Concrete": {
-            "80-100": 1
-          }
-        },
-        "gfa": {
-          "Concrete": {
-            "80-100": 193105
-          }
-        }
-      },
-      "positive_raze_points": [
-        {
-          "lat": 42.33921619151604,
-          "lng": -71.03454279808632,
-          "lifespan": 96,
-          "status": "Open",
-          "year_built": 1925,
-          "material": "Concrete",
-          "foundation": "I"
-        }
-      ]
-    },
-    "Chinatown": {
-      "count_raze": 1,
-      "count_total": 24,
-      "avg_raze_lifespan": 0,
-      "avg_current_age": 84.25,
-      "demolished_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 1
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 3
-        },
-        {
-          "range": "20-30",
-          "count": 3
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 2
-        },
-        {
-          "range": "60-70",
-          "count": 1
-        },
-        {
-          "range": "70-80",
-          "count": 1
-        },
-        {
-          "range": "80-90",
-          "count": 1
-        },
-        {
-          "range": "90-100",
-          "count": 1
-        },
-        {
-          "range": "100-110",
-          "count": 1
-        },
-        {
-          "range": "110-120",
-          "count": 4
-        },
-        {
-          "range": "120-130",
-          "count": 6
-        },
-        {
-          "range": "130-140",
-          "count": 0
-        },
-        {
-          "range": "140-150",
-          "count": 0
-        },
-        {
-          "range": "150-160",
-          "count": 1
-        },
-        {
-          "range": "160-170",
-          "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {
-          "Masonry": {
-            "0-20": 1
-          }
-        },
-        "gfa": {
-          "Masonry": {
-            "0-20": 6299
-          }
-        }
-      },
-      "positive_raze_points": [
-        {
-          "lat": 42.35228098360167,
-          "lng": -71.05909602949872,
-          "lifespan": 0,
-          "status": "Open",
-          "year_built": 2012,
-          "material": "Masonry",
-          "foundation": "B"
-        }
-      ]
-    },
-    "Harborpark: Fort Point Waterfront": {
-      "count_raze": 0,
-      "count_total": 8,
-      "avg_raze_lifespan": 0,
-      "avg_current_age": 30.875,
-      "demolished_age_distribution_10yr": [],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 2
-        },
-        {
-          "range": "10-20",
-          "count": 3
-        },
-        {
-          "range": "20-30",
-          "count": 1
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 0
-        },
-        {
-          "range": "70-80",
-          "count": 1
-        },
-        {
-          "range": "80-90",
-          "count": 0
-        },
-        {
-          "range": "90-100",
-          "count": 1
-        },
-        {
-          "range": "100-110",
-          "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {},
-        "gfa": {}
-      },
-      "positive_raze_points": []
-    },
-    "Leather District": {
-      "count_raze": 1,
-      "count_total": 10,
-      "avg_raze_lifespan": 121.0,
-      "avg_current_age": 95.0,
-      "demolished_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 0
-        },
-        {
-          "range": "20-30",
-          "count": 0
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 0
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 0
-        },
-        {
-          "range": "90-100",
-          "count": 0
-        },
-        {
-          "range": "100-110",
-          "count": 0
-        },
-        {
-          "range": "110-120",
-          "count": 0
-        },
-        {
-          "range": "120-130",
-          "count": 1
-        },
-        {
-          "range": "130-140",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 1
-        },
-        {
-          "range": "20-30",
-          "count": 2
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 0
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 0
-        },
-        {
-          "range": "90-100",
-          "count": 0
-        },
-        {
-          "range": "100-110",
-          "count": 0
-        },
-        {
-          "range": "110-120",
-          "count": 0
-        },
-        {
-          "range": "120-130",
-          "count": 7
-        },
-        {
-          "range": "130-140",
-          "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {
-          "Steel": {
-            "120-140": 1
-          }
-        },
-        "gfa": {
-          "Steel": {
-            "120-140": 47231
-          }
-        }
-      },
-      "positive_raze_points": [
-        {
-          "lat": 42.35030647798683,
-          "lng": -71.05812554373503,
-          "lifespan": 121,
-          "status": "Open",
-          "year_built": 1899,
-          "material": "Steel",
-          "foundation": "S"
-        }
-      ]
-    },
-    "South Station Economic Development Area": {
-      "count_raze": 0,
-      "count_total": 4,
-      "avg_raze_lifespan": 0,
-      "avg_current_age": 57.25,
-      "demolished_age_distribution_10yr": [],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 0
-        },
-        {
-          "range": "20-30",
-          "count": 1
-        },
-        {
-          "range": "30-40",
-          "count": 1
-        },
-        {
-          "range": "40-50",
-          "count": 1
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 0
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 0
-        },
-        {
-          "range": "90-100",
-          "count": 0
-        },
-        {
-          "range": "100-110",
-          "count": 0
-        },
-        {
-          "range": "110-120",
-          "count": 0
-        },
-        {
-          "range": "120-130",
-          "count": 1
-        },
-        {
-          "range": "130-140",
-          "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {},
-        "gfa": {}
-      },
-      "positive_raze_points": []
-    },
-    "Boston Proper": {
-      "count_raze": 4,
-      "count_total": 283,
-      "avg_raze_lifespan": 67.0,
-      "avg_current_age": 87.73144876325088,
-      "demolished_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 1
-        },
-        {
-          "range": "20-30",
-          "count": 0
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 1
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 0
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 0
-        },
-        {
-          "range": "90-100",
-          "count": 0
-        },
-        {
-          "range": "100-110",
-          "count": 2
-        },
-        {
-          "range": "110-120",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 2
-        },
-        {
-          "range": "10-20",
-          "count": 5
-        },
-        {
-          "range": "20-30",
-          "count": 61
-        },
-        {
-          "range": "30-40",
-          "count": 10
-        },
-        {
-          "range": "40-50",
-          "count": 14
-        },
-        {
-          "range": "50-60",
-          "count": 10
-        },
-        {
-          "range": "60-70",
-          "count": 4
-        },
-        {
-          "range": "70-80",
-          "count": 5
-        },
-        {
-          "range": "80-90",
-          "count": 9
-        },
-        {
-          "range": "90-100",
-          "count": 3
-        },
-        {
-          "range": "100-110",
-          "count": 21
-        },
-        {
-          "range": "110-120",
-          "count": 22
-        },
-        {
-          "range": "120-130",
           "count": 97
         },
         {
+          "range": "30-40",
+          "count": 9
+        },
+        {
+          "range": "40-50",
+          "count": 22
+        },
+        {
+          "range": "50-60",
+          "count": 40
+        },
+        {
+          "range": "60-70",
+          "count": 8
+        },
+        {
+          "range": "70-80",
+          "count": 6
+        },
+        {
+          "range": "80-90",
+          "count": 11
+        },
+        {
+          "range": "90-100",
+          "count": 5
+        },
+        {
+          "range": "100-110",
+          "count": 18
+        },
+        {
+          "range": "110-120",
+          "count": 16
+        },
+        {
+          "range": "120-130",
+          "count": 114
+        },
+        {
           "range": "130-140",
-          "count": 12
+          "count": 27
         },
         {
           "range": "140-150",
-          "count": 1
+          "count": 4
         },
         {
           "range": "150-160",
-          "count": 1
+          "count": 4
         },
         {
           "range": "160-170",
-          "count": 2
+          "count": 18
         },
         {
           "range": "170-180",
-          "count": 1
+          "count": 5
         },
         {
           "range": "180-190",
           "count": 0
-        },
+        }
+      ]
+    },
+    "Boston Proper": {
+      "count_raze": 4,
+      "avg_raze_lifespan": 67.0,
+      "demolished_age_distribution_10yr": [
         {
-          "range": "190-200",
+          "range": "0-10",
           "count": 0
         },
         {
-          "range": "200-210",
-          "count": 2
-        },
-        {
-          "range": "210-220",
+          "range": "10-20",
           "count": 1
         },
         {
-          "range": "220-230",
+          "range": "20-30",
+          "count": 0
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 1
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 0
+        },
+        {
+          "range": "100-110",
+          "count": 2
+        },
+        {
+          "range": "110-120",
           "count": 0
         }
       ],
@@ -54730,138 +54304,166 @@
           "material": "Steel",
           "foundation": "S"
         }
-      ]
-    },
-    "Midtown Cultural": {
-      "count_raze": 0,
-      "count_total": 35,
-      "avg_raze_lifespan": 0,
-      "avg_current_age": 82.54285714285714,
-      "demolished_age_distribution_10yr": [],
+      ],
+      "count_total": 488,
+      "avg_current_age": 88.63048016701461,
       "current_age_distribution_10yr": [
         {
           "range": "0-10",
-          "count": 1
-        },
-        {
-          "range": "10-20",
-          "count": 2
-        },
-        {
-          "range": "20-30",
-          "count": 6
-        },
-        {
-          "range": "30-40",
-          "count": 1
-        },
-        {
-          "range": "40-50",
-          "count": 3
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 1
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 0
-        },
-        {
-          "range": "90-100",
-          "count": 2
-        },
-        {
-          "range": "100-110",
           "count": 4
         },
         {
-          "range": "110-120",
-          "count": 3
-        },
-        {
-          "range": "120-130",
-          "count": 12
-        },
-        {
-          "range": "130-140",
-          "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {},
-        "gfa": {}
-      },
-      "positive_raze_points": []
-    },
-    "Central Artery Special": {
-      "count_raze": 0,
-      "count_total": 1,
-      "avg_raze_lifespan": 0,
-      "avg_current_age": 19.0,
-      "demolished_age_distribution_10yr": [],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
           "range": "10-20",
-          "count": 1
+          "count": 10
         },
         {
           "range": "20-30",
-          "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {},
-        "gfa": {}
-      },
-      "positive_raze_points": []
-    },
-    "Harborpark: North End Waterfront": {
-      "count_raze": 0,
-      "count_total": 19,
-      "avg_raze_lifespan": 0,
-      "avg_current_age": 58.578947368421055,
-      "demolished_age_distribution_10yr": [],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 1
-        },
-        {
-          "range": "20-30",
-          "count": 7
+          "count": 86
         },
         {
           "range": "30-40",
-          "count": 2
+          "count": 11
         },
         {
           "range": "40-50",
-          "count": 2
+          "count": 24
         },
         {
           "range": "50-60",
-          "count": 1
+          "count": 14
         },
         {
           "range": "60-70",
+          "count": 18
+        },
+        {
+          "range": "70-80",
+          "count": 20
+        },
+        {
+          "range": "80-90",
+          "count": 15
+        },
+        {
+          "range": "90-100",
+          "count": 13
+        },
+        {
+          "range": "100-110",
+          "count": 37
+        },
+        {
+          "range": "110-120",
+          "count": 38
+        },
+        {
+          "range": "120-130",
+          "count": 163
+        },
+        {
+          "range": "130-140",
+          "count": 16
+        },
+        {
+          "range": "140-150",
+          "count": 2
+        },
+        {
+          "range": "150-160",
           "count": 1
+        },
+        {
+          "range": "160-170",
+          "count": 2
+        },
+        {
+          "range": "170-180",
+          "count": 1
+        },
+        {
+          "range": "180-190",
+          "count": 1
+        },
+        {
+          "range": "190-200",
+          "count": 0
+        },
+        {
+          "range": "200-210",
+          "count": 2
+        },
+        {
+          "range": "210-220",
+          "count": 1
+        },
+        {
+          "range": "220-230",
+          "count": 0
+        }
+      ]
+    },
+    "Chinatown": {
+      "count_raze": 1,
+      "avg_raze_lifespan": 0,
+      "demolished_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 1
+        }
+      ],
+      "heatmap_data": {
+        "count": {
+          "Masonry": {
+            "0-20": 1
+          }
+        },
+        "gfa": {
+          "Masonry": {
+            "0-20": 6299
+          }
+        }
+      },
+      "positive_raze_points": [
+        {
+          "lat": 42.35228098360167,
+          "lng": -71.05909602949872,
+          "lifespan": 0,
+          "status": "Open",
+          "year_built": 2012,
+          "material": "Masonry",
+          "foundation": "B"
+        }
+      ],
+      "count_total": 44,
+      "avg_current_age": 82.43181818181819,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 1
+        },
+        {
+          "range": "10-20",
+          "count": 5
+        },
+        {
+          "range": "20-30",
+          "count": 3
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 1
+        },
+        {
+          "range": "50-60",
+          "count": 8
+        },
+        {
+          "range": "60-70",
+          "count": 3
         },
         {
           "range": "70-80",
@@ -54869,11 +54471,11 @@
         },
         {
           "range": "80-90",
-          "count": 0
+          "count": 1
         },
         {
           "range": "90-100",
-          "count": 0
+          "count": 1
         },
         {
           "range": "100-110",
@@ -54881,11 +54483,11 @@
         },
         {
           "range": "110-120",
-          "count": 0
+          "count": 5
         },
         {
           "range": "120-130",
-          "count": 0
+          "count": 10
         },
         {
           "range": "130-140",
@@ -54897,20 +54499,227 @@
         },
         {
           "range": "150-160",
-          "count": 3
+          "count": 4
+        },
+        {
+          "range": "160-170",
+          "count": 0
         }
-      ],
+      ]
+    },
+    "Harborpark: Fort Point Waterfront": {
+      "count_raze": 0,
+      "avg_raze_lifespan": 0,
+      "demolished_age_distribution_10yr": [],
       "heatmap_data": {
         "count": {},
         "gfa": {}
       },
-      "positive_raze_points": []
+      "positive_raze_points": [],
+      "count_total": 37,
+      "avg_current_age": 24.41176470588235,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 9
+        },
+        {
+          "range": "10-20",
+          "count": 14
+        },
+        {
+          "range": "20-30",
+          "count": 7
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 0
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 1
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 1
+        },
+        {
+          "range": "100-110",
+          "count": 0
+        },
+        {
+          "range": "110-120",
+          "count": 0
+        },
+        {
+          "range": "120-130",
+          "count": 2
+        },
+        {
+          "range": "130-140",
+          "count": 0
+        }
+      ]
     },
-    "Government Center/Markets": {
-      "count_raze": 2,
-      "count_total": 40,
-      "avg_raze_lifespan": 117.0,
-      "avg_current_age": 77.35,
+    "South Station Economic Development Area": {
+      "count_raze": 0,
+      "avg_raze_lifespan": 0,
+      "demolished_age_distribution_10yr": [],
+      "heatmap_data": {
+        "count": {},
+        "gfa": {}
+      },
+      "positive_raze_points": [],
+      "count_total": 12,
+      "avg_current_age": 79.41666666666667,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 0
+        },
+        {
+          "range": "10-20",
+          "count": 0
+        },
+        {
+          "range": "20-30",
+          "count": 1
+        },
+        {
+          "range": "30-40",
+          "count": 1
+        },
+        {
+          "range": "40-50",
+          "count": 4
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 1
+        },
+        {
+          "range": "100-110",
+          "count": 0
+        },
+        {
+          "range": "110-120",
+          "count": 0
+        },
+        {
+          "range": "120-130",
+          "count": 5
+        },
+        {
+          "range": "130-140",
+          "count": 0
+        }
+      ]
+    },
+    "Boston Harbor": {
+      "count_raze": 0,
+      "avg_raze_lifespan": 0,
+      "demolished_age_distribution_10yr": [],
+      "heatmap_data": {
+        "count": {},
+        "gfa": {}
+      },
+      "positive_raze_points": [],
+      "count_total": 27,
+      "avg_current_age": 123.55555555555556,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 0
+        },
+        {
+          "range": "10-20",
+          "count": 0
+        },
+        {
+          "range": "20-30",
+          "count": 0
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 0
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 2
+        },
+        {
+          "range": "100-110",
+          "count": 0
+        },
+        {
+          "range": "110-120",
+          "count": 0
+        },
+        {
+          "range": "120-130",
+          "count": 25
+        },
+        {
+          "range": "130-140",
+          "count": 0
+        }
+      ]
+    },
+    "Leather District": {
+      "count_raze": 1,
+      "avg_raze_lifespan": 121.0,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -54958,65 +54767,11 @@
         },
         {
           "range": "110-120",
-          "count": 1
-        },
-        {
-          "range": "120-130",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 1
-        },
-        {
-          "range": "10-20",
-          "count": 1
-        },
-        {
-          "range": "20-30",
-          "count": 1
-        },
-        {
-          "range": "30-40",
-          "count": 3
-        },
-        {
-          "range": "40-50",
-          "count": 3
-        },
-        {
-          "range": "50-60",
-          "count": 11
-        },
-        {
-          "range": "60-70",
           "count": 0
         },
         {
-          "range": "70-80",
-          "count": 1
-        },
-        {
-          "range": "80-90",
-          "count": 5
-        },
-        {
-          "range": "90-100",
-          "count": 1
-        },
-        {
-          "range": "100-110",
-          "count": 1
-        },
-        {
-          "range": "110-120",
-          "count": 2
-        },
-        {
           "range": "120-130",
-          "count": 10
+          "count": 1
         },
         {
           "range": "130-140",
@@ -55025,88 +54780,29 @@
       ],
       "heatmap_data": {
         "count": {
-          "Masonry": {
-            "100-120": 1
+          "Steel": {
+            "120-140": 1
           }
         },
         "gfa": {
-          "Masonry": {
-            "100-120": 238
+          "Steel": {
+            "120-140": 47231
           }
         }
       },
       "positive_raze_points": [
         {
-          "lat": 42.35738774514423,
-          "lng": -71.0520743933032,
-          "lifespan": -1,
-          "status": "Open",
-          "year_built": 2017,
-          "material": "Masonry",
-          "foundation": "C"
-        },
-        {
-          "lat": 42.36031853463318,
-          "lng": -71.0562511299772,
-          "lifespan": 117,
+          "lat": 42.35030647798683,
+          "lng": -71.05812554373503,
+          "lifespan": 121,
           "status": "Open",
           "year_built": 1899,
-          "material": "Masonry",
+          "material": "Steel",
           "foundation": "S"
         }
-      ]
-    },
-    "North End Neighborhood": {
-      "count_raze": 1,
-      "count_total": 58,
-      "avg_raze_lifespan": 98.0,
-      "avg_current_age": 91.01724137931035,
-      "demolished_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 0
-        },
-        {
-          "range": "20-30",
-          "count": 0
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 0
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 0
-        },
-        {
-          "range": "90-100",
-          "count": 1
-        },
-        {
-          "range": "100-110",
-          "count": 0
-        }
       ],
+      "count_total": 10,
+      "avg_current_age": 95.0,
       "current_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -55114,11 +54810,11 @@
         },
         {
           "range": "10-20",
-          "count": 0
+          "count": 1
         },
         {
           "range": "20-30",
-          "count": 15
+          "count": 2
         },
         {
           "range": "30-40",
@@ -55126,7 +54822,7 @@
         },
         {
           "range": "40-50",
-          "count": 1
+          "count": 0
         },
         {
           "range": "50-60",
@@ -55142,99 +54838,185 @@
         },
         {
           "range": "80-90",
-          "count": 6
+          "count": 0
         },
         {
           "range": "90-100",
-          "count": 1
+          "count": 0
         },
         {
           "range": "100-110",
-          "count": 8
+          "count": 0
         },
         {
           "range": "110-120",
-          "count": 2
+          "count": 0
         },
         {
           "range": "120-130",
-          "count": 21
+          "count": 7
         },
         {
           "range": "130-140",
+          "count": 0
+        }
+      ]
+    },
+    "Central Artery Special": {
+      "count_raze": 0,
+      "avg_raze_lifespan": 0,
+      "demolished_age_distribution_10yr": [],
+      "heatmap_data": {
+        "count": {},
+        "gfa": {}
+      },
+      "positive_raze_points": [],
+      "count_total": 5,
+      "avg_current_age": 20.4,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 0
+        },
+        {
+          "range": "10-20",
+          "count": 3
+        },
+        {
+          "range": "20-30",
+          "count": 2
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        }
+      ]
+    },
+    "Midtown Cultural": {
+      "count_raze": 0,
+      "avg_raze_lifespan": 0,
+      "demolished_age_distribution_10yr": [],
+      "heatmap_data": {
+        "count": {},
+        "gfa": {}
+      },
+      "positive_raze_points": [],
+      "count_total": 45,
+      "avg_current_age": 81.62222222222222,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 1
+        },
+        {
+          "range": "10-20",
+          "count": 3
+        },
+        {
+          "range": "20-30",
+          "count": 8
+        },
+        {
+          "range": "30-40",
+          "count": 1
+        },
+        {
+          "range": "40-50",
           "count": 4
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 1
+        },
+        {
+          "range": "70-80",
+          "count": 1
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 2
+        },
+        {
+          "range": "100-110",
+          "count": 6
+        },
+        {
+          "range": "110-120",
+          "count": 3
+        },
+        {
+          "range": "120-130",
+          "count": 14
+        },
+        {
+          "range": "130-140",
+          "count": 0
         },
         {
           "range": "140-150",
           "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {
-          "Masonry": {
-            "80-100": 1
-          }
         },
-        "gfa": {
-          "Masonry": {
-            "80-100": 22534
-          }
-        }
-      },
-      "positive_raze_points": [
         {
-          "lat": 42.36339678461691,
-          "lng": -71.05552037015683,
-          "lifespan": 98,
-          "status": "Open",
-          "year_built": 1920,
-          "material": "Masonry",
-          "foundation": "S"
+          "range": "150-160",
+          "count": 1
         }
       ]
     },
-    "Bulfinch Triangle": {
-      "count_raze": 1,
-      "count_total": 14,
+    "Harborpark: North End Waterfront": {
+      "count_raze": 0,
       "avg_raze_lifespan": 0,
-      "avg_current_age": 96.28571428571429,
       "demolished_age_distribution_10yr": [],
+      "heatmap_data": {
+        "count": {},
+        "gfa": {}
+      },
+      "positive_raze_points": [],
+      "count_total": 63,
+      "avg_current_age": 68.66666666666667,
       "current_age_distribution_10yr": [
         {
           "range": "0-10",
-          "count": 1
+          "count": 0
         },
         {
           "range": "10-20",
-          "count": 1
+          "count": 4
         },
         {
           "range": "20-30",
-          "count": 0
+          "count": 14
         },
         {
           "range": "30-40",
-          "count": 0
+          "count": 4
         },
         {
           "range": "40-50",
-          "count": 1
+          "count": 4
         },
         {
           "range": "50-60",
-          "count": 0
+          "count": 4
         },
         {
           "range": "60-70",
-          "count": 0
+          "count": 5
         },
         {
           "range": "70-80",
-          "count": 0
+          "count": 1
         },
         {
           "range": "80-90",
-          "count": 0
+          "count": 1
         },
         {
           "range": "90-100",
@@ -55242,42 +55024,33 @@
         },
         {
           "range": "100-110",
-          "count": 4
+          "count": 2
         },
         {
           "range": "110-120",
-          "count": 1
+          "count": 0
         },
         {
           "range": "120-130",
-          "count": 6
+          "count": 8
         },
         {
           "range": "130-140",
           "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {},
-        "gfa": {}
-      },
-      "positive_raze_points": [
+        },
         {
-          "lat": 42.36328060092609,
-          "lng": -71.05986992553898,
-          "lifespan": -1,
-          "status": "Open",
-          "year_built": 2012,
-          "material": "Steel",
-          "foundation": "S"
+          "range": "140-150",
+          "count": 0
+        },
+        {
+          "range": "150-160",
+          "count": 7
         }
       ]
     },
     "East Boston Neighborhood": {
       "count_raze": 75,
-      "count_total": 529,
       "avg_raze_lifespan": 92.15094339622641,
-      "avg_current_age": 104.71077504725898,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -55341,92 +55114,6 @@
         },
         {
           "range": "150-160",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 39
-        },
-        {
-          "range": "10-20",
-          "count": 11
-        },
-        {
-          "range": "20-30",
-          "count": 9
-        },
-        {
-          "range": "30-40",
-          "count": 4
-        },
-        {
-          "range": "40-50",
-          "count": 2
-        },
-        {
-          "range": "50-60",
-          "count": 5
-        },
-        {
-          "range": "60-70",
-          "count": 12
-        },
-        {
-          "range": "70-80",
-          "count": 8
-        },
-        {
-          "range": "80-90",
-          "count": 12
-        },
-        {
-          "range": "90-100",
-          "count": 20
-        },
-        {
-          "range": "100-110",
-          "count": 38
-        },
-        {
-          "range": "110-120",
-          "count": 115
-        },
-        {
-          "range": "120-130",
-          "count": 199
-        },
-        {
-          "range": "130-140",
-          "count": 20
-        },
-        {
-          "range": "140-150",
-          "count": 23
-        },
-        {
-          "range": "150-160",
-          "count": 6
-        },
-        {
-          "range": "160-170",
-          "count": 0
-        },
-        {
-          "range": "170-180",
-          "count": 3
-        },
-        {
-          "range": "180-190",
-          "count": 2
-        },
-        {
-          "range": "190-200",
-          "count": 1
-        },
-        {
-          "range": "200-210",
           "count": 0
         }
       ],
@@ -56164,22 +55851,119 @@
           "material": "Unknown",
           "foundation": "None"
         }
+      ],
+      "count_total": 4433,
+      "avg_current_age": 105.77469630987852,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 94
+        },
+        {
+          "range": "10-20",
+          "count": 87
+        },
+        {
+          "range": "20-30",
+          "count": 105
+        },
+        {
+          "range": "30-40",
+          "count": 35
+        },
+        {
+          "range": "40-50",
+          "count": 48
+        },
+        {
+          "range": "50-60",
+          "count": 111
+        },
+        {
+          "range": "60-70",
+          "count": 181
+        },
+        {
+          "range": "70-80",
+          "count": 120
+        },
+        {
+          "range": "80-90",
+          "count": 122
+        },
+        {
+          "range": "90-100",
+          "count": 173
+        },
+        {
+          "range": "100-110",
+          "count": 352
+        },
+        {
+          "range": "110-120",
+          "count": 976
+        },
+        {
+          "range": "120-130",
+          "count": 1578
+        },
+        {
+          "range": "130-140",
+          "count": 151
+        },
+        {
+          "range": "140-150",
+          "count": 156
+        },
+        {
+          "range": "150-160",
+          "count": 40
+        },
+        {
+          "range": "160-170",
+          "count": 10
+        },
+        {
+          "range": "170-180",
+          "count": 15
+        },
+        {
+          "range": "180-190",
+          "count": 3
+        },
+        {
+          "range": "190-200",
+          "count": 5
+        },
+        {
+          "range": "200-210",
+          "count": 0
+        },
+        {
+          "range": "210-220",
+          "count": 0
+        },
+        {
+          "range": "220-230",
+          "count": 1
+        },
+        {
+          "range": "230-240",
+          "count": 0
+        }
       ]
     },
-    "North Station Economic Development Area": {
-      "count_raze": 0,
-      "count_total": 5,
-      "avg_raze_lifespan": 0,
-      "avg_current_age": 65.4,
-      "demolished_age_distribution_10yr": [],
-      "current_age_distribution_10yr": [
+    "Government Center/Markets": {
+      "count_raze": 2,
+      "avg_raze_lifespan": 117.0,
+      "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
           "count": 0
         },
         {
           "range": "10-20",
-          "count": 1
+          "count": 0
         },
         {
           "range": "20-30",
@@ -56187,7 +55971,382 @@
         },
         {
           "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 0
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 0
+        },
+        {
+          "range": "100-110",
+          "count": 0
+        },
+        {
+          "range": "110-120",
           "count": 1
+        },
+        {
+          "range": "120-130",
+          "count": 0
+        }
+      ],
+      "heatmap_data": {
+        "count": {
+          "Masonry": {
+            "100-120": 1
+          }
+        },
+        "gfa": {
+          "Masonry": {
+            "100-120": 238
+          }
+        }
+      },
+      "positive_raze_points": [
+        {
+          "lat": 42.35738774514423,
+          "lng": -71.0520743933032,
+          "lifespan": -1,
+          "status": "Open",
+          "year_built": 2017,
+          "material": "Masonry",
+          "foundation": "C"
+        },
+        {
+          "lat": 42.36031853463318,
+          "lng": -71.0562511299772,
+          "lifespan": 117,
+          "status": "Open",
+          "year_built": 1899,
+          "material": "Masonry",
+          "foundation": "S"
+        }
+      ],
+      "count_total": 78,
+      "avg_current_age": 81.06666666666666,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 1
+        },
+        {
+          "range": "10-20",
+          "count": 1
+        },
+        {
+          "range": "20-30",
+          "count": 7
+        },
+        {
+          "range": "30-40",
+          "count": 5
+        },
+        {
+          "range": "40-50",
+          "count": 4
+        },
+        {
+          "range": "50-60",
+          "count": 15
+        },
+        {
+          "range": "60-70",
+          "count": 2
+        },
+        {
+          "range": "70-80",
+          "count": 2
+        },
+        {
+          "range": "80-90",
+          "count": 6
+        },
+        {
+          "range": "90-100",
+          "count": 2
+        },
+        {
+          "range": "100-110",
+          "count": 1
+        },
+        {
+          "range": "110-120",
+          "count": 3
+        },
+        {
+          "range": "120-130",
+          "count": 26
+        },
+        {
+          "range": "130-140",
+          "count": 0
+        }
+      ]
+    },
+    "North End Neighborhood": {
+      "count_raze": 1,
+      "avg_raze_lifespan": 98.0,
+      "demolished_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 0
+        },
+        {
+          "range": "10-20",
+          "count": 0
+        },
+        {
+          "range": "20-30",
+          "count": 0
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 0
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 1
+        },
+        {
+          "range": "100-110",
+          "count": 0
+        }
+      ],
+      "heatmap_data": {
+        "count": {
+          "Masonry": {
+            "80-100": 1
+          }
+        },
+        "gfa": {
+          "Masonry": {
+            "80-100": 22534
+          }
+        }
+      },
+      "positive_raze_points": [
+        {
+          "lat": 42.36339678461691,
+          "lng": -71.05552037015683,
+          "lifespan": 98,
+          "status": "Open",
+          "year_built": 1920,
+          "material": "Masonry",
+          "foundation": "S"
+        }
+      ],
+      "count_total": 103,
+      "avg_current_age": 92.6504854368932,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 0
+        },
+        {
+          "range": "10-20",
+          "count": 0
+        },
+        {
+          "range": "20-30",
+          "count": 24
+        },
+        {
+          "range": "30-40",
+          "count": 1
+        },
+        {
+          "range": "40-50",
+          "count": 2
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 1
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 9
+        },
+        {
+          "range": "90-100",
+          "count": 1
+        },
+        {
+          "range": "100-110",
+          "count": 13
+        },
+        {
+          "range": "110-120",
+          "count": 5
+        },
+        {
+          "range": "120-130",
+          "count": 41
+        },
+        {
+          "range": "130-140",
+          "count": 6
+        },
+        {
+          "range": "140-150",
+          "count": 0
+        }
+      ]
+    },
+    "Bulfinch Triangle": {
+      "count_raze": 1,
+      "avg_raze_lifespan": 0,
+      "demolished_age_distribution_10yr": [],
+      "heatmap_data": {
+        "count": {},
+        "gfa": {}
+      },
+      "positive_raze_points": [
+        {
+          "lat": 42.36328060092609,
+          "lng": -71.05986992553898,
+          "lifespan": -1,
+          "status": "Open",
+          "year_built": 2012,
+          "material": "Steel",
+          "foundation": "S"
+        }
+      ],
+      "count_total": 23,
+      "avg_current_age": 72.0,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 1
+        },
+        {
+          "range": "10-20",
+          "count": 8
+        },
+        {
+          "range": "20-30",
+          "count": 0
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 1
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 0
+        },
+        {
+          "range": "100-110",
+          "count": 5
+        },
+        {
+          "range": "110-120",
+          "count": 2
+        },
+        {
+          "range": "120-130",
+          "count": 6
+        },
+        {
+          "range": "130-140",
+          "count": 0
+        }
+      ]
+    },
+    "North Station Economic Development Area": {
+      "count_raze": 0,
+      "avg_raze_lifespan": 0,
+      "demolished_age_distribution_10yr": [],
+      "heatmap_data": {
+        "count": {},
+        "gfa": {}
+      },
+      "positive_raze_points": [],
+      "count_total": 12,
+      "avg_current_age": 39.81818181818182,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 3
+        },
+        {
+          "range": "10-20",
+          "count": 2
+        },
+        {
+          "range": "20-30",
+          "count": 0
+        },
+        {
+          "range": "30-40",
+          "count": 3
         },
         {
           "range": "40-50",
@@ -56229,18 +56388,200 @@
           "range": "130-140",
           "count": 0
         }
+      ]
+    },
+    "Harborpark: Charlestown Waterfront": {
+      "count_raze": 1,
+      "avg_raze_lifespan": 169.0,
+      "demolished_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 0
+        },
+        {
+          "range": "10-20",
+          "count": 0
+        },
+        {
+          "range": "20-30",
+          "count": 0
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 0
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 0
+        },
+        {
+          "range": "100-110",
+          "count": 0
+        },
+        {
+          "range": "110-120",
+          "count": 0
+        },
+        {
+          "range": "120-130",
+          "count": 0
+        },
+        {
+          "range": "130-140",
+          "count": 0
+        },
+        {
+          "range": "140-150",
+          "count": 0
+        },
+        {
+          "range": "150-160",
+          "count": 0
+        },
+        {
+          "range": "160-170",
+          "count": 1
+        },
+        {
+          "range": "170-180",
+          "count": 0
+        }
       ],
       "heatmap_data": {
-        "count": {},
-        "gfa": {}
+        "count": {
+          "Concrete": {
+            "160-180": 1
+          }
+        },
+        "gfa": {
+          "Concrete": {
+            "160-180": 19784
+          }
+        }
       },
-      "positive_raze_points": []
+      "positive_raze_points": [
+        {
+          "lat": 42.37641047824447,
+          "lng": -71.05409710584533,
+          "lifespan": 169,
+          "status": "Open",
+          "year_built": 1853,
+          "material": "Concrete",
+          "foundation": "S"
+        }
+      ],
+      "count_total": 150,
+      "avg_current_age": 83.1875,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 0
+        },
+        {
+          "range": "10-20",
+          "count": 9
+        },
+        {
+          "range": "20-30",
+          "count": 19
+        },
+        {
+          "range": "30-40",
+          "count": 5
+        },
+        {
+          "range": "40-50",
+          "count": 2
+        },
+        {
+          "range": "50-60",
+          "count": 19
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 3
+        },
+        {
+          "range": "90-100",
+          "count": 7
+        },
+        {
+          "range": "100-110",
+          "count": 11
+        },
+        {
+          "range": "110-120",
+          "count": 3
+        },
+        {
+          "range": "120-130",
+          "count": 48
+        },
+        {
+          "range": "130-140",
+          "count": 0
+        },
+        {
+          "range": "140-150",
+          "count": 0
+        },
+        {
+          "range": "150-160",
+          "count": 0
+        },
+        {
+          "range": "160-170",
+          "count": 0
+        },
+        {
+          "range": "170-180",
+          "count": 1
+        },
+        {
+          "range": "180-190",
+          "count": 0
+        },
+        {
+          "range": "190-200",
+          "count": 1
+        },
+        {
+          "range": "200-210",
+          "count": 0
+        }
+      ]
     },
     "Charlestown Neighborhood": {
       "count_raze": 17,
-      "count_total": 234,
       "avg_raze_lifespan": 92.27272727272727,
-      "avg_current_age": 115.36752136752136,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -56309,92 +56650,6 @@
         {
           "range": "160-170",
           "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 5
-        },
-        {
-          "range": "10-20",
-          "count": 8
-        },
-        {
-          "range": "20-30",
-          "count": 33
-        },
-        {
-          "range": "30-40",
-          "count": 1
-        },
-        {
-          "range": "40-50",
-          "count": 4
-        },
-        {
-          "range": "50-60",
-          "count": 6
-        },
-        {
-          "range": "60-70",
-          "count": 0
-        },
-        {
-          "range": "70-80",
-          "count": 4
-        },
-        {
-          "range": "80-90",
-          "count": 5
-        },
-        {
-          "range": "90-100",
-          "count": 1
-        },
-        {
-          "range": "100-110",
-          "count": 5
-        },
-        {
-          "range": "110-120",
-          "count": 3
-        },
-        {
-          "range": "120-130",
-          "count": 27
-        },
-        {
-          "range": "130-140",
-          "count": 13
-        },
-        {
-          "range": "140-150",
-          "count": 41
-        },
-        {
-          "range": "150-160",
-          "count": 35
-        },
-        {
-          "range": "160-170",
-          "count": 18
-        },
-        {
-          "range": "170-180",
-          "count": 12
-        },
-        {
-          "range": "180-190",
-          "count": 9
-        },
-        {
-          "range": "190-200",
-          "count": 3
-        },
-        {
-          "range": "200-210",
-          "count": 1
         }
       ],
       "heatmap_data": {
@@ -56591,202 +56846,115 @@
           "material": "Wood",
           "foundation": "S"
         }
-      ]
-    },
-    "Harborpark: Charlestown Waterfront": {
-      "count_raze": 1,
-      "count_total": 18,
-      "avg_raze_lifespan": 169.0,
-      "avg_current_age": 103.88888888888889,
-      "demolished_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 0
-        },
-        {
-          "range": "20-30",
-          "count": 0
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 0
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 0
-        },
-        {
-          "range": "90-100",
-          "count": 0
-        },
-        {
-          "range": "100-110",
-          "count": 0
-        },
-        {
-          "range": "110-120",
-          "count": 0
-        },
-        {
-          "range": "120-130",
-          "count": 0
-        },
-        {
-          "range": "130-140",
-          "count": 0
-        },
-        {
-          "range": "140-150",
-          "count": 0
-        },
-        {
-          "range": "150-160",
-          "count": 0
-        },
-        {
-          "range": "160-170",
-          "count": 1
-        },
-        {
-          "range": "170-180",
-          "count": 0
-        }
       ],
+      "count_total": 1191,
+      "avg_current_age": 104.8743676222597,
       "current_age_distribution_10yr": [
         {
           "range": "0-10",
-          "count": 0
+          "count": 14
         },
         {
           "range": "10-20",
-          "count": 0
+          "count": 43
         },
         {
           "range": "20-30",
-          "count": 3
+          "count": 197
         },
         {
           "range": "30-40",
-          "count": 0
+          "count": 32
         },
         {
           "range": "40-50",
-          "count": 1
+          "count": 22
         },
         {
           "range": "50-60",
-          "count": 0
+          "count": 61
         },
         {
           "range": "60-70",
-          "count": 0
+          "count": 13
         },
         {
           "range": "70-80",
-          "count": 0
+          "count": 8
         },
         {
           "range": "80-90",
-          "count": 0
+          "count": 51
         },
         {
           "range": "90-100",
-          "count": 2
+          "count": 9
         },
         {
           "range": "100-110",
-          "count": 3
+          "count": 35
         },
         {
           "range": "110-120",
-          "count": 0
+          "count": 20
         },
         {
           "range": "120-130",
-          "count": 7
+          "count": 150
         },
         {
           "range": "130-140",
-          "count": 0
+          "count": 51
         },
         {
           "range": "140-150",
-          "count": 0
+          "count": 177
         },
         {
           "range": "150-160",
-          "count": 0
+          "count": 149
         },
         {
           "range": "160-170",
-          "count": 0
+          "count": 63
         },
         {
           "range": "170-180",
-          "count": 1
+          "count": 40
         },
         {
           "range": "180-190",
-          "count": 0
+          "count": 24
         },
         {
           "range": "190-200",
-          "count": 1
+          "count": 17
         },
         {
           "range": "200-210",
-          "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {
-          "Concrete": {
-            "160-180": 1
-          }
+          "count": 2
         },
-        "gfa": {
-          "Concrete": {
-            "160-180": 19784
-          }
-        }
-      },
-      "positive_raze_points": [
         {
-          "lat": 42.37641047824447,
-          "lng": -71.05409710584533,
-          "lifespan": 169,
-          "status": "Open",
-          "year_built": 1853,
-          "material": "Concrete",
-          "foundation": "S"
+          "range": "210-220",
+          "count": 4
+        },
+        {
+          "range": "220-230",
+          "count": 3
+        },
+        {
+          "range": "230-240",
+          "count": 1
+        },
+        {
+          "range": "240-250",
+          "count": 0
         }
       ]
     },
     "West Roxbury Neighborhood": {
       "count_raze": 48,
-      "count_total": 272,
       "avg_raze_lifespan": 86.47222222222223,
-      "avg_current_age": 85.13602941176471,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -56847,100 +57015,6 @@
         {
           "range": "140-150",
           "count": 1
-        },
-        {
-          "range": "150-160",
-          "count": 0
-        },
-        {
-          "range": "160-170",
-          "count": 0
-        },
-        {
-          "range": "170-180",
-          "count": 0
-        },
-        {
-          "range": "180-190",
-          "count": 0
-        },
-        {
-          "range": "190-200",
-          "count": 0
-        },
-        {
-          "range": "200-210",
-          "count": 0
-        },
-        {
-          "range": "210-220",
-          "count": 1
-        },
-        {
-          "range": "220-230",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 15
-        },
-        {
-          "range": "10-20",
-          "count": 14
-        },
-        {
-          "range": "20-30",
-          "count": 7
-        },
-        {
-          "range": "30-40",
-          "count": 1
-        },
-        {
-          "range": "40-50",
-          "count": 6
-        },
-        {
-          "range": "50-60",
-          "count": 5
-        },
-        {
-          "range": "60-70",
-          "count": 19
-        },
-        {
-          "range": "70-80",
-          "count": 33
-        },
-        {
-          "range": "80-90",
-          "count": 15
-        },
-        {
-          "range": "90-100",
-          "count": 35
-        },
-        {
-          "range": "100-110",
-          "count": 60
-        },
-        {
-          "range": "110-120",
-          "count": 29
-        },
-        {
-          "range": "120-130",
-          "count": 18
-        },
-        {
-          "range": "130-140",
-          "count": 7
-        },
-        {
-          "range": "140-150",
-          "count": 7
         },
         {
           "range": "150-160",
@@ -57472,258 +57546,115 @@
           "material": "Masonry",
           "foundation": "B"
         }
-      ]
-    },
-    "Boston Zoning Code": {
-      "count_raze": 9,
-      "count_total": 68,
-      "avg_raze_lifespan": 97.28571428571429,
-      "avg_current_age": 83.63235294117646,
-      "demolished_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 2
-        },
-        {
-          "range": "10-20",
-          "count": 0
-        },
-        {
-          "range": "20-30",
-          "count": 0
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 1
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 1
-        },
-        {
-          "range": "90-100",
-          "count": 2
-        },
-        {
-          "range": "100-110",
-          "count": 1
-        },
-        {
-          "range": "110-120",
-          "count": 1
-        },
-        {
-          "range": "120-130",
-          "count": 1
-        }
       ],
+      "count_total": 8605,
+      "avg_current_age": 87.80056245605812,
       "current_age_distribution_10yr": [
         {
           "range": "0-10",
-          "count": 5
+          "count": 58
         },
         {
           "range": "10-20",
-          "count": 5
+          "count": 123
         },
         {
           "range": "20-30",
-          "count": 3
+          "count": 251
         },
         {
           "range": "30-40",
-          "count": 1
+          "count": 181
         },
         {
           "range": "40-50",
-          "count": 1
+          "count": 76
         },
         {
           "range": "50-60",
-          "count": 1
+          "count": 262
         },
         {
           "range": "60-70",
-          "count": 3
+          "count": 1007
         },
         {
           "range": "70-80",
-          "count": 2
+          "count": 1213
         },
         {
           "range": "80-90",
-          "count": 4
+          "count": 758
         },
         {
           "range": "90-100",
-          "count": 9
+          "count": 1292
         },
         {
           "range": "100-110",
-          "count": 13
+          "count": 1724
         },
         {
           "range": "110-120",
-          "count": 8
+          "count": 713
         },
         {
           "range": "120-130",
-          "count": 13
+          "count": 528
         },
         {
           "range": "130-140",
+          "count": 171
+        },
+        {
+          "range": "140-150",
+          "count": 99
+        },
+        {
+          "range": "150-160",
+          "count": 26
+        },
+        {
+          "range": "160-170",
+          "count": 22
+        },
+        {
+          "range": "170-180",
+          "count": 10
+        },
+        {
+          "range": "180-190",
+          "count": 5
+        },
+        {
+          "range": "190-200",
+          "count": 2
+        },
+        {
+          "range": "200-210",
+          "count": 3
+        },
+        {
+          "range": "210-220",
+          "count": 4
+        },
+        {
+          "range": "220-230",
+          "count": 5
+        },
+        {
+          "range": "230-240",
+          "count": 1
+        },
+        {
+          "range": "240-250",
           "count": 0
-        }
-      ],
-      "heatmap_data": {
-        "count": {
-          "Steel": {
-            "80-100": 1,
-            "100-120": 1
-          },
-          "Masonry": {
-            "0-20": 1,
-            "80-100": 1
-          },
-          "Wood": {
-            "100-120": 1,
-            "120-140": 1
-          },
-          "Unknown": {
-            "0-20": 1,
-            "80-100": 1
-          },
-          "Concrete": {
-            "60-80": 1
-          }
-        },
-        "gfa": {
-          "Steel": {
-            "80-100": 232,
-            "100-120": 269
-          },
-          "Masonry": {
-            "0-20": 1292,
-            "80-100": 621
-          },
-          "Wood": {
-            "100-120": 445,
-            "120-140": 211
-          },
-          "Unknown": {
-            "0-20": 2049,
-            "80-100": 54
-          },
-          "Concrete": {
-            "60-80": 109
-          }
-        }
-      },
-      "positive_raze_points": [
-        {
-          "lat": 42.26908010211445,
-          "lng": -71.09670018510317,
-          "lifespan": 98,
-          "status": "Close",
-          "year_built": 1925,
-          "material": "Steel",
-          "foundation": "S"
-        },
-        {
-          "lat": 42.270737837430225,
-          "lng": -71.09616297948537,
-          "lifespan": 0,
-          "status": "Open",
-          "year_built": 2020,
-          "material": "Masonry",
-          "foundation": "S"
-        },
-        {
-          "lat": 42.281028427987344,
-          "lng": -71.08463153872658,
-          "lifespan": 112,
-          "status": "Open",
-          "year_built": 1910,
-          "material": "Steel",
-          "foundation": "S"
-        },
-        {
-          "lat": 42.281495186024124,
-          "lng": -71.08643005066854,
-          "lifespan": 120,
-          "status": "Open",
-          "year_built": 1900,
-          "material": "Wood",
-          "foundation": "S"
-        },
-        {
-          "lat": 42.28147091648518,
-          "lng": -71.13387718521435,
-          "lifespan": 67,
-          "status": "Open",
-          "year_built": 1955,
-          "material": "Concrete",
-          "foundation": "S"
-        },
-        {
-          "lat": 42.286623720096166,
-          "lng": -71.13275198682365,
-          "lifespan": 93,
-          "status": "Open",
-          "year_built": 1930,
-          "material": "Masonry",
-          "foundation": "S"
-        },
-        {
-          "lat": 42.29111413712537,
-          "lng": -71.12346379633465,
-          "lifespan": 109,
-          "status": "Open",
-          "year_built": 1910,
-          "material": "Wood",
-          "foundation": "C"
-        },
-        {
-          "lat": 42.293031362905865,
-          "lng": -71.12157749808401,
-          "lifespan": 82,
-          "status": "Open",
-          "year_built": 1940,
-          "material": "Unknown",
-          "foundation": "None"
-        },
-        {
-          "lat": 42.274640155724626,
-          "lng": -71.09255187943275,
-          "lifespan": 0,
-          "status": "Open",
-          "year_built": 2015,
-          "material": "Unknown",
-          "foundation": "None"
         }
       ]
     },
     "Greater Mattapan Neighborhood": {
       "count_raze": 11,
-      "count_total": 159,
       "avg_raze_lifespan": 79.0,
-      "avg_current_age": 99.93081761006289,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -57784,68 +57715,6 @@
         {
           "range": "140-150",
           "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 4
-        },
-        {
-          "range": "10-20",
-          "count": 1
-        },
-        {
-          "range": "20-30",
-          "count": 6
-        },
-        {
-          "range": "30-40",
-          "count": 2
-        },
-        {
-          "range": "40-50",
-          "count": 0
-        },
-        {
-          "range": "50-60",
-          "count": 3
-        },
-        {
-          "range": "60-70",
-          "count": 2
-        },
-        {
-          "range": "70-80",
-          "count": 6
-        },
-        {
-          "range": "80-90",
-          "count": 10
-        },
-        {
-          "range": "90-100",
-          "count": 17
-        },
-        {
-          "range": "100-110",
-          "count": 36
-        },
-        {
-          "range": "110-120",
-          "count": 17
-        },
-        {
-          "range": "120-130",
-          "count": 47
-        },
-        {
-          "range": "130-140",
-          "count": 6
-        },
-        {
-          "range": "140-150",
-          "count": 2
         }
       ],
       "heatmap_data": {
@@ -57986,13 +57855,384 @@
           "material": "Concrete",
           "foundation": "B"
         }
+      ],
+      "count_total": 5488,
+      "avg_current_age": 92.89782368129842,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 96
+        },
+        {
+          "range": "10-20",
+          "count": 111
+        },
+        {
+          "range": "20-30",
+          "count": 277
+        },
+        {
+          "range": "30-40",
+          "count": 136
+        },
+        {
+          "range": "40-50",
+          "count": 10
+        },
+        {
+          "range": "50-60",
+          "count": 35
+        },
+        {
+          "range": "60-70",
+          "count": 258
+        },
+        {
+          "range": "70-80",
+          "count": 744
+        },
+        {
+          "range": "80-90",
+          "count": 276
+        },
+        {
+          "range": "90-100",
+          "count": 403
+        },
+        {
+          "range": "100-110",
+          "count": 877
+        },
+        {
+          "range": "110-120",
+          "count": 757
+        },
+        {
+          "range": "120-130",
+          "count": 1257
+        },
+        {
+          "range": "130-140",
+          "count": 117
+        },
+        {
+          "range": "140-150",
+          "count": 54
+        },
+        {
+          "range": "150-160",
+          "count": 9
+        },
+        {
+          "range": "160-170",
+          "count": 2
+        },
+        {
+          "range": "170-180",
+          "count": 0
+        },
+        {
+          "range": "180-190",
+          "count": 0
+        },
+        {
+          "range": "190-200",
+          "count": 1
+        },
+        {
+          "range": "200-210",
+          "count": 0
+        },
+        {
+          "range": "210-220",
+          "count": 0
+        },
+        {
+          "range": "220-230",
+          "count": 1
+        },
+        {
+          "range": "230-240",
+          "count": 0
+        },
+        {
+          "range": "240-250",
+          "count": 1
+        },
+        {
+          "range": "250-260",
+          "count": 0
+        }
+      ]
+    },
+    "Boston Zoning Code": {
+      "count_raze": 9,
+      "avg_raze_lifespan": 97.28571428571429,
+      "demolished_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 2
+        },
+        {
+          "range": "10-20",
+          "count": 0
+        },
+        {
+          "range": "20-30",
+          "count": 0
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 0
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 1
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 1
+        },
+        {
+          "range": "90-100",
+          "count": 2
+        },
+        {
+          "range": "100-110",
+          "count": 1
+        },
+        {
+          "range": "110-120",
+          "count": 1
+        },
+        {
+          "range": "120-130",
+          "count": 1
+        }
+      ],
+      "heatmap_data": {
+        "count": {
+          "Steel": {
+            "80-100": 1,
+            "100-120": 1
+          },
+          "Masonry": {
+            "0-20": 1,
+            "80-100": 1
+          },
+          "Wood": {
+            "100-120": 1,
+            "120-140": 1
+          },
+          "Unknown": {
+            "0-20": 1,
+            "80-100": 1
+          },
+          "Concrete": {
+            "60-80": 1
+          }
+        },
+        "gfa": {
+          "Steel": {
+            "80-100": 232,
+            "100-120": 269
+          },
+          "Masonry": {
+            "0-20": 1292,
+            "80-100": 621
+          },
+          "Wood": {
+            "100-120": 445,
+            "120-140": 211
+          },
+          "Unknown": {
+            "0-20": 2049,
+            "80-100": 54
+          },
+          "Concrete": {
+            "60-80": 109
+          }
+        }
+      },
+      "positive_raze_points": [
+        {
+          "lat": 42.26908010211445,
+          "lng": -71.09670018510317,
+          "lifespan": 98,
+          "status": "Close",
+          "year_built": 1925,
+          "material": "Steel",
+          "foundation": "S"
+        },
+        {
+          "lat": 42.270737837430225,
+          "lng": -71.09616297948537,
+          "lifespan": 0,
+          "status": "Open",
+          "year_built": 2020,
+          "material": "Masonry",
+          "foundation": "S"
+        },
+        {
+          "lat": 42.281028427987344,
+          "lng": -71.08463153872658,
+          "lifespan": 112,
+          "status": "Open",
+          "year_built": 1910,
+          "material": "Steel",
+          "foundation": "S"
+        },
+        {
+          "lat": 42.281495186024124,
+          "lng": -71.08643005066854,
+          "lifespan": 120,
+          "status": "Open",
+          "year_built": 1900,
+          "material": "Wood",
+          "foundation": "S"
+        },
+        {
+          "lat": 42.28147091648518,
+          "lng": -71.13387718521435,
+          "lifespan": 67,
+          "status": "Open",
+          "year_built": 1955,
+          "material": "Concrete",
+          "foundation": "S"
+        },
+        {
+          "lat": 42.286623720096166,
+          "lng": -71.13275198682365,
+          "lifespan": 93,
+          "status": "Open",
+          "year_built": 1930,
+          "material": "Masonry",
+          "foundation": "S"
+        },
+        {
+          "lat": 42.29111413712537,
+          "lng": -71.12346379633465,
+          "lifespan": 109,
+          "status": "Open",
+          "year_built": 1910,
+          "material": "Wood",
+          "foundation": "C"
+        },
+        {
+          "lat": 42.293031362905865,
+          "lng": -71.12157749808401,
+          "lifespan": 82,
+          "status": "Open",
+          "year_built": 1940,
+          "material": "Unknown",
+          "foundation": "None"
+        },
+        {
+          "lat": 42.274640155724626,
+          "lng": -71.09255187943275,
+          "lifespan": 0,
+          "status": "Open",
+          "year_built": 2015,
+          "material": "Unknown",
+          "foundation": "None"
+        }
+      ],
+      "count_total": 776,
+      "avg_current_age": 100.07373868046572,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 17
+        },
+        {
+          "range": "10-20",
+          "count": 20
+        },
+        {
+          "range": "20-30",
+          "count": 25
+        },
+        {
+          "range": "30-40",
+          "count": 10
+        },
+        {
+          "range": "40-50",
+          "count": 5
+        },
+        {
+          "range": "50-60",
+          "count": 14
+        },
+        {
+          "range": "60-70",
+          "count": 25
+        },
+        {
+          "range": "70-80",
+          "count": 24
+        },
+        {
+          "range": "80-90",
+          "count": 24
+        },
+        {
+          "range": "90-100",
+          "count": 58
+        },
+        {
+          "range": "100-110",
+          "count": 157
+        },
+        {
+          "range": "110-120",
+          "count": 137
+        },
+        {
+          "range": "120-130",
+          "count": 221
+        },
+        {
+          "range": "130-140",
+          "count": 18
+        },
+        {
+          "range": "140-150",
+          "count": 13
+        },
+        {
+          "range": "150-160",
+          "count": 3
+        },
+        {
+          "range": "160-170",
+          "count": 1
+        },
+        {
+          "range": "170-180",
+          "count": 1
+        },
+        {
+          "range": "180-190",
+          "count": 0
+        }
       ]
     },
     "Dorchester Neighborhood": {
       "count_raze": 105,
-      "count_total": 756,
       "avg_raze_lifespan": 107.11267605633803,
-      "avg_current_age": 102.43518518518519,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -58073,104 +58313,6 @@
         {
           "range": "190-200",
           "count": 0
-        },
-        {
-          "range": "200-210",
-          "count": 0
-        },
-        {
-          "range": "210-220",
-          "count": 0
-        },
-        {
-          "range": "220-230",
-          "count": 1
-        },
-        {
-          "range": "230-240",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 50
-        },
-        {
-          "range": "10-20",
-          "count": 21
-        },
-        {
-          "range": "20-30",
-          "count": 14
-        },
-        {
-          "range": "30-40",
-          "count": 5
-        },
-        {
-          "range": "40-50",
-          "count": 2
-        },
-        {
-          "range": "50-60",
-          "count": 3
-        },
-        {
-          "range": "60-70",
-          "count": 10
-        },
-        {
-          "range": "70-80",
-          "count": 25
-        },
-        {
-          "range": "80-90",
-          "count": 26
-        },
-        {
-          "range": "90-100",
-          "count": 54
-        },
-        {
-          "range": "100-110",
-          "count": 90
-        },
-        {
-          "range": "110-120",
-          "count": 79
-        },
-        {
-          "range": "120-130",
-          "count": 290
-        },
-        {
-          "range": "130-140",
-          "count": 45
-        },
-        {
-          "range": "140-150",
-          "count": 32
-        },
-        {
-          "range": "150-160",
-          "count": 4
-        },
-        {
-          "range": "160-170",
-          "count": 0
-        },
-        {
-          "range": "170-180",
-          "count": 3
-        },
-        {
-          "range": "180-190",
-          "count": 1
-        },
-        {
-          "range": "190-200",
-          "count": 1
         },
         {
           "range": "200-210",
@@ -59207,13 +59349,119 @@
           "material": "Wood",
           "foundation": "S"
         }
+      ],
+      "count_total": 15161,
+      "avg_current_age": 107.49371610001323,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 159
+        },
+        {
+          "range": "10-20",
+          "count": 225
+        },
+        {
+          "range": "20-30",
+          "count": 476
+        },
+        {
+          "range": "30-40",
+          "count": 160
+        },
+        {
+          "range": "40-50",
+          "count": 70
+        },
+        {
+          "range": "50-60",
+          "count": 65
+        },
+        {
+          "range": "60-70",
+          "count": 296
+        },
+        {
+          "range": "70-80",
+          "count": 399
+        },
+        {
+          "range": "80-90",
+          "count": 403
+        },
+        {
+          "range": "90-100",
+          "count": 1383
+        },
+        {
+          "range": "100-110",
+          "count": 2163
+        },
+        {
+          "range": "110-120",
+          "count": 1739
+        },
+        {
+          "range": "120-130",
+          "count": 5743
+        },
+        {
+          "range": "130-140",
+          "count": 1048
+        },
+        {
+          "range": "140-150",
+          "count": 531
+        },
+        {
+          "range": "150-160",
+          "count": 141
+        },
+        {
+          "range": "160-170",
+          "count": 37
+        },
+        {
+          "range": "170-180",
+          "count": 41
+        },
+        {
+          "range": "180-190",
+          "count": 9
+        },
+        {
+          "range": "190-200",
+          "count": 13
+        },
+        {
+          "range": "200-210",
+          "count": 5
+        },
+        {
+          "range": "210-220",
+          "count": 0
+        },
+        {
+          "range": "220-230",
+          "count": 9
+        },
+        {
+          "range": "230-240",
+          "count": 1
+        },
+        {
+          "range": "240-250",
+          "count": 1
+        },
+        {
+          "range": "250-260",
+          "count": 1
+        }
       ]
     },
     "Roslindale Neighborhood": {
       "count_raze": 22,
-      "count_total": 189,
       "avg_raze_lifespan": 104.2,
-      "avg_current_age": 97.64550264550265,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -59274,104 +59522,6 @@
         {
           "range": "140-150",
           "count": 1
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 9
-        },
-        {
-          "range": "10-20",
-          "count": 4
-        },
-        {
-          "range": "20-30",
-          "count": 3
-        },
-        {
-          "range": "30-40",
-          "count": 1
-        },
-        {
-          "range": "40-50",
-          "count": 3
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 8
-        },
-        {
-          "range": "70-80",
-          "count": 12
-        },
-        {
-          "range": "80-90",
-          "count": 4
-        },
-        {
-          "range": "90-100",
-          "count": 30
-        },
-        {
-          "range": "100-110",
-          "count": 37
-        },
-        {
-          "range": "110-120",
-          "count": 32
-        },
-        {
-          "range": "120-130",
-          "count": 26
-        },
-        {
-          "range": "130-140",
-          "count": 13
-        },
-        {
-          "range": "140-150",
-          "count": 5
-        },
-        {
-          "range": "150-160",
-          "count": 0
-        },
-        {
-          "range": "160-170",
-          "count": 0
-        },
-        {
-          "range": "170-180",
-          "count": 1
-        },
-        {
-          "range": "180-190",
-          "count": 0
-        },
-        {
-          "range": "190-200",
-          "count": 0
-        },
-        {
-          "range": "200-210",
-          "count": 0
-        },
-        {
-          "range": "210-220",
-          "count": 0
-        },
-        {
-          "range": "220-230",
-          "count": 1
-        },
-        {
-          "range": "230-240",
-          "count": 0
         }
       ],
       "heatmap_data": {
@@ -59609,13 +59759,147 @@
           "material": "Wood",
           "foundation": "C"
         }
+      ],
+      "count_total": 5797,
+      "avg_current_age": 98.41037165082109,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 38
+        },
+        {
+          "range": "10-20",
+          "count": 70
+        },
+        {
+          "range": "20-30",
+          "count": 200
+        },
+        {
+          "range": "30-40",
+          "count": 120
+        },
+        {
+          "range": "40-50",
+          "count": 27
+        },
+        {
+          "range": "50-60",
+          "count": 95
+        },
+        {
+          "range": "60-70",
+          "count": 389
+        },
+        {
+          "range": "70-80",
+          "count": 388
+        },
+        {
+          "range": "80-90",
+          "count": 189
+        },
+        {
+          "range": "90-100",
+          "count": 664
+        },
+        {
+          "range": "100-110",
+          "count": 1233
+        },
+        {
+          "range": "110-120",
+          "count": 955
+        },
+        {
+          "range": "120-130",
+          "count": 976
+        },
+        {
+          "range": "130-140",
+          "count": 238
+        },
+        {
+          "range": "140-150",
+          "count": 129
+        },
+        {
+          "range": "150-160",
+          "count": 41
+        },
+        {
+          "range": "160-170",
+          "count": 14
+        },
+        {
+          "range": "170-180",
+          "count": 9
+        },
+        {
+          "range": "180-190",
+          "count": 4
+        },
+        {
+          "range": "190-200",
+          "count": 0
+        },
+        {
+          "range": "200-210",
+          "count": 2
+        },
+        {
+          "range": "210-220",
+          "count": 1
+        },
+        {
+          "range": "220-230",
+          "count": 1
+        },
+        {
+          "range": "230-240",
+          "count": 0
+        },
+        {
+          "range": "240-250",
+          "count": 0
+        },
+        {
+          "range": "250-260",
+          "count": 0
+        },
+        {
+          "range": "260-270",
+          "count": 0
+        },
+        {
+          "range": "270-280",
+          "count": 0
+        },
+        {
+          "range": "280-290",
+          "count": 0
+        },
+        {
+          "range": "290-300",
+          "count": 0
+        },
+        {
+          "range": "300-310",
+          "count": 1
+        },
+        {
+          "range": "310-320",
+          "count": 1
+        },
+        {
+          "range": "320-330",
+          "count": 0
+        }
       ]
     },
     "Jamaica Plain Neighborhood": {
       "count_raze": 51,
-      "count_total": 414,
       "avg_raze_lifespan": 88.0,
-      "avg_current_age": 99.34057971014492,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -59675,80 +59959,6 @@
         },
         {
           "range": "140-150",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 22
-        },
-        {
-          "range": "10-20",
-          "count": 12
-        },
-        {
-          "range": "20-30",
-          "count": 13
-        },
-        {
-          "range": "30-40",
-          "count": 3
-        },
-        {
-          "range": "40-50",
-          "count": 4
-        },
-        {
-          "range": "50-60",
-          "count": 5
-        },
-        {
-          "range": "60-70",
-          "count": 15
-        },
-        {
-          "range": "70-80",
-          "count": 20
-        },
-        {
-          "range": "80-90",
-          "count": 7
-        },
-        {
-          "range": "90-100",
-          "count": 35
-        },
-        {
-          "range": "100-110",
-          "count": 51
-        },
-        {
-          "range": "110-120",
-          "count": 58
-        },
-        {
-          "range": "120-130",
-          "count": 124
-        },
-        {
-          "range": "130-140",
-          "count": 14
-        },
-        {
-          "range": "140-150",
-          "count": 21
-        },
-        {
-          "range": "150-160",
-          "count": 6
-        },
-        {
-          "range": "160-170",
-          "count": 4
-        },
-        {
-          "range": "170-180",
           "count": 0
         }
       ],
@@ -60280,13 +60490,151 @@
           "material": "Wood",
           "foundation": "S"
         }
+      ],
+      "count_total": 6230,
+      "avg_current_age": 99.65349249879013,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 76
+        },
+        {
+          "range": "10-20",
+          "count": 111
+        },
+        {
+          "range": "20-30",
+          "count": 516
+        },
+        {
+          "range": "30-40",
+          "count": 77
+        },
+        {
+          "range": "40-50",
+          "count": 42
+        },
+        {
+          "range": "50-60",
+          "count": 50
+        },
+        {
+          "range": "60-70",
+          "count": 241
+        },
+        {
+          "range": "70-80",
+          "count": 281
+        },
+        {
+          "range": "80-90",
+          "count": 207
+        },
+        {
+          "range": "90-100",
+          "count": 548
+        },
+        {
+          "range": "100-110",
+          "count": 714
+        },
+        {
+          "range": "110-120",
+          "count": 794
+        },
+        {
+          "range": "120-130",
+          "count": 1941
+        },
+        {
+          "range": "130-140",
+          "count": 267
+        },
+        {
+          "range": "140-150",
+          "count": 194
+        },
+        {
+          "range": "150-160",
+          "count": 76
+        },
+        {
+          "range": "160-170",
+          "count": 27
+        },
+        {
+          "range": "170-180",
+          "count": 15
+        },
+        {
+          "range": "180-190",
+          "count": 8
+        },
+        {
+          "range": "190-200",
+          "count": 5
+        },
+        {
+          "range": "200-210",
+          "count": 3
+        },
+        {
+          "range": "210-220",
+          "count": 1
+        },
+        {
+          "range": "220-230",
+          "count": 3
+        },
+        {
+          "range": "230-240",
+          "count": 0
+        },
+        {
+          "range": "240-250",
+          "count": 1
+        },
+        {
+          "range": "250-260",
+          "count": 0
+        },
+        {
+          "range": "260-270",
+          "count": 0
+        },
+        {
+          "range": "270-280",
+          "count": 0
+        },
+        {
+          "range": "280-290",
+          "count": 0
+        },
+        {
+          "range": "290-300",
+          "count": 0
+        },
+        {
+          "range": "300-310",
+          "count": 0
+        },
+        {
+          "range": "310-320",
+          "count": 0
+        },
+        {
+          "range": "320-330",
+          "count": 1
+        },
+        {
+          "range": "330-340",
+          "count": 0
+        }
       ]
     },
     "Roxbury Neighborhood": {
       "count_raze": 30,
-      "count_total": 327,
       "avg_raze_lifespan": 110.0,
-      "avg_current_age": 107.44954128440367,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -60350,80 +60698,6 @@
         },
         {
           "range": "150-160",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 14
-        },
-        {
-          "range": "10-20",
-          "count": 5
-        },
-        {
-          "range": "20-30",
-          "count": 12
-        },
-        {
-          "range": "30-40",
-          "count": 6
-        },
-        {
-          "range": "40-50",
-          "count": 2
-        },
-        {
-          "range": "50-60",
-          "count": 2
-        },
-        {
-          "range": "60-70",
-          "count": 5
-        },
-        {
-          "range": "70-80",
-          "count": 2
-        },
-        {
-          "range": "80-90",
-          "count": 8
-        },
-        {
-          "range": "90-100",
-          "count": 13
-        },
-        {
-          "range": "100-110",
-          "count": 31
-        },
-        {
-          "range": "110-120",
-          "count": 23
-        },
-        {
-          "range": "120-130",
-          "count": 154
-        },
-        {
-          "range": "130-140",
-          "count": 33
-        },
-        {
-          "range": "140-150",
-          "count": 10
-        },
-        {
-          "range": "150-160",
-          "count": 5
-        },
-        {
-          "range": "160-170",
-          "count": 2
-        },
-        {
-          "range": "170-180",
           "count": 0
         }
       ],
@@ -60750,13 +61024,111 @@
           "material": "Unknown",
           "foundation": "None"
         }
+      ],
+      "count_total": 5164,
+      "avg_current_age": 101.0365234375,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 95
+        },
+        {
+          "range": "10-20",
+          "count": 152
+        },
+        {
+          "range": "20-30",
+          "count": 491
+        },
+        {
+          "range": "30-40",
+          "count": 116
+        },
+        {
+          "range": "40-50",
+          "count": 46
+        },
+        {
+          "range": "50-60",
+          "count": 122
+        },
+        {
+          "range": "60-70",
+          "count": 105
+        },
+        {
+          "range": "70-80",
+          "count": 61
+        },
+        {
+          "range": "80-90",
+          "count": 82
+        },
+        {
+          "range": "90-100",
+          "count": 225
+        },
+        {
+          "range": "100-110",
+          "count": 365
+        },
+        {
+          "range": "110-120",
+          "count": 390
+        },
+        {
+          "range": "120-130",
+          "count": 2061
+        },
+        {
+          "range": "130-140",
+          "count": 481
+        },
+        {
+          "range": "140-150",
+          "count": 239
+        },
+        {
+          "range": "150-160",
+          "count": 41
+        },
+        {
+          "range": "160-170",
+          "count": 18
+        },
+        {
+          "range": "170-180",
+          "count": 17
+        },
+        {
+          "range": "180-190",
+          "count": 7
+        },
+        {
+          "range": "190-200",
+          "count": 4
+        },
+        {
+          "range": "200-210",
+          "count": 1
+        },
+        {
+          "range": "210-220",
+          "count": 0
+        },
+        {
+          "range": "220-230",
+          "count": 1
+        },
+        {
+          "range": "230-240",
+          "count": 0
+        }
       ]
     },
     "Newmarket 21st Century Industrial District": {
       "count_raze": 6,
-      "count_total": 30,
       "avg_raze_lifespan": 94.16666666666667,
-      "avg_current_age": 81.43333333333334,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -60809,68 +61181,6 @@
         {
           "range": "120-130",
           "count": 0
-        },
-        {
-          "range": "130-140",
-          "count": 0
-        },
-        {
-          "range": "140-150",
-          "count": 1
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 2
-        },
-        {
-          "range": "20-30",
-          "count": 0
-        },
-        {
-          "range": "30-40",
-          "count": 1
-        },
-        {
-          "range": "40-50",
-          "count": 2
-        },
-        {
-          "range": "50-60",
-          "count": 0
-        },
-        {
-          "range": "60-70",
-          "count": 4
-        },
-        {
-          "range": "70-80",
-          "count": 4
-        },
-        {
-          "range": "80-90",
-          "count": 6
-        },
-        {
-          "range": "90-100",
-          "count": 2
-        },
-        {
-          "range": "100-110",
-          "count": 4
-        },
-        {
-          "range": "110-120",
-          "count": 2
-        },
-        {
-          "range": "120-130",
-          "count": 2
         },
         {
           "range": "130-140",
@@ -60968,13 +61278,79 @@
           "material": "Masonry",
           "foundation": "S"
         }
+      ],
+      "count_total": 159,
+      "avg_current_age": 74.87820512820512,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 2
+        },
+        {
+          "range": "10-20",
+          "count": 6
+        },
+        {
+          "range": "20-30",
+          "count": 14
+        },
+        {
+          "range": "30-40",
+          "count": 6
+        },
+        {
+          "range": "40-50",
+          "count": 9
+        },
+        {
+          "range": "50-60",
+          "count": 10
+        },
+        {
+          "range": "60-70",
+          "count": 21
+        },
+        {
+          "range": "70-80",
+          "count": 21
+        },
+        {
+          "range": "80-90",
+          "count": 16
+        },
+        {
+          "range": "90-100",
+          "count": 9
+        },
+        {
+          "range": "100-110",
+          "count": 10
+        },
+        {
+          "range": "110-120",
+          "count": 7
+        },
+        {
+          "range": "120-130",
+          "count": 22
+        },
+        {
+          "range": "130-140",
+          "count": 0
+        },
+        {
+          "range": "140-150",
+          "count": 3
+        },
+        {
+          "range": "150-160",
+          "count": 0
+        }
       ]
     },
     "Mission Hill Neighborhood": {
       "count_raze": 4,
-      "count_total": 79,
       "avg_raze_lifespan": 90.5,
-      "avg_current_age": 92.70886075949367,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -61033,68 +61409,6 @@
           "count": 0
         }
       ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 5
-        },
-        {
-          "range": "10-20",
-          "count": 4
-        },
-        {
-          "range": "20-30",
-          "count": 6
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 3
-        },
-        {
-          "range": "50-60",
-          "count": 1
-        },
-        {
-          "range": "60-70",
-          "count": 3
-        },
-        {
-          "range": "70-80",
-          "count": 2
-        },
-        {
-          "range": "80-90",
-          "count": 1
-        },
-        {
-          "range": "90-100",
-          "count": 3
-        },
-        {
-          "range": "100-110",
-          "count": 6
-        },
-        {
-          "range": "110-120",
-          "count": 2
-        },
-        {
-          "range": "120-130",
-          "count": 38
-        },
-        {
-          "range": "130-140",
-          "count": 5
-        },
-        {
-          "range": "140-150",
-          "count": 0
-        }
-      ],
       "heatmap_data": {
         "count": {
           "Wood": {
@@ -61150,13 +61464,95 @@
           "material": "Masonry",
           "foundation": "B"
         }
+      ],
+      "count_total": 940,
+      "avg_current_age": 91.18466522678186,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 10
+        },
+        {
+          "range": "10-20",
+          "count": 37
+        },
+        {
+          "range": "20-30",
+          "count": 148
+        },
+        {
+          "range": "30-40",
+          "count": 13
+        },
+        {
+          "range": "40-50",
+          "count": 29
+        },
+        {
+          "range": "50-60",
+          "count": 6
+        },
+        {
+          "range": "60-70",
+          "count": 21
+        },
+        {
+          "range": "70-80",
+          "count": 18
+        },
+        {
+          "range": "80-90",
+          "count": 12
+        },
+        {
+          "range": "90-100",
+          "count": 95
+        },
+        {
+          "range": "100-110",
+          "count": 71
+        },
+        {
+          "range": "110-120",
+          "count": 53
+        },
+        {
+          "range": "120-130",
+          "count": 352
+        },
+        {
+          "range": "130-140",
+          "count": 27
+        },
+        {
+          "range": "140-150",
+          "count": 22
+        },
+        {
+          "range": "150-160",
+          "count": 6
+        },
+        {
+          "range": "160-170",
+          "count": 1
+        },
+        {
+          "range": "170-180",
+          "count": 4
+        },
+        {
+          "range": "180-190",
+          "count": 0
+        },
+        {
+          "range": "190-200",
+          "count": 1
+        }
       ]
     },
     "Allston/Brighton Neighborhood": {
       "count_raze": 75,
-      "count_total": 477,
       "avg_raze_lifespan": 87.43478260869566,
-      "avg_current_age": 83.42976939203355,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -61237,132 +61633,6 @@
         {
           "range": "190-200",
           "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 38
-        },
-        {
-          "range": "10-20",
-          "count": 21
-        },
-        {
-          "range": "20-30",
-          "count": 38
-        },
-        {
-          "range": "30-40",
-          "count": 9
-        },
-        {
-          "range": "40-50",
-          "count": 8
-        },
-        {
-          "range": "50-60",
-          "count": 19
-        },
-        {
-          "range": "60-70",
-          "count": 27
-        },
-        {
-          "range": "70-80",
-          "count": 16
-        },
-        {
-          "range": "80-90",
-          "count": 20
-        },
-        {
-          "range": "90-100",
-          "count": 54
-        },
-        {
-          "range": "100-110",
-          "count": 82
-        },
-        {
-          "range": "110-120",
-          "count": 44
-        },
-        {
-          "range": "120-130",
-          "count": 67
-        },
-        {
-          "range": "130-140",
-          "count": 18
-        },
-        {
-          "range": "140-150",
-          "count": 12
-        },
-        {
-          "range": "150-160",
-          "count": 0
-        },
-        {
-          "range": "160-170",
-          "count": 0
-        },
-        {
-          "range": "170-180",
-          "count": 0
-        },
-        {
-          "range": "180-190",
-          "count": 2
-        },
-        {
-          "range": "190-200",
-          "count": 1
-        },
-        {
-          "range": "200-210",
-          "count": 0
-        },
-        {
-          "range": "210-220",
-          "count": 0
-        },
-        {
-          "range": "220-230",
-          "count": 0
-        },
-        {
-          "range": "230-240",
-          "count": 0
-        },
-        {
-          "range": "240-250",
-          "count": 0
-        },
-        {
-          "range": "250-260",
-          "count": 0
-        },
-        {
-          "range": "260-270",
-          "count": 0
-        },
-        {
-          "range": "270-280",
-          "count": 0
-        },
-        {
-          "range": "280-290",
-          "count": 0
-        },
-        {
-          "range": "290-300",
-          "count": 0
-        },
-        {
-          "range": "300-310",
-          "count": 1
         }
       ],
       "heatmap_data": {
@@ -62119,13 +62389,139 @@
           "material": "Unknown",
           "foundation": "None"
         }
+      ],
+      "count_total": 6730,
+      "avg_current_age": 97.41634357291977,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 110
+        },
+        {
+          "range": "10-20",
+          "count": 105
+        },
+        {
+          "range": "20-30",
+          "count": 385
+        },
+        {
+          "range": "30-40",
+          "count": 67
+        },
+        {
+          "range": "40-50",
+          "count": 99
+        },
+        {
+          "range": "50-60",
+          "count": 94
+        },
+        {
+          "range": "60-70",
+          "count": 252
+        },
+        {
+          "range": "70-80",
+          "count": 292
+        },
+        {
+          "range": "80-90",
+          "count": 267
+        },
+        {
+          "range": "90-100",
+          "count": 933
+        },
+        {
+          "range": "100-110",
+          "count": 1553
+        },
+        {
+          "range": "110-120",
+          "count": 808
+        },
+        {
+          "range": "120-130",
+          "count": 1036
+        },
+        {
+          "range": "130-140",
+          "count": 411
+        },
+        {
+          "range": "140-150",
+          "count": 229
+        },
+        {
+          "range": "150-160",
+          "count": 19
+        },
+        {
+          "range": "160-170",
+          "count": 26
+        },
+        {
+          "range": "170-180",
+          "count": 10
+        },
+        {
+          "range": "180-190",
+          "count": 3
+        },
+        {
+          "range": "190-200",
+          "count": 4
+        },
+        {
+          "range": "200-210",
+          "count": 0
+        },
+        {
+          "range": "210-220",
+          "count": 1
+        },
+        {
+          "range": "220-230",
+          "count": 1
+        },
+        {
+          "range": "230-240",
+          "count": 0
+        },
+        {
+          "range": "240-250",
+          "count": 0
+        },
+        {
+          "range": "250-260",
+          "count": 0
+        },
+        {
+          "range": "260-270",
+          "count": 0
+        },
+        {
+          "range": "270-280",
+          "count": 0
+        },
+        {
+          "range": "280-290",
+          "count": 0
+        },
+        {
+          "range": "290-300",
+          "count": 0
+        },
+        {
+          "range": "300-310",
+          "count": 1
+        }
       ]
     },
     "Fenway Neighborhood": {
       "count_raze": 11,
-      "count_total": 87,
       "avg_raze_lifespan": 92.14285714285714,
-      "avg_current_age": 96.7816091954023,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -62178,64 +62574,6 @@
         {
           "range": "120-130",
           "count": 1
-        },
-        {
-          "range": "130-140",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 2
-        },
-        {
-          "range": "10-20",
-          "count": 7
-        },
-        {
-          "range": "20-30",
-          "count": 5
-        },
-        {
-          "range": "30-40",
-          "count": 0
-        },
-        {
-          "range": "40-50",
-          "count": 1
-        },
-        {
-          "range": "50-60",
-          "count": 1
-        },
-        {
-          "range": "60-70",
-          "count": 3
-        },
-        {
-          "range": "70-80",
-          "count": 1
-        },
-        {
-          "range": "80-90",
-          "count": 1
-        },
-        {
-          "range": "90-100",
-          "count": 1
-        },
-        {
-          "range": "100-110",
-          "count": 21
-        },
-        {
-          "range": "110-120",
-          "count": 8
-        },
-        {
-          "range": "120-130",
-          "count": 36
         },
         {
           "range": "130-140",
@@ -62366,13 +62704,79 @@
           "material": "Unknown",
           "foundation": "None"
         }
+      ],
+      "count_total": 192,
+      "avg_current_age": 90.08854166666667,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 3
+        },
+        {
+          "range": "10-20",
+          "count": 9
+        },
+        {
+          "range": "20-30",
+          "count": 23
+        },
+        {
+          "range": "30-40",
+          "count": 5
+        },
+        {
+          "range": "40-50",
+          "count": 1
+        },
+        {
+          "range": "50-60",
+          "count": 10
+        },
+        {
+          "range": "60-70",
+          "count": 10
+        },
+        {
+          "range": "70-80",
+          "count": 2
+        },
+        {
+          "range": "80-90",
+          "count": 2
+        },
+        {
+          "range": "90-100",
+          "count": 5
+        },
+        {
+          "range": "100-110",
+          "count": 40
+        },
+        {
+          "range": "110-120",
+          "count": 15
+        },
+        {
+          "range": "120-130",
+          "count": 64
+        },
+        {
+          "range": "130-140",
+          "count": 2
+        },
+        {
+          "range": "140-150",
+          "count": 1
+        },
+        {
+          "range": "150-160",
+          "count": 0
+        }
       ]
     },
     "Huntington Avenue/Prudential Center": {
       "count_raze": 1,
-      "count_total": 33,
       "avg_raze_lifespan": 13.0,
-      "avg_current_age": 80.3030303030303,
       "demolished_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -62384,76 +62788,6 @@
         },
         {
           "range": "20-30",
-          "count": 0
-        }
-      ],
-      "current_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 0
-        },
-        {
-          "range": "10-20",
-          "count": 1
-        },
-        {
-          "range": "20-30",
-          "count": 7
-        },
-        {
-          "range": "30-40",
-          "count": 1
-        },
-        {
-          "range": "40-50",
-          "count": 2
-        },
-        {
-          "range": "50-60",
-          "count": 3
-        },
-        {
-          "range": "60-70",
-          "count": 2
-        },
-        {
-          "range": "70-80",
-          "count": 0
-        },
-        {
-          "range": "80-90",
-          "count": 2
-        },
-        {
-          "range": "90-100",
-          "count": 0
-        },
-        {
-          "range": "100-110",
-          "count": 3
-        },
-        {
-          "range": "110-120",
-          "count": 2
-        },
-        {
-          "range": "120-130",
-          "count": 5
-        },
-        {
-          "range": "130-140",
-          "count": 4
-        },
-        {
-          "range": "140-150",
-          "count": 0
-        },
-        {
-          "range": "150-160",
-          "count": 1
-        },
-        {
-          "range": "160-170",
           "count": 0
         }
       ],
@@ -62479,19 +62813,9 @@
           "material": "Masonry",
           "foundation": "B"
         }
-      ]
-    },
-    "Audubon Circle Neighborhood": {
-      "count_raze": 1,
-      "count_total": 7,
-      "avg_raze_lifespan": 0,
-      "avg_current_age": 59.714285714285715,
-      "demolished_age_distribution_10yr": [
-        {
-          "range": "0-10",
-          "count": 1
-        }
       ],
+      "count_total": 53,
+      "avg_current_age": 77.03846153846153,
       "current_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -62499,27 +62823,27 @@
         },
         {
           "range": "10-20",
-          "count": 2
+          "count": 1
         },
         {
           "range": "20-30",
-          "count": 2
+          "count": 12
         },
         {
           "range": "30-40",
-          "count": 0
+          "count": 2
         },
         {
           "range": "40-50",
-          "count": 0
+          "count": 2
         },
         {
           "range": "50-60",
-          "count": 0
+          "count": 6
         },
         {
           "range": "60-70",
-          "count": 0
+          "count": 4
         },
         {
           "range": "70-80",
@@ -62527,7 +62851,7 @@
         },
         {
           "range": "80-90",
-          "count": 0
+          "count": 3
         },
         {
           "range": "90-100",
@@ -62535,19 +62859,41 @@
         },
         {
           "range": "100-110",
-          "count": 1
+          "count": 5
         },
         {
           "range": "110-120",
-          "count": 1
+          "count": 3
         },
         {
           "range": "120-130",
-          "count": 1
+          "count": 9
         },
         {
           "range": "130-140",
+          "count": 4
+        },
+        {
+          "range": "140-150",
           "count": 0
+        },
+        {
+          "range": "150-160",
+          "count": 1
+        },
+        {
+          "range": "160-170",
+          "count": 0
+        }
+      ]
+    },
+    "Audubon Circle Neighborhood": {
+      "count_raze": 1,
+      "avg_raze_lifespan": 0,
+      "demolished_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 1
         }
       ],
       "heatmap_data": {
@@ -62572,14 +62918,79 @@
           "material": "Masonry",
           "foundation": "S"
         }
+      ],
+      "count_total": 29,
+      "avg_current_age": 69.96551724137932,
+      "current_age_distribution_10yr": [
+        {
+          "range": "0-10",
+          "count": 0
+        },
+        {
+          "range": "10-20",
+          "count": 3
+        },
+        {
+          "range": "20-30",
+          "count": 11
+        },
+        {
+          "range": "30-40",
+          "count": 0
+        },
+        {
+          "range": "40-50",
+          "count": 0
+        },
+        {
+          "range": "50-60",
+          "count": 0
+        },
+        {
+          "range": "60-70",
+          "count": 0
+        },
+        {
+          "range": "70-80",
+          "count": 0
+        },
+        {
+          "range": "80-90",
+          "count": 0
+        },
+        {
+          "range": "90-100",
+          "count": 1
+        },
+        {
+          "range": "100-110",
+          "count": 6
+        },
+        {
+          "range": "110-120",
+          "count": 2
+        },
+        {
+          "range": "120-130",
+          "count": 6
+        },
+        {
+          "range": "130-140",
+          "count": 0
+        }
       ]
     },
     "Bay Village Neighborhood": {
       "count_raze": 0,
-      "count_total": 15,
       "avg_raze_lifespan": 0,
-      "avg_current_age": 103.93333333333334,
       "demolished_age_distribution_10yr": [],
+      "heatmap_data": {
+        "count": {},
+        "gfa": {}
+      },
+      "positive_raze_points": [],
+      "count_total": 26,
+      "avg_current_age": 106.03846153846153,
       "current_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -62591,11 +63002,11 @@
         },
         {
           "range": "20-30",
-          "count": 1
+          "count": 2
         },
         {
           "range": "30-40",
-          "count": 0
+          "count": 1
         },
         {
           "range": "40-50",
@@ -62631,7 +63042,7 @@
         },
         {
           "range": "120-130",
-          "count": 5
+          "count": 14
         },
         {
           "range": "130-140",
@@ -62641,19 +63052,19 @@
           "range": "140-150",
           "count": 0
         }
-      ],
-      "heatmap_data": {
-        "count": {},
-        "gfa": {}
-      },
-      "positive_raze_points": []
+      ]
     },
     "Stuart Street District": {
       "count_raze": 0,
-      "count_total": 10,
       "avg_raze_lifespan": 0,
-      "avg_current_age": 66.8,
       "demolished_age_distribution_10yr": [],
+      "heatmap_data": {
+        "count": {},
+        "gfa": {}
+      },
+      "positive_raze_points": [],
+      "count_total": 11,
+      "avg_current_age": 66.0909090909091,
       "current_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -62677,7 +63088,7 @@
         },
         {
           "range": "50-60",
-          "count": 1
+          "count": 2
         },
         {
           "range": "60-70",
@@ -62711,19 +63122,19 @@
           "range": "130-140",
           "count": 0
         }
-      ],
-      "heatmap_data": {
-        "count": {},
-        "gfa": {}
-      },
-      "positive_raze_points": []
+      ]
     },
     "Cambridge Street North": {
       "count_raze": 0,
-      "count_total": 7,
       "avg_raze_lifespan": 0,
-      "avg_current_age": 76.14285714285714,
       "demolished_age_distribution_10yr": [],
+      "heatmap_data": {
+        "count": {},
+        "gfa": {}
+      },
+      "positive_raze_points": [],
+      "count_total": 16,
+      "avg_current_age": 74.21428571428571,
       "current_age_distribution_10yr": [
         {
           "range": "0-10",
@@ -62731,11 +63142,11 @@
         },
         {
           "range": "10-20",
-          "count": 1
+          "count": 2
         },
         {
           "range": "20-30",
-          "count": 1
+          "count": 2
         },
         {
           "range": "30-40",
@@ -62747,7 +63158,7 @@
         },
         {
           "range": "50-60",
-          "count": 1
+          "count": 3
         },
         {
           "range": "60-70",
@@ -62767,7 +63178,7 @@
         },
         {
           "range": "100-110",
-          "count": 0
+          "count": 1
         },
         {
           "range": "110-120",
@@ -62775,24 +63186,20 @@
         },
         {
           "range": "120-130",
-          "count": 3
+          "count": 5
         },
         {
           "range": "130-140",
           "count": 0
         }
-      ],
-      "heatmap_data": {
-        "count": {},
-        "gfa": {}
-      },
-      "positive_raze_points": []
+      ]
     }
   },
   "zoning_district_names": [
     "Allston/Brighton Neighborhood",
     "Audubon Circle Neighborhood",
     "Bay Village Neighborhood",
+    "Boston Harbor",
     "Boston Proper",
     "Boston Zoning Code",
     "Bulfinch Triangle",
@@ -66200,10 +66607,11 @@
   ],
   "metadata": {
     "year_range": "2009-2025",
-    "generated_date": "2025-11-20T21:04:05.877363",
+    "generated_date": "2025-11-21T14:10:43.758236",
     "total_ma_buildings": 2091488,
+    "total_boston_buildings": 182244,
     "total_boston_demolitions": 5212,
-    "year_built_range": "1725-2022"
+    "year_built_range": "1659-2024"
   },
   "city_stats": [
     {
