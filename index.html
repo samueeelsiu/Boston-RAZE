@@ -933,46 +933,55 @@
         function createHeatmap(demoType, binSize, displayMode) {
             const binKey = `bin_${binSize}`;
             
-
             const metricInput = document.querySelector('input[name="globalMetric"]:checked');
             const metric = metricInput ? metricInput.value : 'count';
             
-
-            const dataSource = (metric === 'gfa') 
+            // --- 1. Define Data Sources ---
+            
+            // Source for DISPLAYING values (Count or GFA based on selection)
+            const displaySource = (metric === 'gfa') 
                 ? currentData.material_lifespan_demo_gfa 
                 : currentData.material_lifespan_demo;
 
-            if (!dataSource || !dataSource[demoType] || !dataSource[demoType][binKey]) {
+            const displayData = displaySource?.[demoType]?.[binKey] || {};
+
+            // Source for SORTING rows (Always use 'Count' data to keep Y-axis stable)
+            const sortSource = currentData.material_lifespan_demo;
+            if (!sortSource || !sortSource[demoType] || !sortSource[demoType][binKey]) {
                 document.getElementById('heatmapContent').innerHTML = `<div class="error-message">No data available for this selection.</div>`;
                 return;
             }
-            
-            const materialData = dataSource[demoType][binKey];
+            const sortData = sortSource[demoType][binKey];
 
-            const materialTotals = {};
-            Object.entries(materialData).forEach(([material, lifespans]) => {
-                materialTotals[material] = Object.values(lifespans).reduce((sum, val) => sum + val, 0);
+            // --- 2. Calculate Sorting Logic (Based on Count) ---
+
+            // Calculate totals using sortData (Count)
+            const sortTotals = {};
+            Object.entries(sortData).forEach(([material, lifespans]) => {
+                sortTotals[material] = Object.values(lifespans).reduce((sum, val) => sum + val, 0);
             });
             
-
-            let sortedMaterials = Object.keys(materialTotals).sort((a, b) => materialTotals[b] - materialTotals[a]);
+            // Sort materials by Count total (descending)
+            let sortedMaterials = Object.keys(sortTotals).sort((a, b) => sortTotals[b] - sortTotals[a]);
             
-
+            // Slice top 20 materials
             sortedMaterials = sortedMaterials.slice(0, 20); 
 
+            // Handle 'Unknown' material (push to bottom)
             sortedMaterials.sort((a, b) => {
                 const lowerA = a.toLowerCase();
                 const lowerB = b.toLowerCase();
                 if (lowerA === 'unknown') return 1;  
                 if (lowerB === 'unknown') return -1; 
-
-                return materialTotals[b] - materialTotals[a];
+                return sortTotals[b] - sortTotals[a];
             });
             
-
+            // Get all unique bins present in the sorted data
             const allLifespanBins = new Set();
             sortedMaterials.forEach(material => {
-                Object.keys(materialData[material]).forEach(bin => allLifespanBins.add(bin));
+                if(sortData[material]) {
+                    Object.keys(sortData[material]).forEach(bin => allLifespanBins.add(bin));
+                }
             });
             
             const sortedLifespanBins = Array.from(allLifespanBins).sort((a, b) => {
@@ -980,13 +989,15 @@
                 return getFirstNum(a) - getFirstNum(b);
             });
             
-
+            // --- 3. Calculate Max Value for Coloring (Based on Display Data) ---
             let maxValue = 0;
             sortedMaterials.forEach(material => {
-                Object.values(materialData[material]).forEach(val => maxValue = Math.max(maxValue, val));
+                if (displayData[material]) {
+                    Object.values(displayData[material]).forEach(val => maxValue = Math.max(maxValue, val));
+                }
             });
             
-
+            // --- 4. Generate HTML ---
             let html = '<div class="heatmap-container">';
             html += '<table class="heatmap-table">';
             html += '<thead><tr>';
@@ -994,7 +1005,7 @@
             sortedLifespanBins.forEach(bin => {
                 html += `<th>${bin.replace(' years', '')}</th>`;
             });
-            html += '<th>Total</th>';
+            html += '<th>Total</th>'; 
             html += '</tr></thead>';
             html += '<tbody>';
             
@@ -1002,13 +1013,19 @@
                 html += '<tr>';
                 html += `<td class="material-name">${material}</td>`;
                 
+                // Calculate Row Total for the current metric (Display Data)
+                let rowTotal = 0;
+                if (displayData[material]) {
+                    rowTotal = Object.values(displayData[material]).reduce((a,b)=>a+b,0);
+                }
+
                 sortedLifespanBins.forEach(bin => {
-                    const value = materialData[material]?.[bin] || 0;
+                    // Retrieve value from Display Data
+                    const value = displayData[material]?.[bin] || 0;
                     let displayValue = value.toLocaleString(); 
                     
                     if (displayMode === 'percentage' && value > 0) {
-                        const total = materialTotals[material];
-                        const pct = total > 0 ? (value / total) * 100 : 0;
+                        const pct = rowTotal > 0 ? (value / rowTotal) * 100 : 0;
                         displayValue = `${value.toLocaleString()} <br><span style="font-size:0.8em">(${pct.toFixed(1)}%)</span>`;
                     }
                     
@@ -1021,8 +1038,8 @@
                     html += '</td>';
                 });
                 
-                const total = materialTotals[material];
-                html += `<td style="background-color: #f8f9fa; font-weight: bold;">${total.toLocaleString()}</td>`;
+                // Display the total for the current metric
+                html += `<td style="background-color: #f8f9fa; font-weight: bold;">${rowTotal.toLocaleString()}</td>`;
                 html += '</tr>';
             });
             html += '</tbody></table></div>';
@@ -1625,19 +1642,26 @@
         }
 
 
-        function renderZoneHeatmap(heatmapData) {
+        function renderZoneHeatmap(heatmapData, sortData) { 
             const container = document.getElementById('zoningHeatmapContainer');
-            if (!heatmapData || Object.keys(heatmapData).length === 0) {
+            
+            // Use sortData if available, otherwise fallback to heatmapData (safety check)
+            const dataForSorting = sortData || heatmapData;
+
+            if (!dataForSorting || Object.keys(dataForSorting).length === 0) {
                 container.innerHTML = '<p style="color:#999; text-align:center; padding:20px;">No material data available for this district.</p>';
                 return;
             }
 
+            // --- 1. Calculate Sorting Order (Based on Count) ---
             const materialTotals = {};
-            Object.keys(heatmapData).forEach(mat => {
-                materialTotals[mat] = Object.values(heatmapData[mat]).reduce((sum, val) => sum + val, 0);
+            Object.keys(dataForSorting).forEach(mat => {
+                materialTotals[mat] = Object.values(dataForSorting[mat]).reduce((sum, val) => sum + val, 0);
             });
 
-            let materials = Object.keys(heatmapData);
+            let materials = Object.keys(dataForSorting);
+            
+            // Sort by Count totals (descending)
             materials.sort((a, b) => {
                 const lowerA = a.toLowerCase();
                 const lowerB = b.toLowerCase();
@@ -1646,15 +1670,25 @@
                 return materialTotals[b] - materialTotals[a]; 
             });
 
+            // --- 2. Determine Bins ---
             const allBins = new Set();
-            materials.forEach(m => Object.keys(heatmapData[m]).forEach(b => allBins.add(b)));
+            materials.forEach(m => Object.keys(dataForSorting[m]).forEach(b => allBins.add(b)));
             const sortedBins = Array.from(allBins).sort((a, b) => {
                 return parseInt(a.split('-')[0]) - parseInt(b.split('-')[0]);
             });
 
+            // --- 3. Calculate Max Value for Coloring (Based on Display Data) ---
             let maxVal = 0;
-            materials.forEach(m => Object.values(heatmapData[m]).forEach(v => maxVal = Math.max(maxVal, v)));
+            // Ensure we check against heatmapData (Display Data) to get correct color scale
+            if (heatmapData) {
+                materials.forEach(m => {
+                    if (heatmapData[m]) {
+                        Object.values(heatmapData[m]).forEach(v => maxVal = Math.max(maxVal, v));
+                    }
+                });
+            }
 
+            // --- 4. Generate HTML ---
             let html = '<table class="heatmap-table" style="font-size:0.85em;">';
             html += '<thead><tr><th class="material-header" style="min-width:120px;">Material</th>';
             sortedBins.forEach(b => html += `<th>${b}</th>`);
@@ -1663,10 +1697,11 @@
             materials.forEach(mat => {
                 html += `<tr><td class="material-name">${mat}</td>`;
                 sortedBins.forEach(bin => {
-                    const val = heatmapData[mat][bin] || 0;
+                    // Retrieve Value from Display Data (heatmapData)
+                    const val = (heatmapData && heatmapData[mat]) ? (heatmapData[mat][bin] || 0) : 0;
                     
                     const bgColor = getPlasmaColor(val, maxVal);
-                    const color = (val / maxVal > 0.5) ? 'white' : '#333';
+                    const color = (maxVal > 0 && val / maxVal > 0.5) ? 'white' : '#333';
                     
                     const displayVal = val > 0 ? val.toLocaleString() : '';
                     
@@ -1687,9 +1722,11 @@
             
             const d = currentData.zoning_district_stats[zoneName];
 
+            // Update text stats
             document.getElementById('zoneAvgLifespan').innerText = d.avg_raze_lifespan.toFixed(1) + ' yrs';
             document.getElementById('zoneAvgAge').innerText = d.avg_current_age.toFixed(1) + ' yrs';
 
+            // Update Map (Polygon & Points)
             if (zoningDistrictLayer) zoningDeepDiveMap.removeLayer(zoningDistrictLayer);
             if (zoningRazePointLayer) zoningDeepDiveMap.removeLayer(zoningRazePointLayer);
 
@@ -1709,15 +1746,12 @@
                 }
             }
 
-
             const foundationMap = {
                 'C': 'Crawl Space', 'B': 'Basement', 'S': 'Slab',
                 'P': 'Pier', 'I': 'Pile', 'F': 'Fill', 'W': 'Solid Wall'
             };
 
-
             const markers = d.positive_raze_points.map(p => {
-
                 const rawFnd = p.foundation;
                 const fndLabel = foundationMap[rawFnd] ? foundationMap[rawFnd] : (rawFnd || 'Unknown');
 
@@ -1742,6 +1776,7 @@
             
             zoningRazePointLayer = L.layerGroup(markers).addTo(zoningDeepDiveMap);
 
+            // Update Bar Charts
             if (charts.zoningDemolished) charts.zoningDemolished.destroy();
             const ctxDem = document.getElementById('zoningDemolishedAgeChart').getContext('2d');
             charts.zoningDemolished = new Chart(ctxDem, {
@@ -1772,14 +1807,18 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display:false} } }
             });
 
+            // --- HEATMAP LOGIC START ---
             const metricInput = document.querySelector('input[name="deepDiveMetric"]:checked');
             const metric = metricInput ? metricInput.value : 'count';
             
-            if (d.heatmap_data && d.heatmap_data[metric]) {
-                renderZoneHeatmap(d.heatmap_data[metric]);
-            } else {
-                renderZoneHeatmap({});
-            }
+            // 1. Get Data for Sorting (Always use 'count')
+            const countData = (d.heatmap_data && d.heatmap_data['count']) ? d.heatmap_data['count'] : {};
+            
+            // 2. Get Data for Display (Use selected metric)
+            const displayData = (d.heatmap_data && d.heatmap_data[metric]) ? d.heatmap_data[metric] : {};
+            
+            // 3. Render Heatmap (pass both datasets)
+            renderZoneHeatmap(displayData, countData);
         }
 
 
