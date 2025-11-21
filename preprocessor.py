@@ -275,6 +275,7 @@ def process_demolition_data(
         zoning_stats[str(dist)] = {
 
             'count_raze': int(len(r_df)),
+            'count_total': int(len(d_df)),
 
 
             'avg_raze_lifespan': float(r_pos['lifespan'].mean()) if len(r_pos) > 0 else 0,

@@ -52185,6 +52185,7 @@
   "zoning_district_stats": {
     "Hyde Park Neighborhood": {
       "count_raze": 28,
+      "count_total": 205,
       "avg_raze_lifespan": 91.0,
       "avg_current_age": 88.63414634146342,
       "demolished_age_distribution_10yr": [
@@ -52620,6 +52621,7 @@
     },
     "South Boston Neighborhood": {
       "count_raze": 50,
+      "count_total": 474,
       "avg_raze_lifespan": 93.39285714285714,
       "avg_current_age": 103.94514767932489,
       "demolished_age_distribution_10yr": [
@@ -53297,6 +53299,7 @@
     },
     "South Boston": {
       "count_raze": 33,
+      "count_total": 114,
       "avg_raze_lifespan": 75.375,
       "avg_current_age": 76.59649122807018,
       "demolished_age_distribution_10yr": [
@@ -53775,6 +53778,7 @@
     },
     "South End Neighborhood": {
       "count_raze": 7,
+      "count_total": 200,
       "avg_raze_lifespan": 61.8,
       "avg_current_age": 93.575,
       "demolished_age_distribution_10yr": [
@@ -54013,6 +54017,7 @@
     },
     "Harborpark: Dorchester Bay/Neponset River Waterfront": {
       "count_raze": 1,
+      "count_total": 5,
       "avg_raze_lifespan": 96.0,
       "avg_current_age": 68.4,
       "demolished_age_distribution_10yr": [
@@ -54137,6 +54142,7 @@
     },
     "Chinatown": {
       "count_raze": 1,
+      "count_total": 24,
       "avg_raze_lifespan": 0,
       "avg_current_age": 84.25,
       "demolished_age_distribution_10yr": [
@@ -54241,6 +54247,7 @@
     },
     "Harborpark: Fort Point Waterfront": {
       "count_raze": 0,
+      "count_total": 8,
       "avg_raze_lifespan": 0,
       "avg_current_age": 30.875,
       "demolished_age_distribution_10yr": [],
@@ -54298,6 +54305,7 @@
     },
     "Leather District": {
       "count_raze": 1,
+      "count_total": 10,
       "avg_raze_lifespan": 121.0,
       "avg_current_age": 95.0,
       "demolished_age_distribution_10yr": [
@@ -54442,6 +54450,7 @@
     },
     "South Station Economic Development Area": {
       "count_raze": 0,
+      "count_total": 4,
       "avg_raze_lifespan": 0,
       "avg_current_age": 57.25,
       "demolished_age_distribution_10yr": [],
@@ -54511,6 +54520,7 @@
     },
     "Boston Proper": {
       "count_raze": 4,
+      "count_total": 283,
       "avg_raze_lifespan": 67.0,
       "avg_current_age": 87.73144876325088,
       "demolished_age_distribution_10yr": [
@@ -54724,6 +54734,7 @@
     },
     "Midtown Cultural": {
       "count_raze": 0,
+      "count_total": 35,
       "avg_raze_lifespan": 0,
       "avg_current_age": 82.54285714285714,
       "demolished_age_distribution_10yr": [],
@@ -54793,6 +54804,7 @@
     },
     "Central Artery Special": {
       "count_raze": 0,
+      "count_total": 1,
       "avg_raze_lifespan": 0,
       "avg_current_age": 19.0,
       "demolished_age_distribution_10yr": [],
@@ -54818,6 +54830,7 @@
     },
     "Harborpark: North End Waterfront": {
       "count_raze": 0,
+      "count_total": 19,
       "avg_raze_lifespan": 0,
       "avg_current_age": 58.578947368421055,
       "demolished_age_distribution_10yr": [],
@@ -54895,6 +54908,7 @@
     },
     "Government Center/Markets": {
       "count_raze": 2,
+      "count_total": 40,
       "avg_raze_lifespan": 117.0,
       "avg_current_age": 77.35,
       "demolished_age_distribution_10yr": [
@@ -55044,6 +55058,7 @@
     },
     "North End Neighborhood": {
       "count_raze": 1,
+      "count_total": 58,
       "avg_raze_lifespan": 98.0,
       "avg_current_age": 91.01724137931035,
       "demolished_age_distribution_10yr": [
@@ -55180,6 +55195,7 @@
     },
     "Bulfinch Triangle": {
       "count_raze": 1,
+      "count_total": 14,
       "avg_raze_lifespan": 0,
       "avg_current_age": 96.28571428571429,
       "demolished_age_distribution_10yr": [],
@@ -55259,6 +55275,7 @@
     },
     "East Boston Neighborhood": {
       "count_raze": 75,
+      "count_total": 529,
       "avg_raze_lifespan": 92.15094339622641,
       "avg_current_age": 104.71077504725898,
       "demolished_age_distribution_10yr": [
@@ -56151,6 +56168,7 @@
     },
     "North Station Economic Development Area": {
       "count_raze": 0,
+      "count_total": 5,
       "avg_raze_lifespan": 0,
       "avg_current_age": 65.4,
       "demolished_age_distribution_10yr": [],
@@ -56220,6 +56238,7 @@
     },
     "Charlestown Neighborhood": {
       "count_raze": 17,
+      "count_total": 234,
       "avg_raze_lifespan": 92.27272727272727,
       "avg_current_age": 115.36752136752136,
       "demolished_age_distribution_10yr": [
@@ -56576,6 +56595,7 @@
     },
     "Harborpark: Charlestown Waterfront": {
       "count_raze": 1,
+      "count_total": 18,
       "avg_raze_lifespan": 169.0,
       "avg_current_age": 103.88888888888889,
       "demolished_age_distribution_10yr": [
@@ -56764,6 +56784,7 @@
     },
     "West Roxbury Neighborhood": {
       "count_raze": 48,
+      "count_total": 272,
       "avg_raze_lifespan": 86.47222222222223,
       "avg_current_age": 85.13602941176471,
       "demolished_age_distribution_10yr": [
@@ -57455,6 +57476,7 @@
     },
     "Boston Zoning Code": {
       "count_raze": 9,
+      "count_total": 68,
       "avg_raze_lifespan": 97.28571428571429,
       "avg_current_age": 83.63235294117646,
       "demolished_age_distribution_10yr": [
@@ -57699,6 +57721,7 @@
     },
     "Greater Mattapan Neighborhood": {
       "count_raze": 11,
+      "count_total": 159,
       "avg_raze_lifespan": 79.0,
       "avg_current_age": 99.93081761006289,
       "demolished_age_distribution_10yr": [
@@ -57967,6 +57990,7 @@
     },
     "Dorchester Neighborhood": {
       "count_raze": 105,
+      "count_total": 756,
       "avg_raze_lifespan": 107.11267605633803,
       "avg_current_age": 102.43518518518519,
       "demolished_age_distribution_10yr": [
@@ -59187,6 +59211,7 @@
     },
     "Roslindale Neighborhood": {
       "count_raze": 22,
+      "count_total": 189,
       "avg_raze_lifespan": 104.2,
       "avg_current_age": 97.64550264550265,
       "demolished_age_distribution_10yr": [
@@ -59588,6 +59613,7 @@
     },
     "Jamaica Plain Neighborhood": {
       "count_raze": 51,
+      "count_total": 414,
       "avg_raze_lifespan": 88.0,
       "avg_current_age": 99.34057971014492,
       "demolished_age_distribution_10yr": [
@@ -60258,6 +60284,7 @@
     },
     "Roxbury Neighborhood": {
       "count_raze": 30,
+      "count_total": 327,
       "avg_raze_lifespan": 110.0,
       "avg_current_age": 107.44954128440367,
       "demolished_age_distribution_10yr": [
@@ -60727,6 +60754,7 @@
     },
     "Newmarket 21st Century Industrial District": {
       "count_raze": 6,
+      "count_total": 30,
       "avg_raze_lifespan": 94.16666666666667,
       "avg_current_age": 81.43333333333334,
       "demolished_age_distribution_10yr": [
@@ -60944,6 +60972,7 @@
     },
     "Mission Hill Neighborhood": {
       "count_raze": 4,
+      "count_total": 79,
       "avg_raze_lifespan": 90.5,
       "avg_current_age": 92.70886075949367,
       "demolished_age_distribution_10yr": [
@@ -61125,6 +61154,7 @@
     },
     "Allston/Brighton Neighborhood": {
       "count_raze": 75,
+      "count_total": 477,
       "avg_raze_lifespan": 87.43478260869566,
       "avg_current_age": 83.42976939203355,
       "demolished_age_distribution_10yr": [
@@ -62093,6 +62123,7 @@
     },
     "Fenway Neighborhood": {
       "count_raze": 11,
+      "count_total": 87,
       "avg_raze_lifespan": 92.14285714285714,
       "avg_current_age": 96.7816091954023,
       "demolished_age_distribution_10yr": [
@@ -62339,6 +62370,7 @@
     },
     "Huntington Avenue/Prudential Center": {
       "count_raze": 1,
+      "count_total": 33,
       "avg_raze_lifespan": 13.0,
       "avg_current_age": 80.3030303030303,
       "demolished_age_distribution_10yr": [
@@ -62451,6 +62483,7 @@
     },
     "Audubon Circle Neighborhood": {
       "count_raze": 1,
+      "count_total": 7,
       "avg_raze_lifespan": 0,
       "avg_current_age": 59.714285714285715,
       "demolished_age_distribution_10yr": [
@@ -62543,6 +62576,7 @@
     },
     "Bay Village Neighborhood": {
       "count_raze": 0,
+      "count_total": 15,
       "avg_raze_lifespan": 0,
       "avg_current_age": 103.93333333333334,
       "demolished_age_distribution_10yr": [],
@@ -62616,6 +62650,7 @@
     },
     "Stuart Street District": {
       "count_raze": 0,
+      "count_total": 10,
       "avg_raze_lifespan": 0,
       "avg_current_age": 66.8,
       "demolished_age_distribution_10yr": [],
@@ -62685,6 +62720,7 @@
     },
     "Cambridge Street North": {
       "count_raze": 0,
+      "count_total": 7,
       "avg_raze_lifespan": 0,
       "avg_current_age": 76.14285714285714,
       "demolished_age_distribution_10yr": [],
@@ -66164,7 +66200,7 @@
   ],
   "metadata": {
     "year_range": "2009-2025",
-    "generated_date": "2025-11-20T18:26:14.830793",
+    "generated_date": "2025-11-20T21:04:05.877363",
     "total_ma_buildings": 2091488,
     "total_boston_demolitions": 5212,
     "year_built_range": "1725-2022"
